@@ -3353,31 +3353,28 @@ function restoreSession() {
 async function quickAuth(provider) {
   if (provider === 'Google') {
     try {
-      showToast('🔄 Opening Google Sign-in...');
-      
-      // This opens your real Google accounts from your browser/laptop
-      const result = await window._fbAuth.signInWithPopup(window._googleProvider);
-      const fbUser = result.user;
-      const role = selectedRole || 'student';
-      currentUser = { uid: fbUser.uid, name: fbUser.displayName || fbUser.email.split('@')[0], email: fbUser.email, role };
-      await saveFgUser(currentUser);
-      await loadCourseProgressCloud();
-      saveCurrentSession(currentUser);
-      updateUserUI();
-      closeModal('authOverlay');
-      showToast(`✅ Welcome, ${currentUser.name.split(' ')[0]}! Signed in with Google 🎉`);
-    } catch(e) {
-      if (e.code === 'auth/popup-closed-by-user') {
-        showToast('⚠️ Google sign-in was closed. Try again!');
-      } else if (e.code === 'auth/popup-blocked') {
-        showToast('⚠️ Popup blocked! Please allow popups for this site.');
-      } else {
-        showToast('❌ Google sign-in failed. Try again.');
+      // Check if returning from redirect
+      const result = await window._fbAuth.getRedirectResult();
+      if (result && result.user) {
+        const fbUser = result.user;
+        const role = selectedRole || 'student';
+        currentUser = { uid: fbUser.uid, name: fbUser.displayName || fbUser.email.split('@')[0], email: fbUser.email, role };
+        await saveFgUser(currentUser);
+        await loadCourseProgressCloud();
+        saveCurrentSession(currentUser);
+        updateUserUI();
+        closeModal('authOverlay');
+        showToast(`✅ Welcome, ${currentUser.name.split(' ')[0]}! Signed in with Google 🎉`);
+        return;
       }
+      // Start redirect sign-in
+      showToast('🔄 Redirecting to Google Sign-in...');
+      await window._fbAuth.signInWithRedirect(window._googleProvider);
+    } catch(e) {
+      showToast('❌ Google sign-in failed. Try again.');
       console.error(e);
     }
   } else if (provider === 'LinkedIn') {
-    // Show LinkedIn login modal
     showLinkedInModal();
   }
 }
@@ -5801,6 +5798,22 @@ function fcPrev() {
 }
 
 restoreSession();
+
+// Handle Google redirect result on page load
+if (window._fbAuth) {
+  window._fbAuth.getRedirectResult().then(async (result) => {
+    if (result && result.user) {
+      const fbUser = result.user;
+      const role = 'student';
+      currentUser = { uid: fbUser.uid, name: fbUser.displayName || fbUser.email.split('@')[0], email: fbUser.email, role };
+      await saveFgUser(currentUser);
+      await loadCourseProgressCloud();
+      saveCurrentSession(currentUser);
+      updateUserUI();
+      showToast(`✅ Welcome, ${currentUser.name.split(' ')[0]}! Signed in with Google 🎉`);
+    }
+  }).catch(e => console.error('Redirect result error:', e));
+}
 renderFlashcard();
 
 // ══════════════════════════════════════════════════════════
