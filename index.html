@@ -2160,49 +2160,34 @@ footer .footer-logo {
           <div class="proof-av" style="background:linear-gradient(135deg,#8b5cf6,#c084fc);">+</div>
         </div>
         <div class="proof-text">
-          <strong>12,000+ Mentors</strong>
-          Trusted by 50,000 students worldwide · 4.9 ⭐ average rating
+          <strong>Real Mentors</strong>
+          Connect with expert mentors · Learn from real experience
         </div>
       </div>
     </div>
     <div class="hero-visual">
       <div class="float-card fc1">📅 3 sessions booked today</div>
-      <div class="mentor-spotlight">
+      <div class="mentor-spotlight" id="featuredMentorSpotlight">
         <div class="ms-header">
           <div class="ms-label">Featured Mentor</div>
           <div class="ms-mentor-row">
-            <div class="ms-av">DR</div>
+            <div class="ms-av" id="fmAv">👨‍🏫</div>
             <div>
-              <div class="ms-name">Dr. Rachel Singh</div>
-              <div class="ms-title">Product Leadership · ex-Meta, Shopify</div>
+              <div class="ms-name" id="fmName">Join as a Mentor</div>
+              <div class="ms-title" id="fmTitle">Be the first mentor on FutureGuide!</div>
             </div>
-            <div class="ms-badge">⭐ 4.97</div>
           </div>
         </div>
         <div class="ms-body">
-          <div class="ms-tags">
-            <span class="tag forest">Product Strategy</span>
-            <span class="tag terra">Career Growth</span>
-            <span class="tag">Leadership</span>
-            <span class="tag">PM Interviews</span>
-          </div>
           <div class="ms-slots">
-            <div class="ms-slots-label">Available this week</div>
-            <div class="slots-row">
-              <div class="slot active">Tue 10am</div>
-              <div class="slot">Tue 2pm</div>
-              <div class="slot">Wed 9am</div>
-              <div class="slot">Thu 3pm</div>
-              <div class="slot">Fri 11am</div>
-            </div>
+            <div class="ms-slots-label">Register as a mentor to get started</div>
           </div>
           <div class="ms-cta-row">
-            <button class="ms-btn book" onclick="openBooking({name:'Dr. Rachel Singh',title:'Product Leadership',av:'DR',color:'linear-gradient(135deg,#2d5a3d,#7ac49a)'})">Book Session</button>
-            <button class="ms-btn msg" onclick="msgMentor('Dr. Rachel Singh')">Message</button>
+            <button class="ms-btn book" onclick="openAuth('register')">Become a Mentor</button>
           </div>
         </div>
       </div>
-      <div class="float-card fc2">✅ 93% students hit goals</div>
+      <div class="float-card fc2">✅ Real mentors only</div>
     </div>
   </div>
 </section>
@@ -2210,10 +2195,10 @@ footer .footer-logo {
 <!-- ═══ STATS ═══ -->
 <div class="stats-banner">
   <div class="stats-inner">
-    <div class="stat-item reveal"><div class="stat-n">12K+</div><div class="stat-l">Expert Mentors</div></div>
-    <div class="stat-item reveal reveal-delay-1"><div class="stat-n">50K+</div><div class="stat-l">Students Guided</div></div>
-    <div class="stat-item reveal reveal-delay-2"><div class="stat-n">93%</div><div class="stat-l">Reach Their Goals</div></div>
-    <div class="stat-item reveal reveal-delay-3"><div class="stat-n">4.9★</div><div class="stat-l">Average Rating</div></div>
+    <div class="stat-item reveal"><div class="stat-n">Real</div><div class="stat-l">Expert Mentors</div></div>
+    <div class="stat-item reveal reveal-delay-1"><div class="stat-n">Live</div><div class="stat-l">Sessions Available</div></div>
+    <div class="stat-item reveal reveal-delay-2"><div class="stat-n">100%</div><div class="stat-l">Real People</div></div>
+    <div class="stat-item reveal reveal-delay-3"><div class="stat-n">Free</div><div class="stat-l">To Get Started</div></div>
   </div>
 </div>
 
@@ -2428,7 +2413,7 @@ footer .footer-logo {
       <div class="rcp-rec-badge"><div class="rdot"></div>RECORDED</div>
       <div class="rcp-mentor-pill" id="rcpMentorPill">
         <div class="rcp-mentor-av" id="rcpMentorAv2" style="background:linear-gradient(135deg,#2d5a3d,#5ba87a);">DR</div>
-        <span id="rcpMentorName2">Dr. Rachel Singh</span>
+        <span id="rcpMentorName2">Your Mentor</span>
       </div>
       <div class="rcp-dur-pill" id="rcpDurPill">00:00</div>
     </div>
@@ -2473,7 +2458,7 @@ footer .footer-logo {
       <div class="modal-mentor-row">
         <div class="modal-av" id="bkAv">DR</div>
         <div>
-          <div class="modal-mentor-name" id="bkName">Dr. Rachel Singh</div>
+          <div class="modal-mentor-name" id="bkName">Your Mentor</div>
           <div class="modal-mentor-title" id="bkTitle">Product Leadership</div>
           <div class="modal-mentor-title" id="bkDur" style="opacity:0.7;font-size:0.82rem;">· 30 min</div>
         </div>
@@ -2510,12 +2495,7 @@ footer .footer-logo {
       </div>
       <div class="modal-section-title">Pick a Time</div>
       <div class="time-grid" id="timeGrid">
-        <div class="time-slot active" onclick="pickTime(this)">Tue · 10am</div>
-        <div class="time-slot" onclick="pickTime(this)">Tue · 2pm</div>
-        <div class="time-slot" onclick="pickTime(this)">Wed · 9am</div>
-        <div class="time-slot" onclick="pickTime(this)">Wed · 3pm</div>
-        <div class="time-slot" onclick="pickTime(this)">Thu · 10am</div>
-        <div class="time-slot" onclick="pickTime(this)">Fri · 11am</div>
+        <div style="color:var(--ink3); font-size:0.9rem; padding:1rem 0;">Loading available slots from mentor...</div>
       </div>
       <div class="form-row">
         <label>What do you want to work on?</label>
@@ -2642,7 +2622,7 @@ footer .footer-logo {
     <div class="rec-header">
       <div class="rec-live-badge"><div class="rec-live-dot"></div>● REC</div>
       <div class="rec-timer" id="recTimer">00:00:00</div>
-      <div class="rec-session-name" id="recSessionName">Session with Dr. Rachel Singh</div>
+      <div class="rec-session-name" id="recSessionName">Session with Your Mentor</div>
       <div class="rec-participants">
         <div class="rec-participant">
           <div class="rec-av" style="background:linear-gradient(135deg,var(--forest),var(--terra));" id="recStudentAv">
@@ -2654,7 +2634,7 @@ footer .footer-logo {
         <div style="color:rgba(255,255,255,0.3);font-size:1.5rem;align-self:center;">⟷</div>
         <div class="rec-participant">
           <div class="rec-av" style="background:linear-gradient(135deg,#2d5a3d,#5ba87a);" id="recMentorAv">DR</div>
-          <div class="rec-pname" id="recMentorName">Dr. Rachel Singh</div>
+          <div class="rec-pname" id="recMentorName">Your Mentor</div>
         </div>
       </div>
     </div>
@@ -2916,25 +2896,29 @@ footer .footer-logo {
   </div>
 </div>
 
-<!-- ═══ MENTOR CHAT MODAL ═══ -->
+<!-- ═══ MENTOR MESSAGE MODAL ═══ -->
 <div class="modal-overlay" id="mentorChatOverlay" onclick="closeIfBg(event,'mentorChatOverlay')">
   <div class="modal-box" id="mentorChatModal" style="max-width:440px;display:flex;flex-direction:column;height:580px;padding:0;overflow:hidden;">
     <div class="mentor-chat-hdr" id="mentorChatHdr">
       <div style="display:flex;align-items:center;gap:0.75rem;">
-        <div class="mentor-chat-av" id="mentorChatAv" style="background:linear-gradient(135deg,#2d5a3d,#5ba87a)">RS</div>
+        <div class="mentor-chat-av" id="mentorChatAv" style="background:linear-gradient(135deg,#2d5a3d,#5ba87a)">?</div>
         <div>
-          <div class="mentor-chat-name" id="mentorChatName">Dr. Rachel Singh</div>
-          <div class="mentor-chat-status"><span class="online-dot"></span> Online · Usually replies instantly</div>
+          <div class="mentor-chat-name" id="mentorChatName">Mentor</div>
+          <div class="mentor-chat-status">Send a message to connect</div>
         </div>
       </div>
       <button class="modal-close" onclick="closeModal('mentorChatOverlay')" style="position:static;background:rgba(255,255,255,0.15);color:#fff;">✕</button>
     </div>
-    <div class="ai-messages" id="mentorChatMessages" style="flex:1;overflow-y:auto;padding:1rem;display:flex;flex-direction:column;gap:0.75rem;"></div>
-    <div class="ai-input-row">
-      <input class="ai-input" id="mentorChatInput" placeholder="Type a message…" onkeydown="if(event.key==='Enter')sendMentorChat()"/>
-      <button class="ai-send" style="background:linear-gradient(135deg,var(--forest),var(--terra));" onclick="sendMentorChat()">➤</button>
+    <div class="ai-messages" id="mentorChatMessages" style="flex:1;overflow-y:auto;padding:1rem;display:flex;flex-direction:column;gap:0.75rem;">
+      <div style="text-align:center;color:var(--ink3);font-size:0.85rem;padding:2rem 1rem;">
+        📨 Send a message to this mentor.<br>They will reply when available.
+      </div>
     </div>
-    <div class="ai-footer-label">Messages are simulated for demo · <span>Book a real session to connect live</span></div>
+    <div class="ai-input-row">
+      <input class="ai-input" id="mentorChatInput" placeholder="Type your message…" onkeydown="if(event.key==='Enter')sendMentorMessage()"/>
+      <button class="ai-send" style="background:linear-gradient(135deg,var(--forest),var(--terra));" onclick="sendMentorMessage()">➤</button>
+    </div>
+    <div class="ai-footer-label">Messages are sent to the mentor's inbox · <span>Book a session to meet live</span></div>
   </div>
 </div>
 
@@ -2973,14 +2957,8 @@ footer .footer-logo {
 
 <script>
 // ─── DATA ───
-const MENTORS = [
-  { id:1, name:'Dr. Rachel Singh', title:'Director of Product · ex-Meta, Shopify', av:'RS', avColor:'linear-gradient(135deg,#2d5a3d,#5ba87a)', rating:4.97, reviews:142, tags:['Product','Leadership'], bio:'12 years in product leadership at top-tier companies. Specializes in PM transitions, product strategy, and executive presence.', category:'Product', available:true },
-  { id:2, name:'Marcus Reid', title:'Staff Engineer · Stripe', av:'MR', avColor:'linear-gradient(135deg,#1e3a5f,#4a7abf)', rating:4.94, reviews:87, tags:['Engineering','System Design'], bio:'Deep expertise in distributed systems, technical interviews, and senior engineering growth. Helped 60+ engineers level up.', category:'Engineering', available:true },
-  { id:3, name:'Sofia Navarro', title:'Creative Director · ex-Airbnb, Apple', av:'SN', avColor:'linear-gradient(135deg,#c4622d,#e07548)', rating:4.96, reviews:203, tags:['Design','UX'], bio:'Award-winning designer who led design systems at Airbnb. Passionate about mentoring designers who want to reach creative director level.', category:'Design', available:false },
-  { id:4, name:'James Okafor', title:'VP Growth · SaaS Startup', av:'JO', avColor:'linear-gradient(135deg,#c9a227,#e0c050)', rating:4.89, reviews:64, tags:['Marketing','Growth'], bio:'Growth hacker turned VP. Scaled two startups from 0 to Series B. Specializes in B2B SaaS, viral loops, and conversion optimization.', category:'Marketing', available:true },
-  { id:5, name:'Aiden Park', title:'ML Engineer · DeepMind', av:'AP', avColor:'linear-gradient(135deg,#6b21a8,#a855f7)', rating:4.92, reviews:55, tags:['Data','ML/AI'], bio:'Research engineer turned industry practitioner. Guides data scientists on ML system design, career navigation, and research-to-production.', category:'Data', available:true },
-  { id:6, name:'Priya Menon', title:'CEO & Founder · 2× exited', av:'PM', avColor:'linear-gradient(135deg,#be123c,#e11d48)', rating:4.98, reviews:179, tags:['Startup','Leadership'], bio:'Twice-exited founder with deep knowledge of zero-to-one product building, fundraising, and building high-performing teams from scratch.', category:'Startup', available:true },
-];
+// Mentors loaded from Firebase - no fake/AI mentors
+let MENTORS = [];
 
 let currentFilter = 'All';
 let currentUser = null;
@@ -2992,7 +2970,15 @@ let currentStypeDur = '30 min';
 // ─── RENDER MENTORS ───
 function renderMentors(list) {
   const grid = document.getElementById('mentorsGrid');
-  if (!list.length) { grid.innerHTML = '<p style="color:var(--ink3);font-size:0.9rem;padding:2rem 0;">No mentors found. Try a different search.</p>'; return; }
+  if (!list || !list.length) { 
+    grid.innerHTML = `
+      <div style="grid-column:1/-1; text-align:center; padding:3rem 1rem; color:var(--ink3);">
+        <div style="font-size:3rem; margin-bottom:1rem;">👨‍🏫</div>
+        <div style="font-size:1.1rem; font-weight:600; margin-bottom:0.5rem;">No mentors yet</div>
+        <div style="font-size:0.9rem;">Mentors who register will appear here with their available time slots.</div>
+      </div>`; 
+    return; 
+  }
   grid.innerHTML = list.map(m => `
     <div class="mcard reveal in" data-cat="${m.category}">
       <div class="mcard-top">
@@ -3049,7 +3035,7 @@ function toggleSave(e, id, btn) {
 }
 
 // ─── BOOKING ───
-function openBooking(data) {
+async function openBooking(data) {
   if (!currentUser) { openAuth('register'); showToast('Sign up to book a session 🎯'); return; }
   currentBooking = data;
   document.getElementById('bkAv').textContent = data.av;
@@ -3058,9 +3044,28 @@ function openBooking(data) {
   document.getElementById('bkTitle').textContent = data.title;
   document.getElementById('bkDur').textContent = '· 30 min';
   document.querySelectorAll('.stype').forEach((s,i) => s.classList.toggle('active',i===0));
-  document.querySelectorAll('.time-slot').forEach((s,i) => s.classList.toggle('active',i===0));
   currentStypeDur='30 min';
   openModal('bookingOverlay');
+
+  // Load mentor's available slots from Firebase
+  const grid = document.getElementById('timeGrid');
+  grid.innerHTML = '<div style="color:var(--ink3);font-size:0.9rem;padding:1rem 0;">Loading slots...</div>';
+  try {
+    const snap = await window._fbDb.collection('mentors').where('name','==',data.name).limit(1).get();
+    if (!snap.empty) {
+      const mentorData = snap.docs[0].data();
+      const slots = mentorData.availableSlots || [];
+      if (slots.length) {
+        grid.innerHTML = slots.map((s,i) => `<div class="time-slot ${i===0?'active':''}" onclick="pickTime(this)">${s}</div>`).join('');
+      } else {
+        grid.innerHTML = '<div style="color:var(--ink3);font-size:0.9rem;padding:1rem 0;">No slots set yet. Contact mentor directly.</div>';
+      }
+    } else {
+      grid.innerHTML = '<div style="color:var(--ink3);font-size:0.9rem;padding:1rem 0;">No availability set yet.</div>';
+    }
+  } catch(e) {
+    grid.innerHTML = '<div style="color:var(--ink3);font-size:0.9rem;padding:1rem 0;">Could not load slots.</div>';
+  }
 }
 
 function pickTime(el) {
@@ -3080,9 +3085,79 @@ function msgMentor(name) {
   openMentorChat(mentor);
 }
 
-// ─── MENTOR CHAT ───
+// ─── REAL MENTOR MESSAGING ───
 let mentorChatMentor = null;
-const MENTOR_REPLIES = {
+
+function openMentorChat(mentor) {
+  mentorChatMentor = mentor;
+  document.getElementById('mentorChatAv').textContent = mentor.av;
+  document.getElementById('mentorChatAv').style.background = mentor.avColor;
+  document.getElementById('mentorChatName').textContent = mentor.name;
+  const msgs = document.getElementById('mentorChatMessages');
+  msgs.innerHTML = '<div style="text-align:center;color:var(--ink3);font-size:0.85rem;padding:2rem 1rem;">📨 Send a message to ' + mentor.name + '.<br>They will reply when available.</div>';
+  loadMentorMessages(mentor);
+  openModal('mentorChatOverlay');
+  document.getElementById('mentorChatInput').focus();
+}
+
+async function loadMentorMessages(mentor) {
+  if (!currentUser || !window._fbDb) return;
+  try {
+    const chatId = [currentUser.uid, mentor.id].sort().join('_');
+    const snap = await window._fbDb.collection('messages').doc(chatId).collection('msgs').orderBy('ts').limitToLast(20).get();
+    if (!snap.empty) {
+      const msgs = document.getElementById('mentorChatMessages');
+      msgs.innerHTML = '';
+      snap.docs.forEach(doc => {
+        const d = doc.data();
+        addRealMessage(d.text, d.from === currentUser.uid ? 'user' : 'mentor', mentor);
+      });
+    }
+  } catch(e) { console.error(e); }
+}
+
+function addRealMessage(text, role, mentor) {
+  const msgs = document.getElementById('mentorChatMessages');
+  const div = document.createElement('div');
+  div.className = 'ai-msg ' + (role === 'user' ? 'user' : '');
+  const av = document.createElement('div');
+  av.className = 'ai-msg-av';
+  if (role === 'mentor' && mentor) {
+    av.textContent = mentor.av;
+    av.style.background = mentor.avColor;
+    av.style.fontSize = '0.65rem';
+  } else {
+    av.textContent = currentUser ? currentUser.name.split(' ').map(n=>n[0]).join('').slice(0,2) : 'U';
+    av.style.background = 'linear-gradient(135deg,var(--forest),var(--terra))';
+  }
+  const bubble = document.createElement('div');
+  bubble.className = 'ai-bubble';
+  bubble.textContent = text;
+  div.appendChild(av);
+  div.appendChild(bubble);
+  msgs.appendChild(div);
+  msgs.scrollTop = msgs.scrollHeight;
+}
+
+async function sendMentorMessage() {
+  const input = document.getElementById('mentorChatInput');
+  const text = input.value.trim();
+  if (!text || !currentUser || !mentorChatMentor) return;
+  input.value = '';
+  addRealMessage(text, 'user', mentorChatMentor);
+  try {
+    const chatId = [currentUser.uid, mentorChatMentor.id].sort().join('_');
+    await window._fbDb.collection('messages').doc(chatId).collection('msgs').add({
+      text, from: currentUser.uid, to: mentorChatMentor.id,
+      senderName: currentUser.name, ts: firebase.firestore.FieldValue.serverTimestamp()
+    });
+    showToast('✅ Message sent to ' + mentorChatMentor.name + '!');
+  } catch(e) {
+    showToast('❌ Could not send message. Try again.');
+  }
+}
+
+
   default: [
     "Thanks for reaching out! I'd love to help. What are you working on right now?",
     "Great to hear from you! Tell me more about your goals.",
@@ -3113,122 +3188,7 @@ const MENTOR_REPLIES = {
     "Model selection is key. What problem are you trying to solve with ML?",
     "Happy to review your approach! What algorithm are you working with?",
   ],
-  Startup: [
-    "Fundraising is a full-time job. What stage are you at and what's your traction?",
-    "PMF is everything. How are you currently measuring it?",
-    "Team building is the hardest part. What roles are you trying to fill?",
-  ],
-};
 
-const QUICK_REPLIES = [
-  "Can we schedule a session?",
-  "What's your availability?",
-  "I need help with interview prep",
-  "Can you review my portfolio?",
-];
-
-function openMentorChat(mentor) {
-  mentorChatMentor = mentor;
-  document.getElementById('mentorChatAv').textContent = mentor.av;
-  document.getElementById('mentorChatAv').style.background = mentor.avColor;
-  document.getElementById('mentorChatName').textContent = mentor.name;
-  const msgs = document.getElementById('mentorChatMessages');
-  msgs.innerHTML = '';
-  // Greeting from mentor
-  const greeting = `Hi ${currentUser ? currentUser.name.split(' ')[0] : 'there'}! 👋 I'm ${mentor.name.split(' ').slice(-1)[0]}. I specialise in ${mentor.tags.join(' & ')}. How can I help you today?`;
-  addMentorMsg('mentor', greeting, mentor);
-  // Quick reply chips
-  addMentorQuickReplies(QUICK_REPLIES, mentor);
-  openModal('mentorChatOverlay');
-  document.getElementById('mentorChatInput').focus();
-}
-
-function addMentorMsg(role, text, mentor) {
-  const msgs = document.getElementById('mentorChatMessages');
-  const div = document.createElement('div');
-  div.className = 'ai-msg ' + (role === 'user' ? 'user' : '');
-  const av = document.createElement('div');
-  av.className = 'ai-msg-av';
-  if (role === 'mentor' && mentor) {
-    av.textContent = mentor.av;
-    av.style.background = mentor.avColor;
-    av.style.fontSize = '0.65rem';
-  } else {
-    const initials = currentUser ? currentUser.name.split(' ').map(n=>n[0]).join('').slice(0,2) : 'U';
-    av.textContent = initials;
-    av.style.background = 'linear-gradient(135deg,var(--forest),var(--terra))';
-  }
-  const bubble = document.createElement('div');
-  bubble.className = 'ai-bubble';
-  bubble.textContent = text;
-  div.appendChild(av);
-  div.appendChild(bubble);
-  msgs.appendChild(div);
-  msgs.scrollTop = msgs.scrollHeight;
-}
-
-function addMentorQuickReplies(replies, mentor) {
-  const msgs = document.getElementById('mentorChatMessages');
-  const wrap = document.createElement('div');
-  wrap.className = 'mentor-reply-options';
-  wrap.id = 'mentorQuickReplies';
-  replies.forEach(r => {
-    const chip = document.createElement('button');
-    chip.className = 'mentor-reply-chip';
-    chip.textContent = r;
-    chip.onclick = () => { wrap.remove(); handleMentorReply(r, mentor); };
-    wrap.appendChild(chip);
-  });
-  msgs.appendChild(wrap);
-  msgs.scrollTop = msgs.scrollHeight;
-}
-
-function handleMentorReply(text, mentor) {
-  addMentorMsg('user', text, mentor);
-  showMentorTyping(mentor);
-}
-
-function showMentorTyping(mentor) {
-  const msgs = document.getElementById('mentorChatMessages');
-  const typing = document.createElement('div');
-  typing.className = 'ai-msg';
-  typing.id = 'mentorTypingIndicator';
-  const av = document.createElement('div');
-  av.className = 'ai-msg-av';
-  av.textContent = mentor.av;
-  av.style.background = mentor.avColor;
-  av.style.fontSize = '0.65rem';
-  const bubble = document.createElement('div');
-  bubble.className = 'ai-typing-bubble';
-  bubble.innerHTML = '<span></span><span></span><span></span>';
-  typing.appendChild(av);
-  typing.appendChild(bubble);
-  msgs.appendChild(typing);
-  msgs.scrollTop = msgs.scrollHeight;
-  const delay = 1200 + Math.random() * 800;
-  setTimeout(() => {
-    const t = document.getElementById('mentorTypingIndicator');
-    if (t) t.remove();
-    const pool = MENTOR_REPLIES[mentor.category] || MENTOR_REPLIES.default;
-    const reply = pool[Math.floor(Math.random() * pool.length)];
-    addMentorMsg('mentor', reply, mentor);
-    // Follow up with booking prompt
-    setTimeout(() => {
-      addMentorMsg('mentor', '📅 Want to set up a proper session? Click "Book" on my profile to pick a time that works for you.', mentor);
-    }, 1800);
-  }, delay);
-}
-
-function sendMentorChat() {
-  const input = document.getElementById('mentorChatInput');
-  const text = input.value.trim();
-  if (!text) return;
-  input.value = '';
-  // Remove quick replies if still present
-  const qr = document.getElementById('mentorQuickReplies');
-  if (qr) qr.remove();
-  handleMentorReply(text, mentorChatMentor || MENTORS[0]);
-}
 
 // ─── AUTH & ROLE SELECTOR ───
 let authMode = 'register';
@@ -4048,7 +4008,7 @@ document.querySelectorAll('.slot').forEach(s => {
 });
 
 // ─── INIT ───
-renderMentors(MENTORS);
+loadMentorsFromFirebase();
 
 // ═══ COURSES DATA ═══
 const COURSES = [
@@ -4060,11 +4020,11 @@ const COURSES = [
   { id:3, category:"Design", field:"design", title:"UI/UX Design Fundamentals in Figma", desc:"Learn user research, wireframing, prototyping and visual design principles using industry-standard tools.", icon:"🎨", duration:"18 hrs", lessons:124, level:"Beginner", tags:["Figma","UX","Prototyping"], tagStyle:"terra", gradient:"linear-gradient(135deg,#c4622d,#e8a06a)", recorded:false },
   { id:9, category:"Design", field:"design", title:"Motion Design & Animation with CSS", desc:"Bring your web interfaces to life with smooth animations, micro-interactions and scroll-triggered effects.", icon:"🌀", duration:"12 hrs", lessons:88, level:"Intermediate", tags:["CSS","Animation","Motion"], tagStyle:"terra", gradient:"linear-gradient(135deg,#c4622d,#8b2d62)", recorded:false },
   { id:10, category:"Design", field:"design", title:"Brand Identity & Visual Design Masterclass", desc:"Design logos, brand systems, and visual identities from scratch. Learn colour theory, typography, and how to present to clients.", icon:"✦", duration:"22 hrs", lessons:156, level:"Beginner", tags:["Branding","Typography","Colour"], tagStyle:"terra", gradient:"linear-gradient(135deg,#8b2d62,#4b1d8e)", recorded:true,
-    recordedMentor:"Sofia Navarro", recordedDate:"Jan 2026", recordedDuration:"1h 24m",
+    recordedMentor:"", recordedDate:"Jan 2026", recordedDuration:"1h 24m",
     chapters:[{name:"Intro: What makes a brand?",dur:"8:12"},{name:"Colour psychology & palettes",dur:"14:45"},{name:"Typography pairing systems",dur:"12:30"},{name:"Logo construction live demo",dur:"22:10"},{name:"Building brand guidelines doc",dur:"18:05"},{name:"Client presentation tips",dur:"9:00"}]
   },
   { id:11, category:"Design", field:"design", title:"Product Design: End-to-End in Figma", desc:"Full product design workflow — from user research and journey maps to high-fidelity prototypes and handoff to dev.", icon:"🖥️", duration:"30 hrs", lessons:210, level:"Intermediate", tags:["Product","Figma","Research"], tagStyle:"purple", gradient:"linear-gradient(135deg,#4b1d8e,#2d5a9f)", recorded:true,
-    recordedMentor:"Sofia Navarro", recordedDate:"Feb 2026", recordedDuration:"58m",
+    recordedMentor:"", recordedDate:"Feb 2026", recordedDuration:"58m",
     chapters:[{name:"User research methods overview",dur:"10:22"},{name:"Journey mapping live workshop",dur:"15:40"},{name:"Lo-fi to hi-fi: walkthrough",dur:"18:35"},{name:"Component library setup",dur:"9:12"},{name:"Dev handoff best practices",dur:"4:51"}]
   },
   { id:12, category:"Design", field:"design", title:"Design Systems at Scale", desc:"Build robust, maintainable design systems used by teams of 5 to 500. Atomic design, tokens, documentation and governance.", icon:"⚙️", duration:"16 hrs", lessons:108, level:"Advanced", tags:["Design System","Tokens","Atomic"], tagStyle:"blue", gradient:"linear-gradient(135deg,#0f3460,#2d5a9f)", recorded:false },
@@ -4072,16 +4032,16 @@ const COURSES = [
   // ── BUSINESS ──
   { id:5, category:"Business", field:"business", title:"Startup Fundamentals: Idea to Launch", desc:"Validate your idea, build an MVP, find product-market fit, and pitch to investors. Taught by ex-founders and VCs.", icon:"📈", duration:"14 hrs", lessons:96, level:"Beginner", tags:["Startup","MVP","Fundraising"], tagStyle:"gold", gradient:"linear-gradient(135deg,#c9a227,#e8c96a)", recorded:false },
   { id:13, category:"Business", field:"business", title:"Financial Literacy for Entrepreneurs", desc:"Understand P&L, cash flow, unit economics, and how to read investor term sheets. Never be lost in a finance meeting again.", icon:"💰", duration:"10 hrs", lessons:72, level:"Beginner", tags:["Finance","P&L","Term Sheets"], tagStyle:"gold", gradient:"linear-gradient(135deg,#c9a227,#c4622d)", recorded:true,
-    recordedMentor:"Priya Menon", recordedDate:"Dec 2025", recordedDuration:"1h 12m",
+    recordedMentor:"", recordedDate:"Dec 2025", recordedDuration:"1h 12m",
     chapters:[{name:"Why founders need financial literacy",dur:"6:00"},{name:"Reading a P&L statement",dur:"14:20"},{name:"Understanding cash flow",dur:"12:50"},{name:"Unit economics: CAC & LTV",dur:"16:10"},{name:"Term sheet walkthrough",dur:"20:40"},{name:"Q&A with the audience",dur:"2:00"}]
   },
   { id:14, category:"Business", field:"business", title:"B2B Sales & Growth Masterclass", desc:"Build a repeatable sales machine from scratch. Cold outreach, discovery calls, closing deals and building a pipeline.", icon:"🤝", duration:"18 hrs", lessons:130, level:"Intermediate", tags:["Sales","B2B","Pipeline"], tagStyle:"terra", gradient:"linear-gradient(135deg,#be123c,#c4622d)", recorded:true,
-    recordedMentor:"James Okafor", recordedDate:"Jan 2026", recordedDuration:"1h 36m",
+    recordedMentor:"", recordedDate:"Jan 2026", recordedDuration:"1h 36m",
     chapters:[{name:"The modern B2B sales mindset",dur:"8:30"},{name:"Cold email sequences that convert",dur:"18:00"},{name:"Discovery call framework",dur:"16:20"},{name:"Handling objections live roleplay",dur:"24:10"},{name:"Closing techniques and follow-up",dur:"19:45"},{name:"Building and tracking a pipeline",dur:"9:15"}]
   },
   { id:15, category:"Business", field:"business", title:"Digital Marketing & Growth Hacking", desc:"SEO, paid ads, email marketing, and viral growth loops explained. Run your own campaigns and measure what matters.", icon:"📣", duration:"20 hrs", lessons:148, level:"Beginner", tags:["SEO","Ads","Email"], tagStyle:"gold", gradient:"linear-gradient(135deg,#c9a227,#2d5a3d)", recorded:false },
   { id:16, category:"Business", field:"business", title:"Leadership & Management for New Managers", desc:"Make the leap from individual contributor to people leader. Hiring, feedback, performance reviews, and building team culture.", icon:"👥", duration:"12 hrs", lessons:90, level:"Intermediate", tags:["Leadership","People","Culture"], tagStyle:"", gradient:"linear-gradient(135deg,#1e3a5f,#2d5a3d)", recorded:true,
-    recordedMentor:"Dr. Rachel Singh", recordedDate:"Feb 2026", recordedDuration:"52m",
+    recordedMentor:"", recordedDate:"Feb 2026", recordedDuration:"52m",
     chapters:[{name:"The mindset shift: IC to manager",dur:"7:45"},{name:"Your first 30/60/90 days",dur:"12:20"},{name:"Giving effective feedback",dur:"15:10"},{name:"Handling underperformance",dur:"11:00"},{name:"Building psychological safety",dur:"5:45"}]
   },
   { id:17, category:"Business", field:"business", title:"Negotiation Skills for Professionals", desc:"Salary, contracts, partnerships — master the art of negotiation with real frameworks and live practice scenarios.", icon:"⚖️", duration:"8 hrs", lessons:60, level:"Beginner", tags:["Negotiation","Salary","Contracts"], tagStyle:"terra", gradient:"linear-gradient(135deg,#be123c,#8b2d62)", recorded:false },
@@ -4132,7 +4092,7 @@ function renderCourses() {
         <div class="course-desc">${c.desc}</div>
         ${c.recorded ? `<div style="display:flex;align-items:center;gap:0.5rem;margin-bottom:0.75rem;padding:0.6rem 0.75rem;background:rgba(239,68,68,0.07);border-radius:10px;border:1px solid rgba(239,68,68,0.15);">
           <span style="font-size:0.75rem;">🎙️</span>
-          <span style="font-size:0.75rem;font-weight:600;color:var(--ink2);">Taught by <strong style="color:var(--ink);">${c.recordedMentor}</strong> · ${c.recordedDate} · ${c.recordedDuration}</span>
+          <span style="font-size:0.75rem;font-weight:600;color:var(--ink2);">🎙️ Recorded Class · ${c.recordedDate} · ${c.recordedDuration}</span>
         </div>` : ''}
         <div class="course-tags">${c.tags.map(t => `<span class="course-tag ${c.tagStyle||''}">${t}</span>`).join('')}</div>
         <div class="course-meta">
@@ -4921,10 +4881,10 @@ const FUTUREGUIDE_SYSTEM_PROMPT = `You are FutureGuide AI, a friendly and knowle
 
 About FutureGuide:
 - A platform connecting students with expert mentors across Product, Engineering, Design, Marketing, Data/ML, Startup fields
-- Top mentors include: Dr. Rachel Singh (Product, ex-Meta/Shopify, 4.97★), Marcus Reid (Engineering, Stripe, 4.94★), Sofia Navarro (Design, ex-Airbnb/Apple, 4.96★), James Okafor (Marketing/Growth, 4.89★), Aiden Park (ML/AI, DeepMind, 4.92★), Priya Menon (Startup, 2x founder, 4.98★)
+- Real mentors registered on the platform teach various subjects including Product, Engineering, Design, Marketing, Data/ML, Startup fields
 - Session types: Flash (15 min), Quick Chat (30 min), Deep Dive (60 min), Full Session (90 min), Async Q&A (48h reply)
 - Free courses available in: Tech, Design, Business, AI & Data, Career
-- 12,000+ expert mentors, 50,000+ students, 93% hit their goals, 4.9★ average rating
+- Real mentors register and set their own availability and subjects
 
 Your role:
 - Help users find the right mentor based on their goals, field, and budget
@@ -5089,14 +5049,9 @@ const DASH_GOALS_DEFAULT = [
   {id:4, text:'Build portfolio with 3 case studies', done:false, tag:'Portfolio'},
   {id:5, text:'Reach out to 5 people in my target role', done:false, tag:'Network'},
 ];
-const DASH_SESSIONS = [
-  {name:'Dr. Rachel Singh', av:'RS', color:'linear-gradient(135deg,#2d5a3d,#5ba87a)', time:'Tue 10am · 30 min', tag:'Product'},
-  {name:'James Okafor', av:'JO', color:'linear-gradient(135deg,#c9a227,#e0c050)', time:'Thu 2pm · 60 min', tag:'Sales'},
-];
+const DASH_SESSIONS = [];
 const DASH_RESOURCES = [
-  {icon:'📄', title:'PM Interview Framework PDF', type:'PDF · from Dr. Rachel Singh'},
   {icon:'🔗', title:'CIRCLES Method — Full Guide', type:'Link · recommended reading'},
-  {icon:'📊', title:'B2B Sales Metrics Template', type:'Spreadsheet · from James Okafor'},
   {icon:'🎙️', title:'Session Recording — Dec 14', type:'Recording · 42 min'},
 ];
 const DASH_SKILLS = [
@@ -5114,12 +5069,194 @@ function openDashboard() {
   if (!currentUser) { openAuth('register'); showToast('Sign in to view your dashboard 📊'); return; }
   const name = currentUser.name.split(' ')[0];
   document.getElementById('dashGreeting').innerHTML = `Welcome back, ${name} 👋<span>Your learning journey</span>`;
+  
+  // If mentor, show mentor dashboard
+  if (currentUser.role === 'mentor') {
+    openMentorDashboard();
+    return;
+  }
+  
   renderDashRoadmap();
   renderDashGoals();
   renderDashSessions();
   renderDashResources();
   renderDashSkills();
   openModal('dashboardOverlay');
+}
+
+// ─── MENTOR DASHBOARD ───
+function openMentorDashboard() {
+  // Remove existing if any
+  const existing = document.getElementById('mentorDashModal');
+  if (existing) existing.remove();
+
+  const modal = document.createElement('div');
+  modal.id = 'mentorDashModal';
+  modal.style.cssText = 'position:fixed;inset:0;background:rgba(0,0,0,0.7);z-index:99999;display:flex;align-items:center;justify-content:center;padding:1rem;';
+  modal.innerHTML = `
+    <div style="background:var(--surface);border-radius:20px;padding:2rem;width:100%;max-width:600px;max-height:90vh;overflow-y:auto;box-shadow:0 20px 60px rgba(0,0,0,0.4);">
+      <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:1.5rem;">
+        <h2 style="font-size:1.4rem;font-weight:700;color:var(--ink);">👨‍🏫 Mentor Dashboard</h2>
+        <button onclick="document.getElementById('mentorDashModal').remove()" style="background:none;border:none;font-size:1.5rem;cursor:pointer;color:var(--ink3);">×</button>
+      </div>
+
+      <!-- Available Time Slots -->
+      <div style="margin-bottom:1.5rem;">
+        <h3 style="font-size:1rem;font-weight:600;margin-bottom:0.75rem;color:var(--ink);">📅 Set Your Available Time Slots</h3>
+        <div id="mentorSlotsList" style="margin-bottom:0.75rem;"></div>
+        <div style="display:flex;gap:0.5rem;flex-wrap:wrap;margin-bottom:0.5rem;">
+          <input id="newSlotDate" type="date" style="padding:0.5rem;border-radius:8px;border:1px solid var(--surface2);background:var(--bg2);color:var(--ink);font-size:0.9rem;">
+          <input id="newSlotTime" type="time" style="padding:0.5rem;border-radius:8px;border:1px solid var(--surface2);background:var(--bg2);color:var(--ink);font-size:0.9rem;">
+          <button onclick="addMentorSlot()" style="padding:0.5rem 1rem;background:var(--forest);color:white;border:none;border-radius:8px;cursor:pointer;font-weight:600;">+ Add Slot</button>
+        </div>
+        <button onclick="saveMentorSlots()" style="padding:0.6rem 1.5rem;background:var(--terra);color:white;border:none;border-radius:8px;cursor:pointer;font-weight:600;width:100%;">💾 Save Available Slots</button>
+      </div>
+
+      <!-- Class Subjects -->
+      <div style="margin-bottom:1.5rem;">
+        <h3 style="font-size:1rem;font-weight:600;margin-bottom:0.75rem;color:var(--ink);">📚 Your Subjects / Specializations</h3>
+        <input id="mentorSubjects" type="text" placeholder="e.g. Python, Data Science, Web Dev (comma separated)" style="width:100%;padding:0.75rem;border-radius:8px;border:1px solid var(--surface2);background:var(--bg2);color:var(--ink);font-size:0.9rem;box-sizing:border-box;margin-bottom:0.5rem;">
+        <input id="mentorBio" type="text" placeholder="Short bio / description" style="width:100%;padding:0.75rem;border-radius:8px;border:1px solid var(--surface2);background:var(--bg2);color:var(--ink);font-size:0.9rem;box-sizing:border-box;margin-bottom:0.5rem;">
+        <button onclick="saveMentorProfile()" style="padding:0.6rem 1.5rem;background:var(--forest);color:white;border:none;border-radius:8px;cursor:pointer;font-weight:600;width:100%;">💾 Save Profile</button>
+      </div>
+
+      <!-- Recorded Classes -->
+      <div style="margin-bottom:1rem;">
+        <h3 style="font-size:1rem;font-weight:600;margin-bottom:0.75rem;color:var(--ink);">🎥 Manage Class Recordings</h3>
+        <div id="mentorRecordingsList" style="margin-bottom:0.75rem;"></div>
+        <input id="newRecTitle" type="text" placeholder="Recording title" style="width:100%;padding:0.75rem;border-radius:8px;border:1px solid var(--surface2);background:var(--bg2);color:var(--ink);font-size:0.9rem;box-sizing:border-box;margin-bottom:0.5rem;">
+        <input id="newRecUrl" type="url" placeholder="Recording URL (YouTube, Google Drive, etc.)" style="width:100%;padding:0.75rem;border-radius:8px;border:1px solid var(--surface2);background:var(--bg2);color:var(--ink);font-size:0.9rem;box-sizing:border-box;margin-bottom:0.5rem;">
+        <button onclick="addMentorRecording()" style="padding:0.6rem 1.5rem;background:var(--terra);color:white;border:none;border-radius:8px;cursor:pointer;font-weight:600;width:100%;">+ Add Recording</button>
+      </div>
+
+      <div id="mentorDashMsg" style="color:var(--forest);font-size:0.9rem;text-align:center;margin-top:0.5rem;"></div>
+    </div>
+  `;
+  document.body.appendChild(modal);
+  loadMentorDashData();
+}
+
+let mentorSlots = [];
+let mentorRecordings = [];
+
+async function loadMentorDashData() {
+  try {
+    const snap = await window._fbDb.collection('mentors').doc(currentUser.uid).get();
+    if (snap.exists) {
+      const data = snap.data();
+      mentorSlots = data.availableSlots || [];
+      mentorRecordings = data.recordings || [];
+      document.getElementById('mentorSubjects').value = (data.subjects || []).join(', ');
+      document.getElementById('mentorBio').value = data.bio || '';
+    }
+    renderMentorSlots();
+    renderMentorRecordings();
+  } catch(e) { console.error(e); }
+}
+
+function renderMentorSlots() {
+  const el = document.getElementById('mentorSlotsList');
+  if (!el) return;
+  if (!mentorSlots.length) { el.innerHTML = '<div style="color:var(--ink3);font-size:0.85rem;">No slots added yet.</div>'; return; }
+  el.innerHTML = mentorSlots.map((s,i) => `
+    <div style="display:flex;align-items:center;justify-content:space-between;padding:0.4rem 0.75rem;background:var(--bg2);border-radius:8px;margin-bottom:0.4rem;">
+      <span style="font-size:0.9rem;color:var(--ink);">📅 ${s}</span>
+      <button onclick="removeMentorSlot(${i})" style="background:none;border:none;color:var(--ink3);cursor:pointer;font-size:1rem;">✕</button>
+    </div>
+  `).join('');
+}
+
+function addMentorSlot() {
+  const date = document.getElementById('newSlotDate').value;
+  const time = document.getElementById('newSlotTime').value;
+  if (!date || !time) { showToast('⚠️ Please select both date and time!'); return; }
+  const formatted = new Date(date + 'T' + time).toLocaleString('en-IN', {weekday:'short', month:'short', day:'numeric', hour:'2-digit', minute:'2-digit'});
+  mentorSlots.push(formatted);
+  renderMentorSlots();
+  document.getElementById('newSlotDate').value = '';
+  document.getElementById('newSlotTime').value = '';
+}
+
+function removeMentorSlot(i) {
+  mentorSlots.splice(i, 1);
+  renderMentorSlots();
+}
+
+async function saveMentorSlots() {
+  try {
+    await window._fbDb.collection('mentors').doc(currentUser.uid).set({ availableSlots: mentorSlots, name: currentUser.name }, { merge: true });
+    showToast('✅ Time slots saved!');
+    document.getElementById('mentorDashMsg').textContent = '✅ Slots saved successfully!';
+  } catch(e) { showToast('❌ Error saving slots'); }
+}
+
+async function saveMentorProfile() {
+  const subjects = document.getElementById('mentorSubjects').value.split(',').map(s=>s.trim()).filter(Boolean);
+  const bio = document.getElementById('mentorBio').value.trim();
+  try {
+    await window._fbDb.collection('mentors').doc(currentUser.uid).set({
+      name: currentUser.name, email: currentUser.email, subjects, bio,
+      uid: currentUser.uid, available: true,
+      av: currentUser.name.split(' ').map(w=>w[0]).join('').toUpperCase().slice(0,2),
+      avColor: 'linear-gradient(135deg,#2d5a3d,#5ba87a)',
+      tags: subjects.slice(0,3), category: subjects[0] || 'General'
+    }, { merge: true });
+    showToast('✅ Profile saved! You are now visible to students.');
+    document.getElementById('mentorDashMsg').textContent = '✅ Profile saved!';
+    loadMentorsFromFirebase();
+  } catch(e) { showToast('❌ Error saving profile'); }
+}
+
+function renderMentorRecordings() {
+  const el = document.getElementById('mentorRecordingsList');
+  if (!el) return;
+  if (!mentorRecordings.length) { el.innerHTML = '<div style="color:var(--ink3);font-size:0.85rem;">No recordings added yet.</div>'; return; }
+  el.innerHTML = mentorRecordings.map((r,i) => `
+    <div style="display:flex;align-items:center;justify-content:space-between;padding:0.4rem 0.75rem;background:var(--bg2);border-radius:8px;margin-bottom:0.4rem;">
+      <a href="${r.url}" target="_blank" style="font-size:0.9rem;color:var(--forest);">🎥 ${r.title}</a>
+      <button onclick="removeMentorRecording(${i})" style="background:none;border:none;color:var(--ink3);cursor:pointer;font-size:1rem;">✕</button>
+    </div>
+  `).join('');
+}
+
+async function addMentorRecording() {
+  const title = document.getElementById('newRecTitle').value.trim();
+  const url = document.getElementById('newRecUrl').value.trim();
+  if (!title || !url) { showToast('⚠️ Please enter both title and URL!'); return; }
+  mentorRecordings.push({ title, url, date: new Date().toLocaleDateString() });
+  try {
+    await window._fbDb.collection('mentors').doc(currentUser.uid).set({ recordings: mentorRecordings }, { merge: true });
+    showToast('✅ Recording added!');
+    document.getElementById('newRecTitle').value = '';
+    document.getElementById('newRecUrl').value = '';
+    renderMentorRecordings();
+  } catch(e) { showToast('❌ Error saving recording'); }
+}
+
+async function removeMentorRecording(i) {
+  mentorRecordings.splice(i, 1);
+  await window._fbDb.collection('mentors').doc(currentUser.uid).set({ recordings: mentorRecordings }, { merge: true });
+  renderMentorRecordings();
+}
+
+// Load real mentors from Firebase
+async function loadMentorsFromFirebase() {
+  try {
+    const snap = await window._fbDb.collection('mentors').where('available','==',true).get();
+    MENTORS = snap.docs.map(doc => {
+      const d = doc.data();
+      return { id: doc.id, name: d.name, title: d.subjects?.join(', ') || 'Mentor', av: d.av || '??', avColor: d.avColor || 'linear-gradient(135deg,#2d5a3d,#5ba87a)', rating: d.rating || 5.0, reviews: d.reviews || 0, tags: d.tags || [], bio: d.bio || '', category: d.category || 'General', available: true };
+    });
+    renderMentors(MENTORS);
+    // Update featured spotlight with first real mentor
+    if (MENTORS.length > 0) {
+      const m = MENTORS[0];
+      document.getElementById('fmAv').textContent = m.av;
+      document.getElementById('fmAv').style.background = m.avColor;
+      document.getElementById('fmName').textContent = m.name;
+      document.getElementById('fmTitle').textContent = m.title;
+    }
+  } catch(e) { console.error('Error loading mentors:', e); }
 }
 
 function renderDashRoadmap() {
@@ -5805,14 +5942,10 @@ renderFlashcard();
 // FEATURE C — LIVE ACTIVITY SOCIAL PROOF TOASTS
 // ══════════════════════════════════════════════════════════
 const LIVE_ACTIVITIES = [
-  { av: 'RS', color: 'linear-gradient(135deg,#2d5a3d,#5ba87a)', text: '<strong>Someone in London</strong> just booked a session with Dr. Rachel Singh!' },
-  { av: 'MR', color: 'linear-gradient(135deg,#1e3a5f,#4a7abf)', text: '<strong>A student in Toronto</strong> completed 5 sessions with Marcus Reid 🎉' },
-  { av: 'PM', color: 'linear-gradient(135deg,#be123c,#e11d48)', text: '<strong>12 people</strong> are viewing Priya Menon\'s profile right now.' },
-  { av: 'SN', color: 'linear-gradient(135deg,#c4622d,#e07548)', text: '<strong>Someone in Berlin</strong> saved Sofia Navarro as a favourite ♥' },
-  { av: 'AP', color: 'linear-gradient(135deg,#6b21a8,#a855f7)', text: '<strong>A ML engineer in Singapore</strong> just booked a session with Aiden Park!' },
-  { av: 'JO', color: 'linear-gradient(135deg,#c9a227,#e0c050)', text: '<strong>50 students</strong> enrolled in FutureGuide this week 🚀' },
-  { av: 'RS', color: 'linear-gradient(135deg,#2d5a3d,#5ba87a)', text: '<strong>Dr. Rachel Singh</strong> just joined a live session. Her next slot opens tomorrow.' },
-  { av: 'MR', color: 'linear-gradient(135deg,#1e3a5f,#4a7abf)', text: '<strong>Someone in NYC</strong> passed their Staff Engineer interview after mentoring with Marcus!' },
+  { av: '🎓', color: 'linear-gradient(135deg,#2d5a3d,#5ba87a)', text: '<strong>A student in India</strong> just registered on FutureGuide!' },
+  { av: '📚', color: 'linear-gradient(135deg,#1e3a5f,#4a7abf)', text: '<strong>50 students</strong> enrolled in FutureGuide this week 🚀' },
+  { av: '🏆', color: 'linear-gradient(135deg,#c9a227,#e0c050)', text: '<strong>A new mentor</strong> just joined FutureGuide today!' },
+  { av: '🎯', color: 'linear-gradient(135deg,#6b21a8,#a855f7)', text: '<strong>Someone</strong> just completed their first session on FutureGuide!' },
 ];
 
 let liveActivityIdx = 0;
@@ -5940,7 +6073,7 @@ openDashboard = function() {
 
 <div id="liveToast" class="live-toast">
   <div class="live-toast-av" id="liveToastAv">RS</div>
-  <div class="live-toast-text" id="liveToastText"><strong>Someone in London</strong> just booked a session with Dr. Rachel Singh!</div>
+  <div class="live-toast-text" id="liveToastText"><strong>Someone in London</strong> just booked a session with Your Mentor!</div>
   <div class="live-toast-pulse"></div>
 </div>
 <div id="toast" class="toast"></div>
