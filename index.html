@@ -566,6 +566,12 @@ textarea.form-input { resize:none; min-height:80px; }
 .auth-sub { font-size:0.85rem; color:var(--ink3); }
 .auth-body { padding:1.5rem 2.5rem; }
 .social-btns { display:flex; gap:0.75rem; margin-bottom:1.5rem; }
+.otp-box {
+  width: 46px; height: 54px; text-align: center; font-size: 1.4rem; font-weight: 700;
+  border: 2px solid var(--surface2); border-radius: 12px; background: var(--bg2);
+  color: var(--ink); outline: none; transition: border-color 0.2s;
+}
+.otp-box:focus { border-color: var(--terra); background: var(--terra-pale); }
 .soc-btn {
   flex:1; padding:0.65rem;
   background:var(--surface2); border:1.5px solid var(--surface2);
@@ -2512,108 +2518,241 @@ footer .footer-logo {
   </div>
 </div>
 
+<!-- ═══ PHONE OTP MODAL ═══ -->
+<div id="phoneOTPModal" style="display:none;position:fixed;inset:0;background:rgba(0,0,0,0.7);z-index:99999;display:none;align-items:center;justify-content:center;padding:1rem;">
+  <div style="background:var(--surface);border-radius:20px;padding:2rem;width:100%;max-width:400px;box-shadow:0 20px 60px rgba(0,0,0,0.4);">
+    
+    <!-- Step 1: Enter Phone -->
+    <div id="phoneStep1">
+      <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:1.5rem;">
+        <h2 style="font-size:1.3rem;font-weight:700;color:var(--ink);">📱 Sign in with Phone</h2>
+        <button onclick="closePhoneOTPModal()" style="background:none;border:none;font-size:1.5rem;cursor:pointer;color:var(--ink3);">×</button>
+      </div>
+      <p style="color:var(--ink3);font-size:0.9rem;margin-bottom:1.5rem;">Enter your phone number to receive a one-time password (OTP)</p>
+      
+      <div style="margin-bottom:1rem;">
+        <label style="font-size:0.85rem;color:var(--ink3);display:block;margin-bottom:0.5rem;">Phone Number</label>
+        <div style="display:flex;gap:0.5rem;">
+          <select id="phoneCountryCode" style="padding:0.75rem;border-radius:10px;border:1px solid var(--surface2);background:var(--bg2);color:var(--ink);font-size:0.95rem;width:110px;">
+            <option value="+91">🇮🇳 +91</option>
+            <option value="+1">🇺🇸 +1</option>
+            <option value="+44">🇬🇧 +44</option>
+            <option value="+61">🇦🇺 +61</option>
+            <option value="+971">🇦🇪 +971</option>
+            <option value="+65">🇸🇬 +65</option>
+            <option value="+60">🇲🇾 +60</option>
+            <option value="+92">🇵🇰 +92</option>
+            <option value="+880">🇧🇩 +880</option>
+            <option value="+94">🇱🇰 +94</option>
+          </select>
+          <input id="phoneNumberInput" type="tel" placeholder="9876543210" style="flex:1;padding:0.75rem;border-radius:10px;border:1px solid var(--surface2);background:var(--bg2);color:var(--ink);font-size:0.95rem;box-sizing:border-box;" maxlength="15"/>
+        </div>
+      </div>
+
+      <!-- reCAPTCHA container -->
+      <div id="recaptcha-container" style="margin-bottom:1rem;"></div>
+
+      <button onclick="sendOTP()" id="sendOTPBtn" style="width:100%;padding:0.85rem;background:var(--terra);color:white;border:none;border-radius:12px;font-size:1rem;font-weight:600;cursor:pointer;">
+        Send OTP 📨
+      </button>
+      <p style="text-align:center;margin-top:1rem;font-size:0.8rem;color:var(--ink3);">We'll send a 6-digit code to your phone</p>
+    </div>
+
+    <!-- Step 2: Enter OTP -->
+    <div id="phoneStep2" style="display:none;">
+      <div style="display:flex;align-items:center;gap:0.75rem;margin-bottom:1.5rem;">
+        <button onclick="backToPhoneStep1()" style="background:none;border:none;font-size:1.2rem;cursor:pointer;color:var(--ink3);">←</button>
+        <h2 style="font-size:1.3rem;font-weight:700;color:var(--ink);">🔐 Enter OTP</h2>
+      </div>
+      <p style="color:var(--ink3);font-size:0.9rem;margin-bottom:0.5rem;">Code sent to <strong id="otpSentTo"></strong></p>
+      <p style="color:var(--ink3);font-size:0.85rem;margin-bottom:1.5rem;">Enter the 6-digit code below</p>
+
+      <div style="display:flex;gap:0.5rem;justify-content:center;margin-bottom:1.5rem;">
+        <input class="otp-box" id="otp1" type="tel" maxlength="1" oninput="otpMove(this,'otp2')" onkeydown="otpBack(event,this,'')"/>
+        <input class="otp-box" id="otp2" type="tel" maxlength="1" oninput="otpMove(this,'otp3')" onkeydown="otpBack(event,this,'otp1')"/>
+        <input class="otp-box" id="otp3" type="tel" maxlength="1" oninput="otpMove(this,'otp4')" onkeydown="otpBack(event,this,'otp2')"/>
+        <input class="otp-box" id="otp4" type="tel" maxlength="1" oninput="otpMove(this,'otp5')" onkeydown="otpBack(event,this,'otp3')"/>
+        <input class="otp-box" id="otp5" type="tel" maxlength="1" oninput="otpMove(this,'otp6')" onkeydown="otpBack(event,this,'otp4')"/>
+        <input class="otp-box" id="otp6" type="tel" maxlength="1" oninput="otpMove(this,'')" onkeydown="otpBack(event,this,'otp5')"/>
+      </div>
+
+      <button onclick="verifyOTP()" style="width:100%;padding:0.85rem;background:var(--forest);color:white;border:none;border-radius:12px;font-size:1rem;font-weight:600;cursor:pointer;">
+        Verify & Sign In ✅
+      </button>
+      <button onclick="sendOTP()" style="width:100%;padding:0.6rem;background:none;color:var(--terra);border:none;font-size:0.9rem;cursor:pointer;margin-top:0.75rem;">
+        Resend OTP 🔄
+      </button>
+    </div>
+
+    <div id="phoneOTPMsg" style="text-align:center;font-size:0.9rem;margin-top:1rem;"></div>
+  </div>
+</div>
+
 <!-- ═══ AUTH MODAL ═══ -->
 <div class="modal-overlay" id="authOverlay" onclick="closeIfBg(event,'authOverlay')">
-  <div class="modal-box" id="authModal">
+<div id="authModal" style="background:var(--surface);width:100%;max-width:400px;border-radius:24px;overflow:hidden;box-shadow:0 24px 80px rgba(0,0,0,0.3);margin:1rem;max-height:92vh;overflow-y:auto;">
 
-    <!-- STEP 1: ROLE SELECTOR -->
-    <div id="roleScreen">
-      <div style="display:flex;justify-content:flex-end;padding:1rem 1rem 0;">
-        <button class="modal-close" style="position:static;background:var(--surface2);color:var(--ink2);" onclick="closeModal('authOverlay')">✕</button>
+  <!-- STEP 1: ROLE SCREEN -->
+  <div id="roleScreen">
+    <div style="background:linear-gradient(135deg,#1a3d2b 0%,#2d5a3d 60%,#3d7a55 100%);padding:2.5rem 2rem 2rem;text-align:center;position:relative;">
+      <button onclick="closeModal('authOverlay')" style="position:absolute;top:1rem;right:1rem;background:rgba(255,255,255,0.15);border:none;color:white;width:34px;height:34px;border-radius:50%;font-size:1.1rem;cursor:pointer;">✕</button>
+      <div style="font-size:2.5rem;margin-bottom:0.75rem;">🎯</div>
+      <div style="font-family:'Playfair Display',serif;font-size:1.75rem;font-weight:900;color:#fff;">FutureGuide</div>
+      <div style="color:rgba(255,255,255,0.75);font-size:0.9rem;margin-top:0.3rem;">Your journey, guided by real experience</div>
+    </div>
+    <div style="padding:1.75rem 1.75rem 2rem;">
+      <div style="font-size:1rem;font-weight:700;color:var(--ink);text-align:center;margin-bottom:1.25rem;">I want to join as a…</div>
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:0.875rem;margin-bottom:1.5rem;">
+        <div id="roleStudent" onclick="selectRole('student')" style="border:2.5px solid #e0e0e0;border-radius:18px;padding:1.5rem 1rem;text-align:center;cursor:pointer;transition:all 0.2s;position:relative;background:var(--bg2);">
+          <div style="font-size:2.25rem;margin-bottom:0.5rem;">🎓</div>
+          <div style="font-weight:800;color:var(--ink);font-size:0.95rem;">Student</div>
+          <div style="font-size:0.72rem;color:var(--ink3);margin-top:0.2rem;">Learn &amp; grow your career</div>
+          <div style="position:absolute;top:-1px;right:10px;background:#22c55e;color:white;font-size:0.65rem;font-weight:800;padding:0.2rem 0.5rem;border-radius:0 0 8px 8px;">FREE</div>
+        </div>
+        <div id="roleMentor" onclick="selectRole('mentor')" style="border:2.5px solid #e0e0e0;border-radius:18px;padding:1.5rem 1rem;text-align:center;cursor:pointer;transition:all 0.2s;position:relative;background:var(--bg2);">
+          <div style="font-size:2.25rem;margin-bottom:0.5rem;">🏆</div>
+          <div style="font-weight:800;color:var(--ink);font-size:0.95rem;">Mentor</div>
+          <div style="font-size:0.72rem;color:var(--ink3);margin-top:0.2rem;">Teach students &amp; earn</div>
+          <div style="position:absolute;top:-1px;right:10px;background:#f97316;color:white;font-size:0.65rem;font-weight:800;padding:0.2rem 0.5rem;border-radius:0 0 8px 8px;">EARN</div>
+        </div>
       </div>
-      <div class="role-title" style="padding:0 2.5rem;">Who are you?</div>
-      <div class="role-sub" style="padding:0 2.5rem;">Choose your role to get started on FutureGuide</div>
-      <div class="role-cards" style="padding:0 2.5rem;">
-        <div class="role-card" id="roleStudent" onclick="selectRole('student')">
-          <div class="role-badge">FREE</div>
-          <span class="role-icon">🎓</span>
-          <div class="role-name">Student</div>
-          <div class="role-desc">Find mentors, book sessions & grow your career</div>
-        </div>
-        <div class="role-card mentor-card" id="roleMentor" onclick="selectRole('mentor')">
-          <div class="role-badge">EARN</div>
-          <span class="role-icon">🏆</span>
-          <div class="role-name">Mentor</div>
-          <div class="role-desc">Share expertise, guide students & earn income</div>
-        </div>
-      </div>
-      <div style="padding:0 2.5rem 2.5rem;">
-        <button class="role-continue-btn" id="roleContinueBtn" onclick="proceedFromRole()" disabled>Continue →</button>
-        <div style="text-align:center;margin-top:1rem;font-size:0.8rem;color:var(--ink3);">
-          Already have an account? <span class="auth-link" onclick="showLoginDirect()">Sign in</span>
-        </div>
+      <button id="roleContinueBtn" onclick="proceedFromRole()" disabled style="width:100%;padding:1rem;background:linear-gradient(135deg,#c4622d,#e07548);color:white;border:none;border-radius:14px;font-size:1rem;font-weight:700;cursor:pointer;opacity:0.4;transition:all 0.2s;">Continue →</button>
+      <div style="text-align:center;margin-top:1.25rem;font-size:0.85rem;color:var(--ink3);">
+        Already have an account? <span onclick="showLoginDirect()" style="color:#c4622d;font-weight:700;cursor:pointer;">Sign In</span>
       </div>
     </div>
-
-    <!-- STEP 2: AUTH FORM -->
-    <div id="authFormScreen" style="display:none;">
-      <div class="auth-hdr">
-        <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:1rem;">
-          <button style="background:none;border:none;cursor:pointer;color:var(--ink2);font-size:0.85rem;font-weight:600;display:flex;align-items:center;gap:0.3rem;" onclick="backToRole()">← Back</button>
-          <button class="modal-close" style="position:static;background:var(--surface2);color:var(--ink2);" onclick="closeModal('authOverlay')">✕</button>
-        </div>
-        <div id="roleIndicatorBadge" class="role-indicator student">🎓 Student Login</div>
-        <div class="auth-headline" id="authTitle">Welcome to FutureGuide</div>
-        <div class="auth-sub" id="authSub">Create your free student account</div>
-      </div>
-      <div class="auth-body">
-        <div class="social-btns">
-          <button class="soc-btn" onclick="quickAuth('Google')">🟢 Google</button>
-          <button class="soc-btn" onclick="quickAuth('LinkedIn')">🔵 LinkedIn</button>
-        </div>
-        <div class="divider">or with email</div>
-        <form onsubmit="handleAuth(event)">
-          <div class="form-row" id="nameRow">
-            <label>Full Name</label>
-            <input class="form-input" type="text" id="authNameInput" placeholder="Your name" autocomplete="name"/>
-          </div>
-          <div class="form-row" id="mentorExpertiseRow" style="display:none;">
-            <label>Your Expertise</label>
-            <input class="form-input" type="text" id="mentorExpertise" placeholder="e.g. Product Management, Engineering…"/>
-          </div>
-          <div class="form-row">
-            <label>Email</label>
-            <input class="form-input" type="email" id="authEmailInput" placeholder="you@example.com" required autocomplete="email"/>
-          </div>
-          <div class="form-row" id="passRow">
-            <label>Password</label>
-            <div class="pw-wrapper">
-              <input class="form-input" type="password" id="authPassInput" placeholder="Min. 8 characters" required autocomplete="new-password" oninput="evalPassword(this.value)" style="padding-right:2.5rem"/>
-              <button type="button" class="pw-toggle" onclick="togglePwVisibility('authPassInput','eyeIcon1')" tabindex="-1">
-                <span id="eyeIcon1">👁️</span>
-              </button>
-            </div>
-            <div class="pw-strength-bar" id="pwStrengthBar">
-              <div class="pw-strength-fill" id="pwStrengthFill"></div>
-            </div>
-            <div class="pw-strength-label" id="pwStrengthLabel"></div>
-            <div class="pw-checklist" id="pwChecklist">
-              <div class="pw-check fail" id="chk-len"><span class="pw-check-icon">✓</span>At least 8 characters</div>
-              <div class="pw-check fail" id="chk-upper"><span class="pw-check-icon">✓</span>One uppercase letter (A–Z)</div>
-              <div class="pw-check fail" id="chk-lower"><span class="pw-check-icon">✓</span>One lowercase letter (a–z)</div>
-              <div class="pw-check fail" id="chk-num"><span class="pw-check-icon">✓</span>One number (0–9)</div>
-              <div class="pw-check fail" id="chk-sym"><span class="pw-check-icon">✓</span>One symbol (!@#$%^&*)</div>
-            </div>
-          </div>
-          <div class="form-row" id="confirmRow" style="display:none">
-            <label>Confirm Password</label>
-            <div class="pw-wrapper">
-              <input class="form-input" type="password" id="authPassConfirm" placeholder="Re-enter your password" autocomplete="new-password" oninput="evalConfirm()" style="padding-right:2.5rem"/>
-              <button type="button" class="pw-toggle" onclick="togglePwVisibility('authPassConfirm','eyeIcon2')" tabindex="-1">
-                <span id="eyeIcon2">👁️</span>
-              </button>
-            </div>
-            <div class="confirm-match" id="confirmMsg"></div>
-          </div>
-          <button type="submit" class="auth-submit" id="authSubmitBtn" disabled>Create Free Account</button>
-        </form>
-      </div>
-      <div class="auth-toggle" id="authToggleRow">
-        Already have an account? <span class="auth-link" onclick="switchAuth('login')">Sign in</span>
-      </div>
-    </div>
-
   </div>
+
+  <!-- STEP 2: AUTH FORM -->
+  <div id="authFormScreen" style="display:none;">
+
+    <!-- Header -->
+    <div style="background:linear-gradient(135deg,#1a3d2b,#2d5a3d);padding:1.75rem 1.75rem 1.5rem;">
+      <div style="display:flex;align-items:center;gap:0.75rem;margin-bottom:1rem;">
+        <button onclick="backToRole()" style="background:rgba(255,255,255,0.18);border:none;color:white;width:34px;height:34px;border-radius:50%;font-size:1rem;cursor:pointer;">←</button>
+        <div id="roleIndicatorBadge" style="background:rgba(255,255,255,0.18);color:white;font-size:0.72rem;font-weight:700;padding:0.25rem 0.8rem;border-radius:20px;">🎓 STUDENT</div>
+        <button onclick="closeModal('authOverlay')" style="margin-left:auto;background:rgba(255,255,255,0.18);border:none;color:white;width:34px;height:34px;border-radius:50%;font-size:1rem;cursor:pointer;">✕</button>
+      </div>
+      <div id="authTitle" style="font-family:'Playfair Display',serif;font-size:1.5rem;font-weight:900;color:#fff;">Welcome Back!</div>
+      <div id="authSub" style="color:rgba(255,255,255,0.72);font-size:0.85rem;margin-top:0.3rem;">Sign in to continue your journey</div>
+    </div>
+
+    <!-- Body -->
+    <div style="padding:1.5rem 1.75rem 2rem;">
+
+      <!-- Phone row like BYJU'S -->
+      <div style="margin-bottom:1rem;">
+        <div style="font-size:0.75rem;font-weight:700;color:#999;margin-bottom:0.5rem;text-transform:uppercase;letter-spacing:0.07em;">Mobile Number</div>
+        <div style="display:flex;border:2px solid #e4e4e4;border-radius:14px;overflow:hidden;background:var(--bg2);">
+          <select id="authCountryCode" style="border:none;background:transparent;padding:0.85rem 0.4rem 0.85rem 0.75rem;font-size:0.88rem;font-weight:700;color:var(--ink);cursor:pointer;outline:none;">
+            <option value="+91">🇮🇳 +91</option>
+            <option value="+1">🇺🇸 +1</option>
+            <option value="+44">🇬🇧 +44</option>
+            <option value="+61">🇦🇺 +61</option>
+            <option value="+971">🇦🇪 +971</option>
+            <option value="+65">🇸🇬 +65</option>
+            <option value="+60">🇲🇾 +60</option>
+          </select>
+          <div style="width:1px;background:#e4e4e4;margin:0.6rem 0;"></div>
+          <input id="authPhoneInput" type="tel" placeholder="Enter mobile number" maxlength="15"
+            style="flex:1;border:none;background:transparent;padding:0.85rem 0.75rem;font-size:0.95rem;color:var(--ink);outline:none;min-width:0;"
+            oninput="checkPhoneInput()"/>
+          <button id="authSendOTPBtn" onclick="sendAuthOTP()"
+            style="background:linear-gradient(135deg,#2d5a3d,#4a9a6a);color:white;border:none;padding:0 1rem;font-size:0.78rem;font-weight:800;cursor:pointer;white-space:nowrap;">
+            Send OTP
+          </button>
+        </div>
+      </div>
+
+      <!-- OTP boxes -->
+      <div id="authOTPSection" style="display:none;margin-bottom:1rem;">
+        <div style="font-size:0.75rem;font-weight:700;color:#999;margin-bottom:0.6rem;text-transform:uppercase;letter-spacing:0.07em;">Enter 6-digit OTP</div>
+        <div style="display:flex;gap:0.5rem;justify-content:center;margin-bottom:0.75rem;">
+          <input class="otp-box" id="aotp1" type="tel" maxlength="1" oninput="otpMove(this,'aotp2')" onkeydown="otpBack(event,this,'')"/>
+          <input class="otp-box" id="aotp2" type="tel" maxlength="1" oninput="otpMove(this,'aotp3')" onkeydown="otpBack(event,this,'aotp1')"/>
+          <input class="otp-box" id="aotp3" type="tel" maxlength="1" oninput="otpMove(this,'aotp4')" onkeydown="otpBack(event,this,'aotp2')"/>
+          <input class="otp-box" id="aotp4" type="tel" maxlength="1" oninput="otpMove(this,'aotp5')" onkeydown="otpBack(event,this,'aotp3')"/>
+          <input class="otp-box" id="aotp5" type="tel" maxlength="1" oninput="otpMove(this,'aotp6')" onkeydown="otpBack(event,this,'aotp4')"/>
+          <input class="otp-box" id="aotp6" type="tel" maxlength="1" oninput="otpMove(this,'')" onkeydown="otpBack(event,this,'aotp5')"/>
+        </div>
+        <div style="text-align:center;font-size:0.8rem;color:#999;">
+          Didn't get it? <span onclick="sendAuthOTP()" style="color:#c4622d;font-weight:700;cursor:pointer;">Resend OTP</span>
+        </div>
+      </div>
+
+      <!-- reCAPTCHA -->
+      <div id="auth-recaptcha-container" style="margin-bottom:0.75rem;transform:scale(0.88);transform-origin:left;"></div>
+
+      <!-- Main CTA -->
+      <button id="authMainBtn" onclick="handleAuthMain()"
+        style="width:100%;padding:1rem;background:linear-gradient(135deg,#c4622d,#e07548);color:white;border:none;border-radius:14px;font-size:1.05rem;font-weight:800;cursor:pointer;margin-bottom:1.25rem;box-shadow:0 4px 16px rgba(196,98,45,0.3);">
+        Continue →
+      </button>
+
+      <!-- Divider -->
+      <div style="display:flex;align-items:center;gap:0.875rem;margin-bottom:1.25rem;">
+        <div style="flex:1;height:1px;background:#ececec;"></div>
+        <span style="font-size:0.78rem;color:#bbb;font-weight:700;letter-spacing:0.08em;">OR</span>
+        <div style="flex:1;height:1px;background:#ececec;"></div>
+      </div>
+
+      <!-- Google -->
+      <button onclick="quickAuth('Google')"
+        style="width:100%;padding:0.9rem;background:#fff;border:2px solid #e8e8e8;border-radius:14px;font-size:0.95rem;font-weight:700;cursor:pointer;color:#333;display:flex;align-items:center;justify-content:center;gap:0.75rem;margin-bottom:1rem;box-shadow:0 2px 8px rgba(0,0,0,0.06);">
+        <svg width="20" height="20" viewBox="0 0 24 24"><path d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z" fill="#4285F4"/><path d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z" fill="#34A853"/><path d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l2.85-2.22.81-.62z" fill="#FBBC05"/><path d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z" fill="#EA4335"/></svg>
+        Continue with Google
+      </button>
+
+      <!-- Email toggle -->
+      <div style="text-align:center;margin-bottom:0.5rem;">
+        <span onclick="toggleEmailLogin()" style="font-size:0.82rem;color:#aaa;cursor:pointer;border-bottom:1px dashed #ddd;padding-bottom:1px;">Use email &amp; password instead ✉️</span>
+      </div>
+
+      <!-- Email section -->
+      <div id="emailLoginSection" style="display:none;margin-top:1rem;border-top:1px solid #f0f0f0;padding-top:1rem;">
+        <div id="nameRow" style="margin-bottom:0.75rem;">
+          <input class="form-input" type="text" id="authNameInput" placeholder="Full Name" autocomplete="name" style="width:100%;box-sizing:border-box;border-radius:12px;"/>
+        </div>
+        <div id="mentorExpertiseRow" style="display:none;margin-bottom:0.75rem;">
+          <input class="form-input" type="text" id="mentorExpertise" placeholder="Your Expertise (e.g. Product, Engineering)" style="width:100%;box-sizing:border-box;border-radius:12px;"/>
+        </div>
+        <div style="margin-bottom:0.75rem;">
+          <input class="form-input" type="email" id="authEmailInput" placeholder="Email Address" autocomplete="email" style="width:100%;box-sizing:border-box;border-radius:12px;"/>
+        </div>
+        <div id="passRow" style="margin-bottom:0.5rem;position:relative;">
+          <input class="form-input" type="password" id="authPassInput" placeholder="Password" style="width:100%;box-sizing:border-box;border-radius:12px;padding-right:2.5rem;" oninput="evalPassword(this.value)"/>
+          <button type="button" class="pw-toggle" onclick="togglePwVisibility('authPassInput','eyeIcon1')" tabindex="-1"><span id="eyeIcon1">👁️</span></button>
+        </div>
+        <div id="confirmRow" style="display:none;margin-bottom:0.5rem;position:relative;">
+          <input class="form-input" type="password" id="authPassConfirm" placeholder="Confirm Password" style="width:100%;box-sizing:border-box;border-radius:12px;padding-right:2.5rem;" oninput="evalConfirm()"/>
+          <button type="button" class="pw-toggle" onclick="togglePwVisibility('authPassConfirm','eyeIcon2')" tabindex="-1"><span id="eyeIcon2">👁️</span></button>
+          <div class="confirm-match" id="confirmMsg"></div>
+        </div>
+        <div class="pw-strength-bar" id="pwStrengthBar"><div class="pw-strength-fill" id="pwStrengthFill"></div></div>
+        <div class="pw-strength-label" id="pwStrengthLabel"></div>
+        <div class="pw-checklist" id="pwChecklist">
+          <div class="pw-check fail" id="chk-len"><span class="pw-check-icon">✓</span>At least 8 characters</div>
+          <div class="pw-check fail" id="chk-upper"><span class="pw-check-icon">✓</span>One uppercase letter</div>
+          <div class="pw-check fail" id="chk-lower"><span class="pw-check-icon">✓</span>One lowercase letter</div>
+          <div class="pw-check fail" id="chk-num"><span class="pw-check-icon">✓</span>One number</div>
+          <div class="pw-check fail" id="chk-sym"><span class="pw-check-icon">✓</span>One symbol</div>
+        </div>
+        <button id="authSubmitBtn" onclick="handleEmailAuth()"
+          style="width:100%;padding:0.9rem;background:var(--forest);color:white;border:none;border-radius:12px;font-size:0.95rem;font-weight:700;cursor:pointer;margin-top:0.75rem;" disabled>
+          Sign In with Email
+        </button>
+      </div>
+
+      <div id="authOTPMsg" style="text-align:center;font-size:0.85rem;margin-top:0.75rem;color:#e53935;font-weight:500;min-height:1.2rem;"></div>
+
+      <div id="authToggleRow" style="text-align:center;margin-top:1rem;font-size:0.85rem;color:var(--ink3);">
+        Don't have an account? <span onclick="switchAuth('register')" style="color:#c4622d;font-weight:700;cursor:pointer;">Register Free</span>
+      </div>
+      <div style="text-align:center;margin-top:0.75rem;font-size:0.75rem;color:#ccc;">🔒 We never share your data without permission</div>
+    </div>
+  </div>
+
+</div>
 </div>
 
 <!-- ═══ SESSION RECORDING MODAL ═══ -->
@@ -3158,47 +3297,21 @@ async function sendMentorMessage() {
 }
 
 
-  default: [
-    "Thanks for reaching out! I'd love to help. What are you working on right now?",
-    "Great to hear from you! Tell me more about your goals.",
-    "Happy to chat! What specific challenge can I help you with today?",
-  ],
-  Product: [
-    "Product strategy is my bread and butter 🎯 What stage is your product at?",
-    "PM interviews can be tricky — let's talk about frameworks. What role are you targeting?",
-    "Roadmapping is often where teams get stuck. What does your current process look like?",
-  ],
-  Engineering: [
-    "System design is all about trade-offs. What level are you interviewing for?",
-    "Distributed systems are fascinating. What specific area are you finding challenging?",
-    "Happy to do a mock technical interview! When would work for you?",
-  ],
-  Design: [
-    "Portfolio reviews are one of my favourite things to do. Want to share yours?",
-    "Design systems are a superpower once you master them. Where are you getting stuck?",
-    "Great designers think in systems. What part of your process feels weakest?",
-  ],
-  Marketing: [
-    "Growth is a game of experiments. What's your current conversion rate?",
-    "B2B sales cycles are long — let's talk pipeline strategy. What's your average deal size?",
-    "Love talking growth loops! What's your top acquisition channel right now?",
-  ],
-  Data: [
-    "ML in production is a totally different challenge than research. What's your stack?",
-    "Model selection is key. What problem are you trying to solve with ML?",
-    "Happy to review your approach! What algorithm are you working with?",
-  ],
-
-
 // ─── AUTH & ROLE SELECTOR ───
 let authMode = 'register';
 let selectedRole = null;
 
 function selectRole(role) {
   selectedRole = role;
-  document.getElementById('roleStudent').classList.toggle('selected', role === 'student');
-  document.getElementById('roleMentor').classList.toggle('selected', role === 'mentor');
-  document.getElementById('roleContinueBtn').disabled = false;
+  const s = document.getElementById('roleStudent');
+  const m = document.getElementById('roleMentor');
+  s.style.borderColor = role === 'student' ? '#2d5a3d' : '#e0e0e0';
+  s.style.background = role === 'student' ? '#f0faf4' : 'var(--bg2)';
+  m.style.borderColor = role === 'mentor' ? '#c4622d' : '#e0e0e0';
+  m.style.background = role === 'mentor' ? '#fff5f0' : 'var(--bg2)';
+  const btn = document.getElementById('roleContinueBtn');
+  btn.disabled = false;
+  btn.style.opacity = '1';
 }
 
 function proceedFromRole() {
@@ -3256,6 +3369,87 @@ function openAuth(mode) {
 }
 
 function switchAuth(mode) { setupAuthForm(selectedRole || 'student', mode); }
+
+// ─── NEW BYJU'S/VEDANTU STYLE AUTH FUNCTIONS ───
+
+function checkPhoneInput() {
+  const val = document.getElementById('authPhoneInput').value.trim();
+  // no-op: button always visible
+}
+
+function toggleEmailLogin() {
+  const sec = document.getElementById('emailLoginSection');
+  const isHidden = sec.style.display === 'none';
+  sec.style.display = isHidden ? 'block' : 'none';
+  if (isHidden) setupAuthForm(selectedRole || 'student', authMode || 'login');
+}
+
+let authPhoneConfirmation = null;
+let authRecaptchaVerifier = null;
+
+async function sendAuthOTP() {
+  const code = document.getElementById('authCountryCode').value;
+  const num = document.getElementById('authPhoneInput').value.trim();
+  if (!num || num.length < 7) { showToast('⚠️ Enter a valid mobile number!'); return; }
+  const fullPhone = code + num;
+  const btn = document.getElementById('authSendOTPBtn');
+  btn.textContent = '...'; btn.disabled = true;
+  document.getElementById('authOTPMsg').textContent = '';
+  try {
+    if (!authRecaptchaVerifier) {
+      authRecaptchaVerifier = new firebase.auth.RecaptchaVerifier('auth-recaptcha-container', {
+        size: 'normal', callback: () => {}
+      });
+      await authRecaptchaVerifier.render();
+    }
+    authPhoneConfirmation = await window._fbAuth.signInWithPhoneNumber(fullPhone, authRecaptchaVerifier);
+    document.getElementById('authOTPSection').style.display = 'block';
+    document.getElementById('authMainBtn').textContent = 'Verify OTP ✅';
+    document.getElementById('aotp1').focus();
+    showToast('📨 OTP sent to ' + fullPhone);
+  } catch(e) {
+    document.getElementById('authOTPMsg').textContent = '❌ ' + (e.message || 'Failed. Try again.');
+    authRecaptchaVerifier = null;
+    showToast('❌ Could not send OTP. Check number.');
+  }
+  btn.textContent = 'Send OTP'; btn.disabled = false;
+}
+
+async function handleAuthMain() {
+  if (authPhoneConfirmation) {
+    // Verify OTP
+    const otp = ['aotp1','aotp2','aotp3','aotp4','aotp5','aotp6'].map(id => document.getElementById(id).value).join('');
+    if (otp.length !== 6) { showToast('⚠️ Enter the full 6-digit OTP!'); return; }
+    document.getElementById('authOTPMsg').textContent = '⏳ Verifying…';
+    try {
+      const result = await authPhoneConfirmation.confirm(otp);
+      const fbUser = result.user;
+      const role = selectedRole || 'student';
+      currentUser = { uid: fbUser.uid, name: fbUser.displayName || fbUser.phoneNumber, email: fbUser.email || '', phone: fbUser.phoneNumber, role, provider: 'phone' };
+      await saveFgUser(currentUser);
+      await loadCourseProgressCloud();
+      saveCurrentSession(currentUser);
+      updateUserUI();
+      closeModal('authOverlay');
+      showToast('✅ Welcome! Signed in with Phone 📱');
+    } catch(e) {
+      document.getElementById('authOTPMsg').textContent = '❌ Wrong OTP. Try again.';
+    }
+  } else {
+    // Send OTP first
+    sendAuthOTP();
+  }
+}
+
+function handleEmailAuth() {
+  const name = document.getElementById('authNameInput')?.value?.trim() || '';
+  const email = document.getElementById('authEmailInput')?.value?.trim() || '';
+  const pass = document.getElementById('authPassInput')?.value || '';
+  if (!email || !pass) { showToast('⚠️ Enter email and password!'); return; }
+  // Reuse existing handleAuth logic
+  const fakeEvent = { preventDefault: () => {} };
+  handleAuth(fakeEvent);
+}
 
 // ─── fg_users: Save & Load user database ───
 // ══════════════════════════════════════════════════════════
@@ -3325,6 +3519,110 @@ async function quickAuth(provider) {
 }
 
 // LinkedIn Login Modal
+// ─── PHONE OTP AUTH ───
+let phoneConfirmationResult = null;
+let recaptchaVerifier = null;
+
+function showPhoneOTPModal() {
+  const modal = document.getElementById('phoneOTPModal');
+  modal.style.display = 'flex';
+  document.getElementById('phoneStep1').style.display = 'block';
+  document.getElementById('phoneStep2').style.display = 'none';
+  document.getElementById('phoneOTPMsg').textContent = '';
+  // Setup reCAPTCHA
+  if (!recaptchaVerifier) {
+    try {
+      recaptchaVerifier = new firebase.auth.RecaptchaVerifier('recaptcha-container', {
+        size: 'normal',
+        callback: () => {},
+        'expired-callback': () => { recaptchaVerifier = null; }
+      });
+      recaptchaVerifier.render();
+    } catch(e) { console.error('reCAPTCHA error:', e); }
+  }
+}
+
+function closePhoneOTPModal() {
+  document.getElementById('phoneOTPModal').style.display = 'none';
+}
+
+function backToPhoneStep1() {
+  document.getElementById('phoneStep1').style.display = 'block';
+  document.getElementById('phoneStep2').style.display = 'none';
+}
+
+async function sendOTP() {
+  const code = document.getElementById('phoneCountryCode').value;
+  const number = document.getElementById('phoneNumberInput').value.trim();
+  if (!number || number.length < 7) { showToast('⚠️ Please enter a valid phone number!'); return; }
+  const fullPhone = code + number;
+  const btn = document.getElementById('sendOTPBtn');
+  btn.disabled = true;
+  btn.textContent = 'Sending...';
+  document.getElementById('phoneOTPMsg').textContent = '';
+  try {
+    if (!recaptchaVerifier) {
+      recaptchaVerifier = new firebase.auth.RecaptchaVerifier('recaptcha-container', { size: 'normal' });
+      await recaptchaVerifier.render();
+    }
+    phoneConfirmationResult = await window._fbAuth.signInWithPhoneNumber(fullPhone, recaptchaVerifier);
+    document.getElementById('otpSentTo').textContent = fullPhone;
+    document.getElementById('phoneStep1').style.display = 'none';
+    document.getElementById('phoneStep2').style.display = 'block';
+    showToast('📨 OTP sent to ' + fullPhone + '!');
+  } catch(e) {
+    console.error(e);
+    document.getElementById('phoneOTPMsg').textContent = '❌ ' + (e.message || 'Failed to send OTP. Try again.');
+    recaptchaVerifier = null;
+    showToast('❌ Failed to send OTP. Check number and try again.');
+  }
+  btn.disabled = false;
+  btn.textContent = 'Send OTP 📨';
+}
+
+function otpMove(current, nextId) {
+  if (current.value.length === 1 && nextId) {
+    document.getElementById(nextId)?.focus();
+  }
+}
+
+function otpBack(e, current, prevId) {
+  if (e.key === 'Backspace' && !current.value && prevId) {
+    document.getElementById(prevId)?.focus();
+  }
+}
+
+async function verifyOTP() {
+  const otp = ['otp1','otp2','otp3','otp4','otp5','otp6'].map(id => document.getElementById(id).value).join('');
+  if (otp.length !== 6) { showToast('⚠️ Please enter the full 6-digit OTP!'); return; }
+  if (!phoneConfirmationResult) { showToast('❌ Please request OTP first!'); return; }
+  document.getElementById('phoneOTPMsg').textContent = '⏳ Verifying...';
+  try {
+    const result = await phoneConfirmationResult.confirm(otp);
+    const fbUser = result.user;
+    const role = selectedRole || 'student';
+    currentUser = {
+      uid: fbUser.uid,
+      name: fbUser.displayName || fbUser.phoneNumber,
+      email: fbUser.email || '',
+      phone: fbUser.phoneNumber,
+      role,
+      provider: 'phone'
+    };
+    await saveFgUser(currentUser);
+    await loadCourseProgressCloud();
+    saveCurrentSession(currentUser);
+    updateUserUI();
+    closePhoneOTPModal();
+    closeModal('authOverlay');
+    showToast('✅ Welcome! Signed in with Phone 📱');
+  } catch(e) {
+    console.error(e);
+    document.getElementById('phoneOTPMsg').textContent = '❌ Wrong OTP. Please try again.';
+    showToast('❌ Wrong OTP. Try again!');
+  }
+}
+
 function showLinkedInModal() {
   // Remove existing if any
   const existing = document.getElementById('linkedinModal');
