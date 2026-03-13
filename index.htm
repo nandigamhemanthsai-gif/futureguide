@@ -2103,13 +2103,37 @@ footer .footer-logo {
   <a href="#" class="nav-logo">Future<span class="dot">Guide</span></a>
   <ul class="nav-links">
     <li><a href="#browse">Browse Mentors</a></li>
-    <li><a href="#courses">Courses</a></li>
     <li><a href="#how">How It Works</a></li>
-    <li><a href="#stories">Success Stories</a></li>
-    <li><a href="#" onclick="openDashboard()">Dashboard</a></li>
-    <li><a href="#" onclick="openCommunity()">Community</a></li>
     <li><a href="#" onclick="openAuth('mentor')">Become a Mentor</a></li>
+    <li><a href="#" onclick="openDashboard()">Dashboard</a></li>
   </ul>
+  <div class="nav-actions">
+    <button class="theme-btn" onclick="toggleTheme()" id="themeBtn" title="Toggle theme">🌙</button>
+    <div class="lang-selector">
+      <button class="lang-btn" onclick="toggleLangDropdown()" id="langBtn" title="Language">🌐 <span id="langLabel">EN</span></button>
+      <div class="lang-dropdown" id="langDropdown">
+        <button class="lang-option active" onclick="setLang('en',this)" data-label="EN"><span class="lang-flag">🇬🇧</span> English</button>
+        <button class="lang-option" onclick="setLang('hi',this)" data-label="हि"><span class="lang-flag">🇮🇳</span> हिंदी</button>
+        <button class="lang-option" onclick="setLang('te',this)" data-label="తె"><span class="lang-flag">🇮🇳</span> తెలుగు</button>
+        <button class="lang-option" onclick="setLang('ta',this)" data-label="த"><span class="lang-flag">🇮🇳</span> தமிழ்</button>
+        <button class="lang-option" onclick="setLang('kn',this)" data-label="ಕ"><span class="lang-flag">🇮🇳</span> ಕನ್ನಡ</button>
+      </div>
+    </div>
+    <div id="loginNav">
+      <button class="btn-ghost" onclick="openAuth('login')">Sign In</button>
+      <button class="btn-pill terra" onclick="openAuth('register')">Get Started</button>
+    </div>
+    <div id="userNav">
+      <div class="user-chip">
+        <div class="chip-av" id="chipAv">JD</div>
+        <span id="chipName">John</span>
+      </div>
+      <button id="adminNavBtn" onclick="openAdminPanel()" style="display:none;background:linear-gradient(135deg,#7c3aed,#a855f7);color:white;border:none;border-radius:10px;padding:0.4rem 0.8rem;font-size:0.8rem;font-weight:700;cursor:pointer;">🛡️ Admin</button>
+      <button class="btn-ghost" onclick="logout()" style="color:var(--terra)">Sign Out</button>
+    </div>
+  </div>
+</nav>
+
   <div class="nav-actions">
     <button class="theme-btn" onclick="toggleTheme()" id="themeBtn" title="Toggle theme">🌙</button>
     <div class="lang-selector">
@@ -3389,7 +3413,7 @@ let authRecaptchaVerifier = null;
 
 async function sendAuthOTP() {
   const code = document.getElementById('authCountryCode').value;
-  const num = document.getElementById('authPhoneInput').value.trim();
+  const num = document.getElementById('authPhoneInput').value.trim().replace(/\D/g, '');
   if (!num || num.length < 7) { showToast('⚠️ Enter a valid mobile number!'); return; }
   const fullPhone = code + num;
   const btn = document.getElementById('authSendOTPBtn');
@@ -3553,7 +3577,7 @@ function backToPhoneStep1() {
 
 async function sendOTP() {
   const code = document.getElementById('phoneCountryCode').value;
-  const number = document.getElementById('phoneNumberInput').value.trim();
+  const number = document.getElementById('phoneNumberInput').value.trim().replace(/\D/g, '');
   if (!number || number.length < 7) { showToast('⚠️ Please enter a valid phone number!'); return; }
   const fullPhone = code + number;
   const btn = document.getElementById('sendOTPBtn');
@@ -3712,6 +3736,124 @@ async function handleLinkedInLogin() {
 }
 
 // Sign out
+// ─── ADMIN PANEL ───
+const ADMIN_EMAIL = 'nandigamhemanthsai@gmail.com'; // ← Your email
+
+function isAdmin() {
+  return currentUser && (currentUser.email === ADMIN_EMAIL || currentUser.role === 'admin');
+}
+
+function openAdminPanel() {
+  if (!isAdmin()) { showToast('❌ Admin access only!'); return; }
+  // Build admin modal
+  let existing = document.getElementById('adminPanelOverlay');
+  if (existing) existing.remove();
+
+  const overlay = document.createElement('div');
+  overlay.id = 'adminPanelOverlay';
+  overlay.style.cssText = 'position:fixed;inset:0;background:rgba(0,0,0,0.7);z-index:99999;display:flex;align-items:center;justify-content:center;padding:1rem;';
+  overlay.innerHTML = `
+    <div style="background:var(--surface);border-radius:20px;padding:2rem;width:100%;max-width:500px;max-height:90vh;overflow-y:auto;box-shadow:0 24px 80px rgba(0,0,0,0.4);">
+      <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:1.5rem;">
+        <h2 style="font-size:1.3rem;font-weight:800;color:var(--ink);">🛡️ Admin Panel</h2>
+        <button onclick="document.getElementById('adminPanelOverlay').remove()" style="background:var(--surface2);border:none;border-radius:50%;width:32px;height:32px;cursor:pointer;font-size:1rem;">✕</button>
+      </div>
+
+      <div style="margin-bottom:1.5rem;">
+        <h3 style="font-size:1rem;font-weight:700;color:var(--ink);margin-bottom:1rem;">➕ Add Mentor Manually</h3>
+        <div style="display:flex;flex-direction:column;gap:0.75rem;">
+          <input id="adminMentorName" class="form-input" placeholder="Full Name *" style="width:100%;box-sizing:border-box;"/>
+          <input id="adminMentorBio" class="form-input" placeholder="Bio / Title (e.g. Product Lead at Google)" style="width:100%;box-sizing:border-box;"/>
+          <input id="adminMentorTags" class="form-input" placeholder="Tags (comma separated: Product, Design, AI)" style="width:100%;box-sizing:border-box;"/>
+          <input id="adminMentorEmail" class="form-input" placeholder="Email" style="width:100%;box-sizing:border-box;"/>
+          <input id="adminMentorPhone" class="form-input" placeholder="Phone (optional)" style="width:100%;box-sizing:border-box;"/>
+          <select id="adminMentorCategory" class="form-input" style="width:100%;box-sizing:border-box;">
+            <option value="Product">Product</option>
+            <option value="Engineering">Engineering</option>
+            <option value="Design">Design</option>
+            <option value="Marketing">Marketing</option>
+            <option value="Data">Data / AI</option>
+            <option value="Startup">Startup</option>
+            <option value="Career">Career</option>
+          </select>
+          <button onclick="adminAddMentor()" style="width:100%;padding:0.85rem;background:linear-gradient(135deg,#2d5a3d,#4a9a6a);color:white;border:none;border-radius:12px;font-size:0.95rem;font-weight:700;cursor:pointer;">
+            ➕ Add Mentor
+          </button>
+        </div>
+      </div>
+
+      <div>
+        <h3 style="font-size:1rem;font-weight:700;color:var(--ink);margin-bottom:1rem;">👥 All Registered Mentors</h3>
+        <div id="adminMentorList" style="display:flex;flex-direction:column;gap:0.5rem;">
+          <div style="color:var(--ink3);font-size:0.85rem;">Loading...</div>
+        </div>
+      </div>
+    </div>
+  `;
+  document.body.appendChild(overlay);
+  loadAdminMentors();
+}
+
+async function adminAddMentor() {
+  const name = document.getElementById('adminMentorName').value.trim();
+  const bio = document.getElementById('adminMentorBio').value.trim();
+  const tags = document.getElementById('adminMentorTags').value.split(',').map(t => t.trim()).filter(Boolean);
+  const email = document.getElementById('adminMentorEmail').value.trim();
+  const phone = document.getElementById('adminMentorPhone').value.trim();
+  const category = document.getElementById('adminMentorCategory').value;
+
+  if (!name) { showToast('⚠️ Name is required!'); return; }
+
+  const av = name.split(' ').map(n => n[0]).join('').slice(0, 2).toUpperCase();
+  const colors = ['linear-gradient(135deg,#2d5a3d,#5ba87a)', 'linear-gradient(135deg,#1a3d8f,#4a7ada)', 'linear-gradient(135deg,#8b2d8b,#c45ab5)', 'linear-gradient(135deg,#8b4513,#d4845a)'];
+  const avColor = colors[Math.floor(Math.random() * colors.length)];
+  const uid = 'admin_' + Date.now();
+
+  try {
+    await window._fbDb.collection('mentors').doc(uid).set({
+      uid, name, bio, tags, email, phone, category, av, avColor,
+      available: true, addedByAdmin: true,
+      createdAt: firebase.firestore.FieldValue.serverTimestamp()
+    });
+    showToast('✅ Mentor added: ' + name);
+    // Clear fields
+    ['adminMentorName','adminMentorBio','adminMentorTags','adminMentorEmail','adminMentorPhone'].forEach(id => document.getElementById(id).value = '');
+    loadAdminMentors();
+    loadMentorsFromFirebase();
+  } catch(e) {
+    showToast('❌ Error: ' + e.message);
+  }
+}
+
+async function loadAdminMentors() {
+  const list = document.getElementById('adminMentorList');
+  if (!list) return;
+  try {
+    const snap = await window._fbDb.collection('mentors').get();
+    if (snap.empty) { list.innerHTML = '<div style="color:var(--ink3);font-size:0.85rem;">No mentors yet.</div>'; return; }
+    list.innerHTML = snap.docs.map(doc => {
+      const m = doc.data();
+      return `<div style="background:var(--bg2);border-radius:12px;padding:0.75rem 1rem;display:flex;justify-content:space-between;align-items:center;">
+        <div>
+          <div style="font-weight:700;color:var(--ink);font-size:0.9rem;">${m.name}</div>
+          <div style="font-size:0.75rem;color:var(--ink3);">${m.bio || m.category} · ${m.addedByAdmin ? '👤 Admin added' : '✅ Self registered'}</div>
+        </div>
+        <button onclick="adminDeleteMentor('${doc.id}')" style="background:#fee2e2;color:#dc2626;border:none;border-radius:8px;padding:0.3rem 0.6rem;cursor:pointer;font-size:0.8rem;">🗑️</button>
+      </div>`;
+    }).join('');
+  } catch(e) { list.innerHTML = '<div style="color:red;">Error loading mentors</div>'; }
+}
+
+async function adminDeleteMentor(id) {
+  if (!confirm('Delete this mentor?')) return;
+  try {
+    await window._fbDb.collection('mentors').doc(id).delete();
+    showToast('🗑️ Mentor removed');
+    loadAdminMentors();
+    loadMentorsFromFirebase();
+  } catch(e) { showToast('❌ Error: ' + e.message); }
+}
+
 async function logout() {
   try {
     
@@ -3768,6 +3910,9 @@ function updateUserUI() {
     const initials = currentUser.name.split(' ').map(n => n[0]).join('').slice(0,2).toUpperCase();
     document.getElementById('chipAv').textContent = initials;
     document.getElementById('chipName').textContent = currentUser.name.split(' ')[0] + (currentUser.role === 'mentor' ? ' 🏆' : ' 🎓');
+    // Show admin button if admin
+    const adminBtn = document.getElementById('adminNavBtn');
+    if (adminBtn) adminBtn.style.display = isAdmin() ? 'inline-block' : 'none';
   } else {
     lnav.classList.remove('hide');
     unav.classList.remove('show');
