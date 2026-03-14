@@ -1,0 +1,916 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1.0"/>
+<title>FutureGuide AI — Your Career Intelligence</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,700;0,900;1,700&family=DM+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet"/>
+<style>
+*{margin:0;padding:0;box-sizing:border-box;}
+:root{
+  --bg:#0d0f12;
+  --bg2:#13161b;
+  --surface:#1a1e26;
+  --surface2:#222731;
+  --border:#2a2f3a;
+  --ink:#f0f2f5;
+  --ink2:#a8b0be;
+  --ink3:#636b78;
+  --green:#00c896;
+  --green2:#00a37a;
+  --blue:#4a9eff;
+  --orange:#ff8c42;
+  --red:#ff5757;
+  --gold:#f5c842;
+  --sidebar-w:260px;
+}
+
+body{
+  font-family:'DM Sans',sans-serif;
+  background:var(--bg);
+  color:var(--ink);
+  height:100vh;
+  display:flex;
+  overflow:hidden;
+}
+
+/* ── SIDEBAR ── */
+.sidebar{
+  width:var(--sidebar-w);
+  background:var(--bg2);
+  border-right:1px solid var(--border);
+  display:flex;
+  flex-direction:column;
+  flex-shrink:0;
+  transition:transform 0.3s;
+}
+
+.sidebar-logo{
+  padding:1.25rem 1.25rem 1rem;
+  border-bottom:1px solid var(--border);
+  display:flex;
+  align-items:center;
+  gap:0.75rem;
+}
+.logo-icon{
+  width:36px;height:36px;
+  background:linear-gradient(135deg,var(--green),var(--blue));
+  border-radius:10px;
+  display:flex;align-items:center;justify-content:center;
+  font-size:1.1rem;
+  flex-shrink:0;
+}
+.logo-text{
+  font-family:'Playfair Display',serif;
+  font-size:1.05rem;
+  font-weight:700;
+  color:var(--ink);
+  line-height:1.2;
+}
+.logo-text span{color:var(--green);}
+
+.new-chat-btn{
+  margin:1rem;
+  padding:0.75rem 1rem;
+  background:linear-gradient(135deg,var(--green),var(--green2));
+  color:#000;
+  border:none;
+  border-radius:12px;
+  font-family:'DM Sans',sans-serif;
+  font-size:0.9rem;
+  font-weight:700;
+  cursor:pointer;
+  display:flex;
+  align-items:center;
+  gap:0.5rem;
+  transition:all 0.2s;
+}
+.new-chat-btn:hover{transform:translateY(-1px);box-shadow:0 4px 20px rgba(0,200,150,0.4);}
+
+.sidebar-section{
+  padding:0.5rem 1rem 0.25rem;
+  font-size:0.7rem;
+  font-weight:700;
+  color:var(--ink3);
+  text-transform:uppercase;
+  letter-spacing:0.08em;
+}
+
+.chat-history{
+  flex:1;
+  overflow-y:auto;
+  padding:0 0.5rem;
+}
+.chat-history::-webkit-scrollbar{width:4px;}
+.chat-history::-webkit-scrollbar-thumb{background:var(--border);border-radius:2px;}
+
+.history-item{
+  padding:0.65rem 0.75rem;
+  border-radius:10px;
+  cursor:pointer;
+  display:flex;
+  align-items:center;
+  gap:0.6rem;
+  font-size:0.85rem;
+  color:var(--ink2);
+  transition:all 0.15s;
+  margin-bottom:2px;
+}
+.history-item:hover{background:var(--surface);color:var(--ink);}
+.history-item.active{background:var(--surface2);color:var(--ink);}
+.history-item-icon{font-size:0.9rem;flex-shrink:0;}
+.history-item-text{
+  overflow:hidden;
+  text-overflow:ellipsis;
+  white-space:nowrap;
+  flex:1;
+}
+
+.sidebar-footer{
+  padding:1rem;
+  border-top:1px solid var(--border);
+}
+.mode-pills{
+  display:flex;
+  gap:0.4rem;
+  flex-wrap:wrap;
+}
+.mode-pill{
+  padding:0.3rem 0.65rem;
+  border-radius:20px;
+  font-size:0.72rem;
+  font-weight:600;
+  cursor:pointer;
+  border:1px solid var(--border);
+  color:var(--ink3);
+  background:transparent;
+  font-family:'DM Sans',sans-serif;
+  transition:all 0.2s;
+}
+.mode-pill:hover,.mode-pill.active{
+  border-color:var(--green);
+  color:var(--green);
+  background:rgba(0,200,150,0.08);
+}
+
+/* ── MAIN ── */
+.main{
+  flex:1;
+  display:flex;
+  flex-direction:column;
+  overflow:hidden;
+  position:relative;
+}
+
+.topbar{
+  padding:1rem 1.5rem;
+  border-bottom:1px solid var(--border);
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  background:var(--bg2);
+  flex-shrink:0;
+}
+.topbar-title{
+  font-size:0.95rem;
+  font-weight:600;
+  color:var(--ink);
+}
+.topbar-actions{display:flex;gap:0.5rem;align-items:center;}
+.topbar-btn{
+  padding:0.4rem 0.8rem;
+  border-radius:8px;
+  border:1px solid var(--border);
+  background:transparent;
+  color:var(--ink2);
+  font-family:'DM Sans',sans-serif;
+  font-size:0.8rem;
+  cursor:pointer;
+  transition:all 0.2s;
+  display:flex;align-items:center;gap:0.4rem;
+}
+.topbar-btn:hover{border-color:var(--green);color:var(--green);}
+
+/* ── WELCOME SCREEN ── */
+.welcome{
+  flex:1;
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  justify-content:center;
+  padding:2rem;
+  text-align:center;
+}
+.welcome-icon{
+  width:72px;height:72px;
+  background:linear-gradient(135deg,var(--green),var(--blue));
+  border-radius:20px;
+  display:flex;align-items:center;justify-content:center;
+  font-size:2rem;
+  margin-bottom:1.5rem;
+  box-shadow:0 8px 32px rgba(0,200,150,0.3);
+  animation:pulse 3s ease-in-out infinite;
+}
+@keyframes pulse{0%,100%{box-shadow:0 8px 32px rgba(0,200,150,0.3);}50%{box-shadow:0 8px 48px rgba(0,200,150,0.5);}}
+
+.welcome h1{
+  font-family:'Playfair Display',serif;
+  font-size:2rem;
+  font-weight:900;
+  margin-bottom:0.5rem;
+  background:linear-gradient(135deg,var(--ink),var(--green));
+  -webkit-background-clip:text;
+  -webkit-text-fill-color:transparent;
+}
+.welcome p{
+  color:var(--ink2);
+  font-size:1rem;
+  max-width:480px;
+  line-height:1.6;
+  margin-bottom:2rem;
+}
+
+.suggestion-grid{
+  display:grid;
+  grid-template-columns:repeat(2,1fr);
+  gap:0.75rem;
+  max-width:560px;
+  width:100%;
+}
+.suggestion-card{
+  background:var(--surface);
+  border:1px solid var(--border);
+  border-radius:14px;
+  padding:1rem 1.1rem;
+  cursor:pointer;
+  text-align:left;
+  transition:all 0.2s;
+}
+.suggestion-card:hover{
+  border-color:var(--green);
+  background:var(--surface2);
+  transform:translateY(-2px);
+}
+.suggestion-card .s-icon{font-size:1.3rem;margin-bottom:0.4rem;display:block;}
+.suggestion-card .s-title{font-size:0.85rem;font-weight:600;color:var(--ink);margin-bottom:0.2rem;}
+.suggestion-card .s-desc{font-size:0.75rem;color:var(--ink3);line-height:1.4;}
+
+/* ── MESSAGES ── */
+.messages{
+  flex:1;
+  overflow-y:auto;
+  padding:1.5rem;
+  display:flex;
+  flex-direction:column;
+  gap:1.25rem;
+}
+.messages::-webkit-scrollbar{width:4px;}
+.messages::-webkit-scrollbar-thumb{background:var(--border);border-radius:2px;}
+
+.msg{display:flex;gap:0.75rem;align-items:flex-start;animation:fadeUp 0.3s ease;}
+@keyframes fadeUp{from{opacity:0;transform:translateY(10px);}to{opacity:1;transform:translateY(0);}}
+
+.msg.user{flex-direction:row-reverse;}
+
+.msg-av{
+  width:34px;height:34px;
+  border-radius:10px;
+  display:flex;align-items:center;justify-content:center;
+  font-size:0.85rem;
+  font-weight:700;
+  flex-shrink:0;
+}
+.msg.bot .msg-av{
+  background:linear-gradient(135deg,var(--green),var(--blue));
+  color:#000;
+  font-size:1rem;
+}
+.msg.user .msg-av{
+  background:linear-gradient(135deg,var(--orange),var(--red));
+  color:#fff;
+}
+
+.msg-content{flex:1;max-width:75%;}
+.msg.user .msg-content{display:flex;flex-direction:column;align-items:flex-end;}
+
+.msg-bubble{
+  padding:0.9rem 1.1rem;
+  border-radius:16px;
+  font-size:0.9rem;
+  line-height:1.65;
+  max-width:100%;
+}
+.msg.bot .msg-bubble{
+  background:var(--surface);
+  border:1px solid var(--border);
+  color:var(--ink);
+  border-top-left-radius:4px;
+}
+.msg.user .msg-bubble{
+  background:linear-gradient(135deg,#1a3d8f,#2d5a9f);
+  color:#fff;
+  border-top-right-radius:4px;
+}
+
+.msg-bubble strong{color:var(--green);font-weight:700;}
+.msg-bubble em{color:var(--gold);}
+.msg-bubble code{
+  background:var(--surface2);
+  padding:0.1rem 0.4rem;
+  border-radius:4px;
+  font-family:monospace;
+  font-size:0.85em;
+  color:var(--blue);
+}
+
+.msg-meta{
+  display:flex;
+  align-items:center;
+  gap:0.5rem;
+  margin-top:0.4rem;
+  padding:0 0.2rem;
+}
+.msg-time{font-size:0.7rem;color:var(--ink3);}
+.msg-actions{display:flex;gap:0.3rem;opacity:0;transition:opacity 0.2s;}
+.msg:hover .msg-actions{opacity:1;}
+.msg-action-btn{
+  background:none;border:none;cursor:pointer;
+  color:var(--ink3);font-size:0.75rem;padding:0.15rem 0.35rem;
+  border-radius:4px;transition:all 0.15s;
+}
+.msg-action-btn:hover{background:var(--surface2);color:var(--ink);}
+
+/* Typing indicator */
+.typing-indicator{
+  display:flex;gap:0.75rem;align-items:center;
+  animation:fadeUp 0.3s ease;
+}
+.typing-dots{
+  background:var(--surface);
+  border:1px solid var(--border);
+  border-radius:16px;
+  border-top-left-radius:4px;
+  padding:0.9rem 1.1rem;
+  display:flex;gap:0.3rem;align-items:center;
+}
+.typing-dots span{
+  width:7px;height:7px;
+  background:var(--green);
+  border-radius:50%;
+  animation:bounce 1.2s ease infinite;
+}
+.typing-dots span:nth-child(2){animation-delay:0.2s;}
+.typing-dots span:nth-child(3){animation-delay:0.4s;}
+@keyframes bounce{0%,60%,100%{transform:translateY(0);}30%{transform:translateY(-6px);}}
+
+/* ── INPUT AREA ── */
+.input-area{
+  padding:1rem 1.5rem 1.25rem;
+  background:var(--bg2);
+  border-top:1px solid var(--border);
+  flex-shrink:0;
+}
+.input-wrap{
+  background:var(--surface);
+  border:1px solid var(--border);
+  border-radius:16px;
+  display:flex;
+  align-items:flex-end;
+  gap:0.75rem;
+  padding:0.75rem 0.75rem 0.75rem 1rem;
+  transition:border-color 0.2s;
+}
+.input-wrap:focus-within{border-color:var(--green);}
+
+.msg-input{
+  flex:1;
+  background:none;
+  border:none;
+  outline:none;
+  font-family:'DM Sans',sans-serif;
+  font-size:0.95rem;
+  color:var(--ink);
+  resize:none;
+  max-height:120px;
+  line-height:1.5;
+  padding:0.1rem 0;
+}
+.msg-input::placeholder{color:var(--ink3);}
+
+.input-actions{display:flex;gap:0.4rem;align-items:center;flex-shrink:0;}
+.attach-btn{
+  background:none;border:none;cursor:pointer;
+  color:var(--ink3);font-size:1.1rem;padding:0.3rem;
+  border-radius:8px;transition:all 0.2s;
+}
+.attach-btn:hover{background:var(--surface2);color:var(--ink);}
+
+.send-btn{
+  width:36px;height:36px;
+  background:linear-gradient(135deg,var(--green),var(--green2));
+  border:none;border-radius:10px;cursor:pointer;
+  display:flex;align-items:center;justify-content:center;
+  font-size:1rem;
+  transition:all 0.2s;
+  flex-shrink:0;
+}
+.send-btn:hover{transform:scale(1.05);box-shadow:0 4px 16px rgba(0,200,150,0.4);}
+.send-btn:disabled{opacity:0.4;cursor:not-allowed;transform:none;}
+
+.input-footer{
+  display:flex;align-items:center;justify-content:space-between;
+  margin-top:0.5rem;padding:0 0.25rem;
+}
+.input-hint{font-size:0.72rem;color:var(--ink3);}
+.char-count{font-size:0.72rem;color:var(--ink3);}
+
+/* ── QUICK CHIPS ── */
+.quick-chips{
+  display:flex;gap:0.5rem;flex-wrap:wrap;
+  padding:0 0 0.75rem;
+}
+.chip{
+  padding:0.4rem 0.85rem;
+  border-radius:20px;
+  border:1px solid var(--border);
+  background:var(--surface);
+  color:var(--ink2);
+  font-family:'DM Sans',sans-serif;
+  font-size:0.78rem;
+  font-weight:500;
+  cursor:pointer;
+  transition:all 0.2s;
+  white-space:nowrap;
+}
+.chip:hover{border-color:var(--green);color:var(--green);background:rgba(0,200,150,0.08);}
+
+/* ── MOBILE MENU BTN ── */
+.menu-btn{
+  display:none;
+  background:none;border:none;color:var(--ink2);
+  font-size:1.2rem;cursor:pointer;padding:0.3rem;
+}
+
+/* ── MODE BADGE ── */
+.mode-badge{
+  display:flex;align-items:center;gap:0.4rem;
+  padding:0.3rem 0.75rem;
+  border-radius:20px;
+  font-size:0.75rem;font-weight:600;
+  background:rgba(0,200,150,0.1);
+  border:1px solid rgba(0,200,150,0.3);
+  color:var(--green);
+}
+.mode-dot{width:6px;height:6px;border-radius:50%;background:var(--green);animation:pulse2 2s infinite;}
+@keyframes pulse2{0%,100%{opacity:1;}50%{opacity:0.4;}}
+
+/* ── STUDY PLAN CARD ── */
+.plan-card{
+  background:var(--surface2);
+  border:1px solid var(--border);
+  border-radius:12px;
+  padding:1rem;
+  margin-top:0.75rem;
+}
+.plan-card h4{color:var(--green);font-size:0.85rem;font-weight:700;margin-bottom:0.5rem;}
+.plan-week{
+  display:flex;gap:0.5rem;margin-bottom:0.4rem;align-items:flex-start;
+}
+.plan-week-num{
+  background:var(--green);color:#000;
+  font-size:0.65rem;font-weight:800;
+  padding:0.15rem 0.4rem;border-radius:4px;
+  flex-shrink:0;margin-top:2px;
+}
+.plan-week-text{font-size:0.8rem;color:var(--ink2);}
+
+/* ── MENTOR CARD ── */
+.mentor-rec{
+  background:var(--surface2);
+  border:1px solid var(--border);
+  border-radius:12px;
+  padding:0.85rem 1rem;
+  margin-top:0.5rem;
+  display:flex;gap:0.75rem;align-items:center;
+}
+.mentor-rec-av{
+  width:40px;height:40px;border-radius:10px;
+  display:flex;align-items:center;justify-content:center;
+  font-weight:800;font-size:0.85rem;flex-shrink:0;
+}
+.mentor-rec-info{flex:1;}
+.mentor-rec-name{font-weight:700;font-size:0.88rem;color:var(--ink);}
+.mentor-rec-title{font-size:0.75rem;color:var(--ink3);margin-top:0.1rem;}
+.mentor-rec-tags{display:flex;gap:0.3rem;margin-top:0.4rem;flex-wrap:wrap;}
+.mentor-tag{
+  font-size:0.65rem;font-weight:600;
+  padding:0.15rem 0.45rem;border-radius:4px;
+  background:rgba(74,158,255,0.15);color:var(--blue);
+}
+
+/* Responsive */
+@media(max-width:768px){
+  .sidebar{position:fixed;top:0;left:0;height:100%;z-index:100;transform:translateX(-100%);}
+  .sidebar.open{transform:translateX(0);}
+  .menu-btn{display:block;}
+  .suggestion-grid{grid-template-columns:1fr;}
+  .welcome h1{font-size:1.5rem;}
+  .msg-content{max-width:90%;}
+}
+</style>
+</head>
+<body>
+
+<!-- SIDEBAR -->
+<div class="sidebar" id="sidebar">
+  <div class="sidebar-logo">
+    <div class="logo-icon">🎯</div>
+    <div class="logo-text">Future<span>Guide</span> AI</div>
+  </div>
+
+  <button class="new-chat-btn" onclick="newChat()">
+    ✨ New Chat
+  </button>
+
+  <div class="sidebar-section">Recent Chats</div>
+  <div class="chat-history" id="chatHistory">
+    <div class="history-item active" onclick="loadChat(0)">
+      <span class="history-item-icon">💬</span>
+      <span class="history-item-text">Career switch to Product...</span>
+    </div>
+    <div class="history-item" onclick="loadChat(1)">
+      <span class="history-item-icon">🗺️</span>
+      <span class="history-item-text">Study plan for Data Science</span>
+    </div>
+    <div class="history-item" onclick="loadChat(2)">
+      <span class="history-item-icon">👤</span>
+      <span class="history-item-text">Best mentors for UX Design</span>
+    </div>
+  </div>
+
+  <div class="sidebar-footer">
+    <div class="sidebar-section" style="padding:0 0 0.5rem;">AI Mode</div>
+    <div class="mode-pills">
+      <button class="mode-pill active" onclick="setMode('career',this)">🎯 Career</button>
+      <button class="mode-pill" onclick="setMode('mentor',this)">👤 Mentors</button>
+      <button class="mode-pill" onclick="setMode('study',this)">📚 Study</button>
+      <button class="mode-pill" onclick="setMode('interview',this)">🎤 Interview</button>
+    </div>
+  </div>
+</div>
+
+<!-- MAIN -->
+<div class="main">
+  <!-- TOPBAR -->
+  <div class="topbar">
+    <div style="display:flex;align-items:center;gap:0.75rem;">
+      <button class="menu-btn" onclick="toggleSidebar()">☰</button>
+      <span class="topbar-title" id="topbarTitle">FutureGuide AI</span>
+    </div>
+    <div class="topbar-actions">
+      <div class="mode-badge">
+        <div class="mode-dot"></div>
+        <span id="modeBadgeText">Career Mode</span>
+      </div>
+      <button class="topbar-btn" onclick="clearChat()">🗑️ Clear</button>
+    </div>
+  </div>
+
+  <!-- WELCOME SCREEN -->
+  <div class="welcome" id="welcomeScreen">
+    <div class="welcome-icon">🤖</div>
+    <h1>FutureGuide AI</h1>
+    <p>Your intelligent career companion — powered by Gemini. Ask me anything about your career, find the perfect mentor, or get a personalised study plan.</p>
+
+    <div class="suggestion-grid">
+      <div class="suggestion-card" onclick="sendSuggestion('How do I switch careers to Product Management?')">
+        <span class="s-icon">🚀</span>
+        <div class="s-title">Career Switch Guide</div>
+        <div class="s-desc">Get a step-by-step plan to switch into your dream career</div>
+      </div>
+      <div class="suggestion-card" onclick="sendSuggestion('Recommend me the best mentors for UI/UX Design')">
+        <span class="s-icon">👤</span>
+        <div class="s-title">Find a Mentor</div>
+        <div class="s-desc">Discover mentors who match your goals and learning style</div>
+      </div>
+      <div class="suggestion-card" onclick="sendSuggestion('Create a 12-week study plan to learn Data Science from scratch')">
+        <span class="s-icon">📚</span>
+        <div class="s-title">Study Plan Generator</div>
+        <div class="s-desc">Get a personalised week-by-week learning roadmap</div>
+      </div>
+      <div class="suggestion-card" onclick="sendSuggestion('Help me prepare for a Google Product Manager interview')">
+        <span class="s-icon">🎤</span>
+        <div class="s-title">Interview Prep</div>
+        <div class="s-desc">Practice with real interview questions and expert tips</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- MESSAGES -->
+  <div class="messages" id="messages" style="display:none;"></div>
+
+  <!-- INPUT AREA -->
+  <div class="input-area">
+    <div class="quick-chips" id="quickChips">
+      <button class="chip" onclick="sendSuggestion('What skills do I need for a tech job?')">💡 Skills for tech</button>
+      <button class="chip" onclick="sendSuggestion('How do I build a strong portfolio?')">🎨 Build portfolio</button>
+      <button class="chip" onclick="sendSuggestion('Best free courses for beginners')">📖 Free courses</button>
+      <button class="chip" onclick="sendSuggestion('How to negotiate salary?')">💰 Salary tips</button>
+      <button class="chip" onclick="sendSuggestion('LinkedIn profile tips')">🔗 LinkedIn tips</button>
+    </div>
+
+    <div class="input-wrap">
+      <textarea
+        class="msg-input"
+        id="msgInput"
+        placeholder="Ask me anything about your career..."
+        rows="1"
+        onkeydown="handleKey(event)"
+        oninput="autoResize(this);updateCount(this);"
+      ></textarea>
+      <div class="input-actions">
+        <button class="attach-btn" title="Voice input" onclick="startVoice()">🎤</button>
+        <button class="send-btn" id="sendBtn" onclick="sendMessage()" title="Send">➤</button>
+      </div>
+    </div>
+    <div class="input-footer">
+      <span class="input-hint">Enter to send · Shift+Enter for new line</span>
+      <span class="char-count" id="charCount">0 / 2000</span>
+    </div>
+  </div>
+</div>
+
+<script>
+const GEMINI_API_KEY = 'AIzaSyD0eUTa5do6H5syP2b40cx994D99Q-ypIc';
+const GEMINI_URL = `https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key=${GEMINI_API_KEY}`;
+
+let currentMode = 'career';
+let chatHistory = [];
+let isLoading = false;
+let chatSessions = [[], [], []];
+let activeSession = 0;
+
+const SYSTEM_PROMPTS = {
+  career: `You are FutureGuide AI, an expert career counselor and life coach. You help students and professionals:
+- Switch careers with step-by-step action plans
+- Discover their strengths and ideal career paths
+- Build skills, portfolios, and professional networks
+- Navigate job markets in India and globally
+
+Be warm, encouraging, practical and specific. Use bullet points and structure your answers clearly.
+When recommending actions, be specific with timelines. Use emojis naturally.
+Always end with an encouraging note or a follow-up question.`,
+
+  mentor: `You are FutureGuide AI, a mentor-matching specialist. You help users find the perfect mentor by:
+- Understanding their goals, experience level, and learning style
+- Recommending mentor profiles with specific expertise
+- Explaining what to look for in a good mentor
+- Helping prepare questions to ask mentors
+
+Format mentor recommendations clearly with name, expertise, and why they're a good match.
+Be specific and helpful. Use emojis naturally.`,
+
+  study: `You are FutureGuide AI, an expert learning coach and curriculum designer. You help users:
+- Create personalised week-by-week study plans
+- Find the best free and paid resources for any topic
+- Stay motivated and track progress
+- Learn efficiently using proven techniques
+
+Always structure study plans with clear weeks, goals, and resources.
+Include free resources (YouTube, Coursera free tier, etc.) when possible.`,
+
+  interview: `You are FutureGuide AI, an expert interview coach with experience at top tech companies. You help users:
+- Prepare for technical and behavioral interviews
+- Practice with realistic mock questions
+- Learn STAR method for behavioral questions
+- Understand what interviewers really look for
+
+Be direct and practical. Give example answers when relevant. Point out common mistakes to avoid.`
+};
+
+function setMode(mode, btn) {
+  currentMode = mode;
+  document.querySelectorAll('.mode-pill').forEach(p => p.classList.remove('active'));
+  btn.classList.add('active');
+  const labels = {career:'Career Mode', mentor:'Mentor Finder', study:'Study Planner', interview:'Interview Coach'};
+  document.getElementById('modeBadgeText').textContent = labels[mode];
+}
+
+function toggleSidebar() {
+  document.getElementById('sidebar').classList.toggle('open');
+}
+
+function newChat() {
+  chatHistory = [];
+  document.getElementById('messages').innerHTML = '';
+  document.getElementById('messages').style.display = 'none';
+  document.getElementById('welcomeScreen').style.display = 'flex';
+  document.getElementById('quickChips').style.display = 'flex';
+  document.getElementById('msgInput').value = '';
+  document.getElementById('charCount').textContent = '0 / 2000';
+  // Add to history
+  addToHistory('New conversation');
+}
+
+function addToHistory(text) {
+  const hist = document.getElementById('chatHistory');
+  const icons = {career:'💬', mentor:'👤', study:'📚', interview:'🎤'};
+  const item = document.createElement('div');
+  item.className = 'history-item active';
+  item.innerHTML = `<span class="history-item-icon">${icons[currentMode]}</span><span class="history-item-text">${text.slice(0,35)}...</span>`;
+  // Deactivate others
+  hist.querySelectorAll('.history-item').forEach(i => i.classList.remove('active'));
+  hist.insertBefore(item, hist.firstChild);
+}
+
+function loadChat(idx) {
+  document.querySelectorAll('.history-item').forEach((i,n) => i.classList.toggle('active', n===idx));
+}
+
+function clearChat() {
+  if (confirm('Clear this chat?')) newChat();
+}
+
+function sendSuggestion(text) {
+  document.getElementById('msgInput').value = text;
+  sendMessage();
+}
+
+function handleKey(e) {
+  if (e.key === 'Enter' && !e.shiftKey) {
+    e.preventDefault();
+    sendMessage();
+  }
+}
+
+function autoResize(el) {
+  el.style.height = 'auto';
+  el.style.height = Math.min(el.scrollHeight, 120) + 'px';
+}
+
+function updateCount(el) {
+  document.getElementById('charCount').textContent = el.value.length + ' / 2000';
+}
+
+async function sendMessage() {
+  const input = document.getElementById('msgInput');
+  const text = input.value.trim();
+  if (!text || isLoading) return;
+  if (text.length > 2000) { alert('Message too long!'); return; }
+
+  isLoading = true;
+  input.value = '';
+  input.style.height = 'auto';
+  document.getElementById('charCount').textContent = '0 / 2000';
+  document.getElementById('sendBtn').disabled = true;
+
+  // Hide welcome, show messages
+  document.getElementById('welcomeScreen').style.display = 'none';
+  document.getElementById('messages').style.display = 'flex';
+  document.getElementById('quickChips').style.display = 'none';
+
+  // Add user msg
+  addMessage('user', text);
+  chatHistory.push({ role: 'user', content: text });
+
+  // Add to sidebar history
+  if (chatHistory.length === 1) addToHistory(text);
+
+  // Show typing
+  showTyping();
+
+  try {
+    // Build conversation
+    const contents = chatHistory
+      .filter(m => m.role === 'user' || m.role === 'assistant')
+      .map(m => ({
+        role: m.role === 'assistant' ? 'model' : 'user',
+        parts: [{ text: m.content }]
+      }));
+    // Ensure starts with user
+    while (contents.length && contents[0].role !== 'user') contents.shift();
+
+    const res = await fetch(GEMINI_URL, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        system_instruction: { parts: [{ text: SYSTEM_PROMPTS[currentMode] }] },
+        contents,
+        generationConfig: { maxOutputTokens: 1000, temperature: 0.8 }
+      })
+    });
+
+    const data = await res.json();
+    if (data.error) throw new Error(data.error.message);
+    const reply = data.candidates?.[0]?.content?.parts?.[0]?.text || "I couldn't generate a response. Please try again!";
+
+    removeTyping();
+    addMessage('bot', reply);
+    chatHistory.push({ role: 'assistant', content: reply });
+
+  } catch(err) {
+    removeTyping();
+    addMessage('bot', '⚠️ Sorry, I had trouble connecting to Gemini AI. Please check your internet connection and try again.\n\n*Error: ' + err.message + '*');
+    console.error(err);
+  }
+
+  isLoading = false;
+  document.getElementById('sendBtn').disabled = false;
+  input.focus();
+}
+
+function addMessage(role, text) {
+  const msgs = document.getElementById('messages');
+  const div = document.createElement('div');
+  div.className = `msg ${role}`;
+
+  const time = new Date().toLocaleTimeString([], {hour:'2-digit',minute:'2-digit'});
+  const initials = role === 'bot' ? '✨' : 'Me';
+
+  // Format text
+  let formatted = text
+    .replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>')
+    .replace(/\*(.*?)\*/g, '<em>$1</em>')
+    .replace(/`(.*?)`/g, '<code>$1</code>')
+    .replace(/\n/g, '<br>');
+
+  div.innerHTML = `
+    <div class="msg-av">${initials}</div>
+    <div class="msg-content">
+      <div class="msg-bubble">${formatted}</div>
+      <div class="msg-meta">
+        <span class="msg-time">${time}</span>
+        <div class="msg-actions">
+          <button class="msg-action-btn" onclick="copyMsg(this)" title="Copy">📋</button>
+          ${role === 'bot' ? '<button class="msg-action-btn" onclick="regenerate()" title="Regenerate">🔄</button>' : ''}
+        </div>
+      </div>
+    </div>
+  `;
+
+  msgs.appendChild(div);
+  msgs.scrollTop = msgs.scrollHeight;
+}
+
+function showTyping() {
+  const msgs = document.getElementById('messages');
+  const div = document.createElement('div');
+  div.className = 'typing-indicator';
+  div.id = 'typingIndicator';
+  div.innerHTML = `
+    <div class="msg-av" style="background:linear-gradient(135deg,var(--green),var(--blue));color:#000;font-size:1rem;">✨</div>
+    <div class="typing-dots"><span></span><span></span><span></span></div>
+  `;
+  msgs.appendChild(div);
+  msgs.scrollTop = msgs.scrollHeight;
+}
+
+function removeTyping() {
+  const t = document.getElementById('typingIndicator');
+  if (t) t.remove();
+}
+
+function copyMsg(btn) {
+  const bubble = btn.closest('.msg-content').querySelector('.msg-bubble');
+  navigator.clipboard.writeText(bubble.innerText).then(() => {
+    btn.textContent = '✅';
+    setTimeout(() => btn.textContent = '📋', 1500);
+  });
+}
+
+function regenerate() {
+  if (chatHistory.length < 2) return;
+  // Remove last bot message
+  chatHistory.pop();
+  const msgs = document.getElementById('messages');
+  const allMsgs = msgs.querySelectorAll('.msg');
+  if (allMsgs.length > 0) allMsgs[allMsgs.length-1].remove();
+  // Resend
+  const lastUser = chatHistory[chatHistory.length-1];
+  if (lastUser && lastUser.role === 'user') {
+    isLoading = false;
+    sendSuggestion(lastUser.content);
+    chatHistory.pop(); // remove duplicate
+  }
+}
+
+function startVoice() {
+  if (!('webkitSpeechRecognition' in window) && !('SpeechRecognition' in window)) {
+    alert('Voice input not supported in this browser. Try Chrome!');
+    return;
+  }
+  const SR = window.SpeechRecognition || window.webkitSpeechRecognition;
+  const recognition = new SR();
+  recognition.lang = 'en-IN';
+  recognition.interimResults = false;
+  recognition.onresult = (e) => {
+    document.getElementById('msgInput').value = e.results[0][0].transcript;
+    updateCount(document.getElementById('msgInput'));
+  };
+  recognition.onerror = () => alert('Could not hear you. Try again!');
+  recognition.start();
+  alert('🎤 Listening... Speak now!');
+}
+</script>
+</body>
+</html>
