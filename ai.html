@@ -518,14 +518,6 @@ body{
   .msg-content{max-width:90%;}
 }
 </style>
-<!-- Google Generative AI SDK -->
-<script type="importmap">
-{
-  "imports": {
-    "@google/generative-ai": "https://esm.run/@google/generative-ai"
-  }
-}
-</script>
 </head>
 <body>
 
@@ -648,11 +640,8 @@ body{
   </div>
 </div>
 
-<script type="module">
-import { GoogleGenerativeAI } from "@google/generative-ai";
-
+<script>
 const GEMINI_API_KEY = 'AIzaSyD0eUTa5do6H5syP2b40cx994D99Q-ypIc';
-const genAI = new GoogleGenerativeAI(GEMINI_API_KEY);
 
 let currentMode = 'career';
 let chatHistory = [];
@@ -790,15 +779,27 @@ async function sendMessage() {
   showTyping();
 
   try {
-    const model = genAI.getGenerativeModel({ model: 'gemini-2.0-flash-exp' });
+    const url = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash-exp:generateContent?key=${GEMINI_API_KEY}`;
 
-    // Build full prompt with system instruction + history
-    const fullPrompt = SYSTEM_PROMPTS[currentMode] + '\n\nConversation so far:\n' +
-      chatHistory.slice(0,-1).map(m => (m.role === 'user' ? 'User: ' : 'Assistant: ') + m.content).join('\n') +
-      '\n\nUser: ' + text + '\n\nAssistant:';
+    const fullHistory = chatHistory.map(m => ({
+      role: m.role === 'assistant' ? 'model' : 'user',
+      parts: [{ text: m.content }]
+    }));
+    while (fullHistory.length > 0 && fullHistory[0].role !== 'user') fullHistory.shift();
 
-    const result = await model.generateContent(fullPrompt);
-    const reply = result.response.text();
+    const res = await fetch(url, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        system_instruction: { parts: [{ text: SYSTEM_PROMPTS[currentMode] }] },
+        contents: fullHistory,
+        generationConfig: { maxOutputTokens: 1000, temperature: 0.8 }
+      })
+    });
+
+    const data = await res.json();
+    if (data.error) throw new Error(data.error.message);
+    const reply = data.candidates?.[0]?.content?.parts?.[0]?.text || "Sorry, no response. Try again!";
 
     removeTyping();
     addMessage('bot', reply);
