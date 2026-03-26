@@ -1358,178 +1358,6 @@ footer .footer-logo {
   .shake { animation: shake 0.45s ease; }
 
 /* ═══ AI CHAT WIDGET ═══ */
-#ai-fab {
-  position:fixed; bottom:2rem; right:2rem; z-index:9999;
-  width:60px; height:60px; border-radius:50%;
-  background:linear-gradient(135deg,#0084ff,#a259ff,#ff6b35);
-  border:none; cursor:pointer;
-  box-shadow:0 4px 24px rgba(0,132,255,0.4);
-  display:flex; align-items:center; justify-content:center;
-  transition:all 0.3s var(--ease);
-  animation:ai-pulse 3s ease-in-out infinite;
-}
-@keyframes ai-pulse {
-  0%,100%{box-shadow:0 4px 24px rgba(0,132,255,0.4),0 0 0 0 rgba(0,132,255,0.2)}
-  50%{box-shadow:0 4px 32px rgba(0,132,255,0.6),0 0 0 12px rgba(0,132,255,0)}
-}
-#ai-fab:hover { transform:scale(1.08); box-shadow:0 8px 36px rgba(0,132,255,0.5); }
-#ai-fab .ai-notif {
-  position:absolute; top:-2px; right:-2px;
-  width:18px; height:18px; border-radius:50%;
-  background:#ff4b4b; border:2.5px solid var(--bg);
-  font-size:0.6rem; font-weight:800; color:#fff;
-  display:flex; align-items:center; justify-content:center;
-}
-#ai-window {
-  position:fixed; bottom:6.5rem; right:2rem; z-index:9998;
-  width:380px; max-width:calc(100vw - 2rem);
-  background:var(--surface);
-  border:1px solid var(--surface2);
-  border-radius:24px;
-  box-shadow:var(--shadow-xl);
-  display:flex; flex-direction:column;
-  overflow:hidden;
-  height:520px;
-  transform:scale(0.9) translateY(20px);
-  opacity:0;
-  pointer-events:none;
-  transition:all 0.3s var(--ease);
-  transform-origin:bottom right;
-}
-#ai-window.open {
-  transform:scale(1) translateY(0);
-  opacity:1;
-  pointer-events:all;
-}
-.ai-header {
-  padding:1rem 1.25rem;
-  background:linear-gradient(135deg,#0084ff 0%,#a259ff 60%,#ff6b35 100%);
-  display:flex; align-items:center; gap:0.85rem;
-  flex-shrink:0;
-}
-.ai-avatar-wrap { position:relative; }
-.ai-avatar {
-  width:40px; height:40px; border-radius:50%;
-  background:rgba(255,255,255,0.2);
-  display:flex; align-items:center; justify-content:center;
-  font-size:1.3rem; flex-shrink:0;
-  border:2px solid rgba(255,255,255,0.4);
-}
-.ai-online-dot {
-  position:absolute; bottom:0; right:0;
-  width:11px; height:11px; border-radius:50%;
-  background:#22c55e; border:2px solid white;
-}
-.ai-header-info { flex:1; }
-.ai-header-name { font-weight:800; font-size:0.95rem; color:#fff; }
-.ai-header-status { font-size:0.72rem; color:rgba(255,255,255,0.8); margin-top:0.1rem; }
-.ai-header-actions { display:flex; gap:0.4rem; }
-.ai-hbtn {
-  width:30px; height:30px; border-radius:8px;
-  background:rgba(255,255,255,0.15); border:none;
-  color:#fff; cursor:pointer; font-size:0.85rem;
-  display:flex; align-items:center; justify-content:center;
-  transition:all 0.2s;
-}
-.ai-hbtn:hover { background:rgba(255,255,255,0.28); }
-.ai-quick-chips {
-  display:flex; gap:0.5rem; overflow-x:auto;
-  padding:0.75rem 1rem;
-  border-bottom:1px solid var(--surface2);
-  flex-shrink:0;
-  scrollbar-width:none;
-}
-.ai-quick-chips::-webkit-scrollbar { display:none; }
-.ai-chip {
-  flex-shrink:0;
-  background:var(--surface2); border:1px solid var(--surface2);
-  border-radius:100px; padding:0.3rem 0.85rem;
-  font-family:inherit; font-size:0.72rem; font-weight:600; color:var(--ink2);
-  cursor:pointer; transition:all 0.2s; white-space:nowrap;
-}
-.ai-chip:hover { background:rgba(162,89,255,0.1); border-color:#a259ff; color:#a259ff; }
-.ai-messages {
-  flex:1; overflow-y:auto; padding:1rem;
-  display:flex; flex-direction:column; gap:0.75rem;
-  scroll-behavior:smooth;
-}
-.ai-messages::-webkit-scrollbar { width:4px; }
-.ai-messages::-webkit-scrollbar-thumb { background:var(--surface2); border-radius:4px; }
-.ai-msg {
-  display:flex; gap:0.6rem; align-items:flex-end;
-  animation:msgIn 0.25s ease both;
-}
-@keyframes msgIn { from{opacity:0;transform:translateY(8px)} to{opacity:1;transform:translateY(0)} }
-.ai-msg.user { flex-direction:row-reverse; }
-.ai-msg-av {
-  width:28px; height:28px; border-radius:50%;
-  background:linear-gradient(135deg,#0084ff,#a259ff);
-  display:flex; align-items:center; justify-content:center;
-  font-size:0.75rem; flex-shrink:0; color:#fff;
-}
-.ai-msg.user .ai-msg-av {
-  background:linear-gradient(135deg,var(--forest),var(--terra));
-}
-.ai-bubble {
-  max-width:78%; padding:0.65rem 0.9rem;
-  border-radius:18px; font-size:0.85rem; line-height:1.55;
-  color:var(--ink);
-}
-.ai-msg:not(.user) .ai-bubble {
-  background:var(--surface2);
-  border-bottom-left-radius:4px;
-}
-.ai-msg.user .ai-bubble {
-  background:linear-gradient(135deg,#0084ff,#a259ff);
-  color:#fff;
-  border-bottom-right-radius:4px;
-}
-.ai-typing-bubble {
-  display:flex; align-items:center; gap:0.35rem;
-  padding:0.65rem 0.9rem;
-  background:var(--surface2); border-radius:18px; border-bottom-left-radius:4px;
-  width:fit-content;
-}
-.ai-typing-bubble span {
-  width:7px; height:7px; border-radius:50%;
-  background:var(--ink3);
-  animation:typing 1.2s ease-in-out infinite;
-  display:block;
-}
-.ai-typing-bubble span:nth-child(2) { animation-delay:0.2s; }
-.ai-typing-bubble span:nth-child(3) { animation-delay:0.4s; }
-@keyframes typing { 0%,60%,100%{transform:translateY(0);opacity:0.35} 30%{transform:translateY(-5px);opacity:1} }
-.ai-input-row {
-  display:flex; gap:0.5rem; align-items:center;
-  padding:0.85rem 1rem;
-  border-top:1px solid var(--surface2);
-  flex-shrink:0;
-  background:var(--surface);
-}
-.ai-input {
-  flex:1; border:none; background:var(--surface2);
-  border-radius:100px; padding:0.55rem 1rem;
-  font-family:inherit; font-size:0.85rem; color:var(--ink);
-  outline:none; transition:all 0.25s;
-}
-.ai-input:focus { box-shadow:0 0 0 2px rgba(0,132,255,0.25); }
-.ai-input::placeholder { color:var(--ink3); }
-.ai-send {
-  width:36px; height:36px; border-radius:50%;
-  background:linear-gradient(135deg,#0084ff,#a259ff);
-  border:none; cursor:pointer;
-  display:flex; align-items:center; justify-content:center;
-  transition:all 0.25s; flex-shrink:0;
-  box-shadow:0 2px 10px rgba(0,132,255,0.3);
-  color:#fff; font-size:1rem;
-}
-.ai-send:hover { transform:scale(1.1); box-shadow:0 4px 16px rgba(0,132,255,0.5); }
-.ai-footer-label {
-  text-align:center; font-size:0.68rem; color:var(--ink3);
-  padding:0.35rem; border-top:1px solid var(--surface2);
-  flex-shrink:0;
-}
-.ai-footer-label span { font-weight:700; background:linear-gradient(135deg,#0084ff,#a259ff); -webkit-background-clip:text; -webkit-text-fill-color:transparent; }
 
 /* ═══════════════════════════════════════════════
    FEATURE 1 — STUDENT DASHBOARD
@@ -2060,6 +1888,9 @@ footer .footer-logo {
 .dash-course-bar-fill { height:100%; border-radius:99px; background:var(--forest); transition:width 0.6s var(--ease); }
 .dash-course-pct { font-size:0.7rem; color:var(--ink3); flex-shrink:0; }
 </style>
+<!-- ═══ GOOGLE SIGN-IN ═══ -->
+<script src="https://accounts.google.com/gsi/client" async defer></script>
+
 <!-- ═══ FIREBASE SDK (via jsDelivr CDN) ═══ -->
 <script src="https://cdn.jsdelivr.net/npm/firebase@10.12.0/firebase-app-compat.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/firebase@10.12.0/firebase-auth-compat.min.js"></script>
@@ -3416,48 +3247,66 @@ async function sendAuthOTP() {
   const btn = document.getElementById('authSendOTPBtn');
   btn.textContent = '...'; btn.disabled = true;
   document.getElementById('authOTPMsg').textContent = '';
+
   try {
-    if (!authRecaptchaVerifier) {
-      authRecaptchaVerifier = new firebase.auth.RecaptchaVerifier('auth-recaptcha-container', {
-        size: 'normal', callback: () => {}
-      });
-      await authRecaptchaVerifier.render();
-    }
-    authPhoneConfirmation = await window._fbAuth.signInWithPhoneNumber(fullPhone, authRecaptchaVerifier);
+    const res = await fetch(`${BACKEND_URL}/send-otp`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ phone: fullPhone })
+    });
+    const data = await res.json();
+    if (!data.success) throw new Error(data.error || 'Failed to send OTP');
+
+    // Store phone for verification
+    window._otpPhone = fullPhone;
     document.getElementById('authOTPSection').style.display = 'block';
     document.getElementById('authMainBtn').textContent = 'Verify OTP ✅';
     document.getElementById('aotp1').focus();
     showToast('📨 OTP sent to ' + fullPhone);
   } catch(e) {
     document.getElementById('authOTPMsg').textContent = '❌ ' + (e.message || 'Failed. Try again.');
-    authRecaptchaVerifier = null;
     showToast('❌ Could not send OTP. Check number.');
   }
   btn.textContent = 'Send OTP'; btn.disabled = false;
 }
 
 async function handleAuthMain() {
-  if (authPhoneConfirmation) {
-    // Verify OTP
+  if (window._otpPhone) {
+    // Verify OTP via backend
     const otp = ['aotp1','aotp2','aotp3','aotp4','aotp5','aotp6'].map(id => document.getElementById(id).value).join('');
     if (otp.length !== 6) { showToast('⚠️ Enter the full 6-digit OTP!'); return; }
     document.getElementById('authOTPMsg').textContent = '⏳ Verifying…';
     try {
-      const result = await authPhoneConfirmation.confirm(otp);
-      const fbUser = result.user;
+      const res = await fetch(`${BACKEND_URL}/verify-otp`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ phone: window._otpPhone, otp })
+      });
+      const data = await res.json();
+      if (!data.success) throw new Error(data.error || 'Invalid OTP');
+
+      // Save token and login
+      localStorage.setItem('fg_backend_token', data.token);
       const role = selectedRole || 'student';
-      currentUser = { uid: fbUser.uid, name: fbUser.displayName || fbUser.phoneNumber, email: fbUser.email || '', phone: fbUser.phoneNumber, role, provider: 'phone' };
+      const phone = window._otpPhone;
+      currentUser = {
+        uid: 'phone_' + phone.replace(/\D/g,''),
+        name: phone,
+        email: '',
+        phone,
+        role,
+        provider: 'phone'
+      };
       await saveFgUser(currentUser);
-      await loadCourseProgressCloud();
       saveCurrentSession(currentUser);
       updateUserUI();
       closeModal('authOverlay');
+      window._otpPhone = null;
       showToast('✅ Welcome! Signed in with Phone 📱');
     } catch(e) {
-      document.getElementById('authOTPMsg').textContent = '❌ Wrong OTP. Try again.';
+      document.getElementById('authOTPMsg').textContent = '❌ ' + (e.message || 'Wrong OTP. Try again.');
     }
   } else {
-    // Send OTP first
     sendAuthOTP();
   }
 }
@@ -3536,6 +3385,36 @@ async function quickAuth(provider) {
     }
   } else if (provider === 'LinkedIn') {
     showLinkedInModal();
+  }
+}
+
+// Handle Google One Tap / GSI credential
+async function handleCredentialResponse(response) {
+  try {
+    const res = await fetch(`${BACKEND_URL}/google-login`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ token: response.credential })
+    });
+    const data = await res.json();
+    if (!data.success) throw new Error(data.error);
+
+    localStorage.setItem('fg_backend_token', data.token);
+    const role = selectedRole || 'student';
+    currentUser = {
+      uid: data.user.uid,
+      name: data.user.name,
+      email: data.user.email,
+      role,
+      provider: 'google'
+    };
+    await saveFgUser(currentUser);
+    saveCurrentSession(currentUser);
+    updateUserUI();
+    closeModal('authOverlay');
+    showToast(`✅ Welcome, ${data.user.name.split(' ')[0]}! 🎉`);
+  } catch(e) {
+    showToast('❌ Google login failed: ' + e.message);
   }
 }
 
@@ -4448,7 +4327,13 @@ document.querySelectorAll('.slot').forEach(s => {
 });
 
 // ─── INIT ───
-loadMentorsFromFirebase();
+document.addEventListener('DOMContentLoaded', () => {
+  if (window._fbDb) {
+    loadMentorsFromFirebase();
+  } else {
+    setTimeout(() => loadMentorsFromFirebase(), 2000);
+  }
+});
 
 // ═══ COURSES DATA ═══
 const COURSES = [
@@ -5174,10 +5059,10 @@ function togglePwVisibility(inputId, iconId) {
   if (!input) return;
   if (input.type === 'password') {
     input.type = 'text';
-    if (icon) icon.textContent = '🙈';
+    if (icon) icon.textContent = '😴';
   } else {
     input.type = 'password';
-    if (icon) icon.textContent = '👁️';
+    if (icon) icon.textContent = '👀';
   }
 }
 
@@ -5249,1281 +5134,64 @@ async function handleAuth(e) {
       const cred = await window._fbAuth.signInWithEmailAndPassword(email, pw);
       fbUser = cred.user;
     }
-    currentUser = { uid: fbUser.uid, name: fbUser.displayName || name, email: fbUser.email, role };
-    await saveFgUser(currentUser);
-    await loadCourseProgressCloud();
-    saveCurrentSession(currentUser);
-    updateUserUI();
-    closeModal('authOverlay');
-    showToast(isRegister
-      ? (role === 'mentor' ? `🏆 Mentor application submitted, ${name.split(' ')[0]}!` : `🎉 Account created, ${name.split(' ')[0]}!`)
-      : `👋 Welcome back, ${currentUser.name.split(' ')[0]}!`
-    );
-  } catch(e) {
-    btn.disabled = false;
-    btn.textContent = isRegister ? 'Create Free Account' : 'Sign In →';
-    const msg = e.code === 'auth/email-already-in-use' ? '❌ Email already registered. Try signing in.'
-      : e.code === 'auth/user-not-found' || e.code === 'auth/wrong-password' ? '❌ Wrong email or password.'
-      : e.code === 'auth/invalid-email' ? '❌ Invalid email address.'
-      : e.code === 'auth/weak-password' ? '❌ Password too weak.'
-      : '❌ Auth error: ' + e.message;
-    showToast(msg);
-  }
-}
-
-</script>
-
-<!-- ═══ AI CHAT WIDGET ═══ -->
-<button id="ai-fab" onclick="toggleAI()" title="Ask AI">
-  <svg viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
-    <circle cx="16" cy="16" r="14" fill="rgba(255,255,255,0.15)"/>
-    <path d="M9 13h14M9 17h10M9 21h7" stroke="white" stroke-width="2" stroke-linecap="round"/>
-    <circle cx="24" cy="10" r="3" fill="#ff6b35"/>
-    <circle cx="24" cy="10" r="1.5" fill="white"/>
-  </svg>
-  <div class="ai-notif">1</div>
-</button>
-
-<div id="ai-window">
-  <div class="ai-header">
-    <div class="ai-avatar-wrap">
-      <div class="ai-avatar">✨</div>
-      <div class="ai-online-dot"></div>
-    </div>
-    <div class="ai-header-info">
-      <div class="ai-header-name">Gemini AI</div>
-      <div class="ai-header-status">✨ Powered by Google Gemini</div>
-    </div>
-    <div class="ai-header-actions">
-      <button class="ai-hbtn" onclick="clearAIChat()" title="Clear chat">🗑</button>
-      <button class="ai-hbtn" onclick="toggleAI()" title="Close">✕</button>
-    </div>
-  </div>
-  <div class="ai-quick-chips" id="aiChips">
-    <button class="ai-chip" onclick="chipMsg('Find me a mentor')">👤 Find a mentor</button>
-    <button class="ai-chip" onclick="chipMsg('What courses are free?')">📚 Free courses</button>
-    <button class="ai-chip" onclick="chipMsg('How does FutureGuide work?')">🤔 How it works</button>
-    <button class="ai-chip" onclick="chipMsg('Best mentor for product management')">🚀 PM mentors</button>
-    <button class="ai-chip" onclick="chipMsg('Help me with my career change')">🔄 Career change</button>
-  </div>
-  <div class="ai-messages" id="aiMessages"></div>
-  <div class="ai-input-row">
-    <input class="ai-input" id="aiInput" placeholder="Ask AI anything…" onkeydown="if(event.key==='Enter' && !aiIsLoading) sendAI()"/>
-    <button class="ai-send" id="aiSendBtn" onclick="sendAI()">➤</button>
-  </div>
-  <div class="ai-footer-label">Powered by <span>Gemini AI</span> · FutureGuide</div>
-</div>
-
-<script>
-// ═══ AI CHAT LOGIC — Powered by Gemini AI ═══
-
-const GEMINI_API_KEY = 'AIzaSyD0eUTa5do6H5syP2b40cx994D99Q-ypIc';
-const GEMINI_API_URL = `https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key=${GEMINI_API_KEY}`;
-
-const FUTUREGUIDE_SYSTEM_PROMPT = `You are FutureGuide AI, a friendly and knowledgeable assistant for the FutureGuide mentorship platform. 
-
-About FutureGuide:
-- A platform connecting students with expert mentors across Product, Engineering, Design, Marketing, Data/ML, Startup fields
-- Real mentors registered on the platform teach various subjects including Product, Engineering, Design, Marketing, Data/ML, Startup fields
-- Session types: Flash (15 min), Quick Chat (30 min), Deep Dive (60 min), Full Session (90 min), Async Q&A (48h reply)
-- Free courses available in: Tech, Design, Business, AI & Data, Career
-- Real mentors register and set their own availability and subjects
-
-Your role:
-- Help users find the right mentor based on their goals, field, and budget
-- Answer questions about courses, sessions, pricing, and how the platform works
-- Be warm, encouraging, and concise (2-4 sentences max per reply)
-- Use emojis naturally but not excessively
-- If someone asks for a specific mentor recommendation, suggest from the mentor list above
-- Never make up features that don't exist on the platform`;
-
-const AI_CONVERSATION_HISTORY = [];
-
-let aiOpen = false;
-let aiGreeted = false;
-let aiMsgCount = 0;
-let aiIsLoading = false;
-
-function toggleAI() {
-  aiOpen = !aiOpen;
-  document.getElementById('ai-window').classList.toggle('open', aiOpen);
-  if (aiOpen) {
-    const notif = document.querySelector('#ai-fab .ai-notif');
-    if (notif) notif.style.display = 'none';
-    if (!aiGreeted) {
-      aiGreeted = true;
-      const greet = "Hi there! 👋 I'm **FutureGuide AI**, powered by Gemini. I can help you find the perfect mentor, explore free courses, or answer any questions about the platform. What's on your mind?";
-      setTimeout(() => addAIMsg('bot', greet), 400);
-      AI_CONVERSATION_HISTORY.push({ role: 'assistant', content: greet.replace(/\*\*(.*?)\*\*/g, '$1') });
-    }
-    setTimeout(() => {
-      const input = document.getElementById('aiInput');
-      if (input) input.focus();
-    }, 350);
-  }
-}
-
-function clearAIChat() {
-  document.getElementById('aiMessages').innerHTML = '';
-  AI_CONVERSATION_HISTORY.length = 0;
-  aiGreeted = false;
-  const greet = "Chat cleared! 🔄 How can I help you today?";
-  setTimeout(() => {
-    addAIMsg('bot', greet);
-    AI_CONVERSATION_HISTORY.push({ role: 'assistant', content: greet });
-    aiGreeted = true;
-  }, 300);
-}
-
-function chipMsg(text) {
-  if (!aiGreeted) {
-    aiGreeted = true;
-    const greet = "Hi there! 👋 I'm **FutureGuide AI**, powered by Gemini. I can help you find the perfect mentor, explore free courses, or answer any questions about the platform. What's on your mind?";
-    addAIMsg('bot', greet);
-    AI_CONVERSATION_HISTORY.push({ role: 'assistant', content: greet.replace(/\*\*(.*?)\*\*/g, '$1') });
-  }
-  sendAIMessage(text);
-}
-
-function sendAI() {
-  const input = document.getElementById('aiInput');
-  const text = input.value.trim();
-  if (!text || aiIsLoading) return;
-  input.value = '';
-  sendAIMessage(text);
-}
-
-async function sendAIMessage(text) {
-  if (aiIsLoading) return;
-  aiIsLoading = true;
-
-  addAIMsg('user', text);
-  AI_CONVERSATION_HISTORY.push({ role: 'user', content: text });
-
-  // Hide quick chips after first message
-  const chips = document.getElementById('aiChips');
-  if (chips) chips.style.display = 'none';
-
-  showAITyping();
-
-  try {
-    // Build contents — must start with user, alternate user/model
-    const userOnlyHistory = AI_CONVERSATION_HISTORY.slice(-10);
-    const contents = userOnlyHistory
-      .filter(m => m.role === 'user' || m.role === 'assistant')
-      .map(m => ({
-        role: m.role === 'assistant' ? 'model' : 'user',
-        parts: [{ text: m.content }]
-      }));
-    // Ensure starts with user role
-    while (contents.length > 0 && contents[0].role !== 'user') contents.shift();
-
-    const response = await fetch(GEMINI_API_URL, {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({
-        system_instruction: { parts: [{ text: FUTUREGUIDE_SYSTEM_PROMPT }] },
-        contents: contents,
-        generationConfig: { maxOutputTokens: 500, temperature: 0.7 }
-      })
-    });
-
-    const data = await response.json();
-    if (data.error) throw new Error(data.error.message);
-    const reply = data.candidates?.[0]?.content?.parts?.[0]?.text || "Sorry, I couldn't get a response. Please try again!";
-
-    removeAITyping();
-    addAIMsg('bot', reply);
-    AI_CONVERSATION_HISTORY.push({ role: 'assistant', content: reply });
-
-  } catch (err) {
-    removeAITyping();
-    addAIMsg('bot', "Hmm, I'm having trouble connecting. 🔌 Please try again in a moment!");
-    console.error('AI chat error:', err);
-  }
-
-  aiIsLoading = false;
-}
-
-function addAIMsg(role, text) {
-  const msgs = document.getElementById('aiMessages');
-  if (!msgs) return;
-  const div = document.createElement('div');
-  div.className = 'ai-msg ' + (role === 'user' ? 'user' : '');
-  const av = document.createElement('div');
-  av.className = 'ai-msg-av';
-  av.textContent = role === 'user' ? (currentUser ? currentUser.name[0].toUpperCase() : '👤') : '🤖';
-  const bubble = document.createElement('div');
-  bubble.className = 'ai-bubble';
-  bubble.innerHTML = text
-    .replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>')
-    .replace(/\*(.*?)\*/g, '<em>$1</em>')
-    .replace(/\n/g, '<br>');
-  div.appendChild(av);
-  div.appendChild(bubble);
-  msgs.appendChild(div);
-  msgs.scrollTop = msgs.scrollHeight;
-  aiMsgCount++;
-}
-
-function showAITyping() {
-  const msgs = document.getElementById('aiMessages');
-  if (!msgs || document.getElementById('aiTypingIndicator')) return;
-  const typingDiv = document.createElement('div');
-  typingDiv.className = 'ai-msg';
-  typingDiv.id = 'aiTypingIndicator';
-  const av = document.createElement('div');
-  av.className = 'ai-msg-av';
-  av.textContent = '✨';
-  const bubble = document.createElement('div');
-  bubble.className = 'ai-typing-bubble';
-  bubble.innerHTML = '<span></span><span></span><span></span>';
-  typingDiv.appendChild(av);
-  typingDiv.appendChild(bubble);
-  msgs.appendChild(typingDiv);
-  msgs.scrollTop = msgs.scrollHeight;
-}
-
-function removeAITyping() {
-  const t = document.getElementById('aiTypingIndicator');
-  if (t) t.remove();
-}
-
-// ══════════════════════════════════════════════════════════
-// FEATURE 1 — STUDENT DASHBOARD
-// ══════════════════════════════════════════════════════════
-const DASH_ROADMAP = [
-  {label:'Enrol',done:true}, {label:'First\nSession',done:true}, {label:'5 Sessions',done:true},
-  {label:'Complete\nCourse',done:false,active:true}, {label:'Certificate',done:false}, {label:'Goal\nHit',done:false}
-];
-const DASH_GOALS_DEFAULT = [
-  {id:1, text:'Land a Senior PM role at a funded startup', done:false, tag:'Career'},
-  {id:2, text:'Complete the B2B Sales Masterclass', done:true, tag:'Course'},
-  {id:3, text:'Book 3 sessions with a product mentor', done:true, tag:'Mentorship'},
-  {id:4, text:'Build portfolio with 3 case studies', done:false, tag:'Portfolio'},
-  {id:5, text:'Reach out to 5 people in my target role', done:false, tag:'Network'},
-];
-const DASH_SESSIONS = [];
-const DASH_RESOURCES = [
-  {icon:'🔗', title:'CIRCLES Method — Full Guide', type:'Link · recommended reading'},
-  {icon:'🎙️', title:'Session Recording — Dec 14', type:'Recording · 42 min'},
-];
-const DASH_SKILLS = [
-  {name:'Product Strategy', current:68, target:85, color:'#2d5a3d'},
-  {name:'Data Analysis', current:45, target:75, color:'#1e3a5f'},
-  {name:'Stakeholder Mgmt', current:72, target:90, color:'#c4622d'},
-  {name:'Public Speaking', current:38, target:70, color:'#8b5cf6'},
-  {name:'Technical Writing', current:55, target:80, color:'#c9a227'},
-];
-
-let dashGoals = JSON.parse(JSON.stringify(DASH_GOALS_DEFAULT));
-let dashGoalId = 10;
-
-function openDashboard() {
-  if (!currentUser) { openAuth('register'); showToast('Sign in to view your dashboard 📊'); return; }
-  const name = currentUser.name.split(' ')[0];
-  document.getElementById('dashGreeting').innerHTML = `Welcome back, ${name} 👋<span>Your learning journey</span>`;
-  
-  // If mentor, show mentor dashboard
-  if (currentUser.role === 'mentor') {
-    openMentorDashboard();
-    return;
-  }
-  
-  renderDashRoadmap();
-  renderDashGoals();
-  renderDashSessions();
-  renderDashResources();
-  renderDashSkills();
-  openModal('dashboardOverlay');
-}
-
-// ─── MENTOR DASHBOARD ───
-function openMentorDashboard() {
-  // Remove existing if any
-  const existing = document.getElementById('mentorDashModal');
-  if (existing) existing.remove();
-
-  const modal = document.createElement('div');
-  modal.id = 'mentorDashModal';
-  modal.style.cssText = 'position:fixed;inset:0;background:rgba(0,0,0,0.7);z-index:99999;display:flex;align-items:center;justify-content:center;padding:1rem;';
-  modal.innerHTML = `
-    <div style="background:var(--surface);border-radius:20px;padding:2rem;width:100%;max-width:600px;max-height:90vh;overflow-y:auto;box-shadow:0 20px 60px rgba(0,0,0,0.4);">
-      <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:1.5rem;">
-        <h2 style="font-size:1.4rem;font-weight:700;color:var(--ink);">👨‍🏫 Mentor Dashboard</h2>
-        <button onclick="document.getElementById('mentorDashModal').remove()" style="background:none;border:none;font-size:1.5rem;cursor:pointer;color:var(--ink3);">×</button>
-      </div>
-
-      <!-- Available Time Slots -->
-      <div style="margin-bottom:1.5rem;">
-        <h3 style="font-size:1rem;font-weight:600;margin-bottom:0.75rem;color:var(--ink);">📅 Set Your Available Time Slots</h3>
-        <div id="mentorSlotsList" style="margin-bottom:0.75rem;"></div>
-        <div style="display:flex;gap:0.5rem;flex-wrap:wrap;margin-bottom:0.5rem;">
-          <input id="newSlotDate" type="date" style="padding:0.5rem;border-radius:8px;border:1px solid var(--surface2);background:var(--bg2);color:var(--ink);font-size:0.9rem;">
-          <input id="newSlotTime" type="time" style="padding:0.5rem;border-radius:8px;border:1px solid var(--surface2);background:var(--bg2);color:var(--ink);font-size:0.9rem;">
-          <button onclick="addMentorSlot()" style="padding:0.5rem 1rem;background:var(--forest);color:white;border:none;border-radius:8px;cursor:pointer;font-weight:600;">+ Add Slot</button>
-        </div>
-        <button onclick="saveMentorSlots()" style="padding:0.6rem 1.5rem;background:var(--terra);color:white;border:none;border-radius:8px;cursor:pointer;font-weight:600;width:100%;">💾 Save Available Slots</button>
-      </div>
-
-      <!-- Class Subjects -->
-      <div style="margin-bottom:1.5rem;">
-        <h3 style="font-size:1rem;font-weight:600;margin-bottom:0.75rem;color:var(--ink);">📚 Your Subjects / Specializations</h3>
-        <input id="mentorSubjects" type="text" placeholder="e.g. Python, Data Science, Web Dev (comma separated)" style="width:100%;padding:0.75rem;border-radius:8px;border:1px solid var(--surface2);background:var(--bg2);color:var(--ink);font-size:0.9rem;box-sizing:border-box;margin-bottom:0.5rem;">
-        <input id="mentorBio" type="text" placeholder="Short bio / description" style="width:100%;padding:0.75rem;border-radius:8px;border:1px solid var(--surface2);background:var(--bg2);color:var(--ink);font-size:0.9rem;box-sizing:border-box;margin-bottom:0.5rem;">
-        <button onclick="saveMentorProfile()" style="padding:0.6rem 1.5rem;background:var(--forest);color:white;border:none;border-radius:8px;cursor:pointer;font-weight:600;width:100%;">💾 Save Profile</button>
-      </div>
-
-      <!-- Recorded Classes -->
-      <div style="margin-bottom:1rem;">
-        <h3 style="font-size:1rem;font-weight:600;margin-bottom:0.75rem;color:var(--ink);">🎥 Manage Class Recordings</h3>
-        <div id="mentorRecordingsList" style="margin-bottom:0.75rem;"></div>
-        <input id="newRecTitle" type="text" placeholder="Recording title" style="width:100%;padding:0.75rem;border-radius:8px;border:1px solid var(--surface2);background:var(--bg2);color:var(--ink);font-size:0.9rem;box-sizing:border-box;margin-bottom:0.5rem;">
-        <input id="newRecUrl" type="url" placeholder="Recording URL (YouTube, Google Drive, etc.)" style="width:100%;padding:0.75rem;border-radius:8px;border:1px solid var(--surface2);background:var(--bg2);color:var(--ink);font-size:0.9rem;box-sizing:border-box;margin-bottom:0.5rem;">
-        <button onclick="addMentorRecording()" style="padding:0.6rem 1.5rem;background:var(--terra);color:white;border:none;border-radius:8px;cursor:pointer;font-weight:600;width:100%;">+ Add Recording</button>
-      </div>
-
-      <div id="mentorDashMsg" style="color:var(--forest);font-size:0.9rem;text-align:center;margin-top:0.5rem;"></div>
-    </div>
-  `;
-  document.body.appendChild(modal);
-  loadMentorDashData();
-}
-
-let mentorSlots = [];
-let mentorRecordings = [];
-
-async function loadMentorDashData() {
-  try {
-    const snap = await window._fbDb.collection('mentors').doc(currentUser.uid).get();
-    if (snap.exists) {
-      const data = snap.data();
-      mentorSlots = data.availableSlots || [];
-      mentorRecordings = data.recordings || [];
-      document.getElementById('mentorSubjects').value = (data.subjects || []).join(', ');
-      document.getElementById('mentorBio').value = data.bio || '';
-    }
-    renderMentorSlots();
-    renderMentorRecordings();
-  } catch(e) { console.error(e); }
-}
-
-function renderMentorSlots() {
-  const el = document.getElementById('mentorSlotsList');
-  if (!el) return;
-  if (!mentorSlots.length) { el.innerHTML = '<div style="color:var(--ink3);font-size:0.85rem;">No slots added yet.</div>'; return; }
-  el.innerHTML = mentorSlots.map((s,i) => `
-    <div style="display:flex;align-items:center;justify-content:space-between;padding:0.4rem 0.75rem;background:var(--bg2);border-radius:8px;margin-bottom:0.4rem;">
-      <span style="font-size:0.9rem;color:var(--ink);">📅 ${s}</span>
-      <button onclick="removeMentorSlot(${i})" style="background:none;border:none;color:var(--ink3);cursor:pointer;font-size:1rem;">✕</button>
-    </div>
-  `).join('');
-}
-
-function addMentorSlot() {
-  const date = document.getElementById('newSlotDate').value;
-  const time = document.getElementById('newSlotTime').value;
-  if (!date || !time) { showToast('⚠️ Please select both date and time!'); return; }
-  const formatted = new Date(date + 'T' + time).toLocaleString('en-IN', {weekday:'short', month:'short', day:'numeric', hour:'2-digit', minute:'2-digit'});
-  mentorSlots.push(formatted);
-  renderMentorSlots();
-  document.getElementById('newSlotDate').value = '';
-  document.getElementById('newSlotTime').value = '';
-}
-
-function removeMentorSlot(i) {
-  mentorSlots.splice(i, 1);
-  renderMentorSlots();
-}
-
-async function saveMentorSlots() {
-  try {
-    await window._fbDb.collection('mentors').doc(currentUser.uid).set({ availableSlots: mentorSlots, name: currentUser.name }, { merge: true });
-    showToast('✅ Time slots saved!');
-    document.getElementById('mentorDashMsg').textContent = '✅ Slots saved successfully!';
-  } catch(e) { showToast('❌ Error saving slots'); }
-}
-
-async function saveMentorProfile() {
-  const subjects = document.getElementById('mentorSubjects').value.split(',').map(s=>s.trim()).filter(Boolean);
-  const bio = document.getElementById('mentorBio').value.trim();
-  try {
-    await window._fbDb.collection('mentors').doc(currentUser.uid).set({
-      name: currentUser.name, email: currentUser.email, subjects, bio,
-      uid: currentUser.uid, available: true,
-      av: currentUser.name.split(' ').map(w=>w[0]).join('').toUpperCase().slice(0,2),
-      avColor: 'linear-gradient(135deg,#2d5a3d,#5ba87a)',
-      tags: subjects.slice(0,3), category: subjects[0] || 'General'
-    }, { merge: true });
-    showToast('✅ Profile saved! You are now visible to students.');
-    document.getElementById('mentorDashMsg').textContent = '✅ Profile saved!';
-    loadMentorsFromFirebase();
-  } catch(e) { showToast('❌ Error saving profile'); }
-}
-
-function renderMentorRecordings() {
-  const el = document.getElementById('mentorRecordingsList');
-  if (!el) return;
-  if (!mentorRecordings.length) { el.innerHTML = '<div style="color:var(--ink3);font-size:0.85rem;">No recordings added yet.</div>'; return; }
-  el.innerHTML = mentorRecordings.map((r,i) => `
-    <div style="display:flex;align-items:center;justify-content:space-between;padding:0.4rem 0.75rem;background:var(--bg2);border-radius:8px;margin-bottom:0.4rem;">
-      <a href="${r.url}" target="_blank" style="font-size:0.9rem;color:var(--forest);">🎥 ${r.title}</a>
-      <button onclick="removeMentorRecording(${i})" style="background:none;border:none;color:var(--ink3);cursor:pointer;font-size:1rem;">✕</button>
-    </div>
-  `).join('');
-}
-
-async function addMentorRecording() {
-  const title = document.getElementById('newRecTitle').value.trim();
-  const url = document.getElementById('newRecUrl').value.trim();
-  if (!title || !url) { showToast('⚠️ Please enter both title and URL!'); return; }
-  mentorRecordings.push({ title, url, date: new Date().toLocaleDateString() });
-  try {
-    await window._fbDb.collection('mentors').doc(currentUser.uid).set({ recordings: mentorRecordings }, { merge: true });
-    showToast('✅ Recording added!');
-    document.getElementById('newRecTitle').value = '';
-    document.getElementById('newRecUrl').value = '';
-    renderMentorRecordings();
-  } catch(e) { showToast('❌ Error saving recording'); }
-}
-
-async function removeMentorRecording(i) {
-  mentorRecordings.splice(i, 1);
-  await window._fbDb.collection('mentors').doc(currentUser.uid).set({ recordings: mentorRecordings }, { merge: true });
-  renderMentorRecordings();
-}
-
-// Load real mentors from Firebase
-async function loadMentorsFromFirebase() {
-  try {
-    const snap = await window._fbDb.collection('mentors').where('available','==',true).get();
-    MENTORS = snap.docs.map(doc => {
-      const d = doc.data();
-      return { id: doc.id, name: d.name, title: d.subjects?.join(', ') || 'Mentor', av: d.av || '??', avColor: d.avColor || 'linear-gradient(135deg,#2d5a3d,#5ba87a)', rating: d.rating || 5.0, reviews: d.reviews || 0, tags: d.tags || [], bio: d.bio || '', category: d.category || 'General', available: true };
-    });
-    renderMentors(MENTORS);
-    // Update featured spotlight with first real mentor
-    if (MENTORS.length > 0) {
-      const m = MENTORS[0];
-      document.getElementById('fmAv').textContent = m.av;
-      document.getElementById('fmAv').style.background = m.avColor;
-      document.getElementById('fmName').textContent = m.name;
-      document.getElementById('fmTitle').textContent = m.title;
-    }
-  } catch(e) { console.error('Error loading mentors:', e); }
-}
-
-function renderDashRoadmap() {
-  document.getElementById('dashRoadmap').innerHTML = DASH_ROADMAP.map(s =>
-    `<div class="dash-rm-step${s.done?' done':''}${s.active?' active':''}">
-      <div class="dash-rm-dot">${s.done ? '✓' : s.active ? '●' : ''}</div>
-      <div class="dash-rm-label">${s.label.replace('\n','<br>')}</div>
-    </div>`
-  ).join('');
-}
-
-function renderDashGoals() {
-  document.getElementById('dashGoalsList').innerHTML = dashGoals.map(g =>
-    `<div class="dash-goal${g.done?' done':''}" onclick="toggleDashGoal(${g.id})">
-      <div class="dash-goal-check"></div>
-      <div class="dash-goal-text">${g.text}</div>
-      <span class="dash-goal-tag">${g.tag}</span>
-    </div>`
-  ).join('');
-}
-
-function toggleDashGoal(id) {
-  const g = dashGoals.find(g => g.id === id);
-  if (g) { g.done = !g.done; renderDashGoals(); updateDashStats(); }
-}
-
-function addDashGoal() {
-  const input = document.getElementById('dashNewGoalInput');
-  const text = input.value.trim();
-  if (!text) return;
-  dashGoals.push({id: ++dashGoalId, text, done:false, tag:'Goal'});
-  input.value = '';
-  renderDashGoals();
-  updateDashStats();
-  showToast('🎯 Goal added!');
-}
-
-function updateDashStats() {
-  const done = dashGoals.filter(g => g.done).length;
-  document.getElementById('dStatGoals').textContent = `${done}/${dashGoals.length}`;
-}
-
-function renderDashSessions() {
-  document.getElementById('dashSessions').innerHTML = DASH_SESSIONS.map(s =>
-    `<div class="dash-session" onclick="showToast('📅 Session with ${s.name} confirmed!')">
-      <div class="dash-session-av" style="background:${s.color}">${s.av}</div>
-      <div class="dash-session-info">
-        <div class="dash-session-name">${s.name}</div>
-        <div class="dash-session-time">${s.time}</div>
-      </div>
-      <span class="dash-session-tag">${s.tag}</span>
-    </div>`
-  ).join('');
-}
-
-function renderDashResources() {
-  document.getElementById('dashResources').innerHTML = DASH_RESOURCES.map(r =>
-    `<div class="dash-resource" onclick="showToast('📂 Opening: ${r.title}')">
-      <div class="dash-resource-icon">${r.icon}</div>
-      <div class="dash-resource-info">
-        <div class="dash-resource-title">${r.title}</div>
-        <div class="dash-resource-type">${r.type}</div>
-      </div>
-    </div>`
-  ).join('');
-}
-
-function renderDashSkills() {
-  document.getElementById('dashSkillBars').innerHTML = DASH_SKILLS.map(s =>
-    `<div class="dash-skill-row">
-      <div class="dash-skill-name">${s.name}</div>
-      <div class="dash-skill-bar-bg">
-        <div class="dash-skill-bar-fill" style="width:0%;background:${s.color}" data-target="${s.current}"></div>
-      </div>
-      <div class="dash-skill-pct">${s.current}%</div>
-    </div>`
-  ).join('');
-  setTimeout(() => {
-    document.querySelectorAll('.dash-skill-bar-fill').forEach(b => {
-      b.style.width = b.dataset.target + '%';
-    });
-  }, 100);
-}
-
-// ══════════════════════════════════════════════════════════
-// FEATURE 2 — MENTOR MATCH QUIZ
-// ══════════════════════════════════════════════════════════
-const QUIZ_QUESTIONS = [
-  {
-    q: 'What is your primary goal right now?',
-    options:[
-      {icon:'🚀', text:'Break into a new career or field'},
-      {icon:'📈', text:'Level up and get promoted'},
-      {icon:'🏗️', text:'Build or launch a startup'},
-      {icon:'🎨', text:'Sharpen a specific skill set'},
-    ]
-  },
-  {
-    q: 'Which area do you most want to focus on?',
-    options:[
-      {icon:'💼', text:'Product Management'},
-      {icon:'👩‍💻', text:'Engineering & Tech'},
-      {icon:'🎨', text:'Design & Creative'},
-      {icon:'📊', text:'Business, Sales & Growth'},
-    ]
-  },
-  {
-    q: 'What\'s your biggest struggle right now?',
-    options:[
-      {icon:'🎤', text:'Interviews & getting hired'},
-      {icon:'🗣️', text:'Communication & leadership'},
-      {icon:'🗺️', text:'Direction — not sure what to do'},
-      {icon:'🧠', text:'Staying accountable & motivated'},
-    ]
-  }
-];
-
-let quizStep = 0;
-let quizAnswers = [];
-
-function openMentorQuiz() {
-  quizStep = 0; quizAnswers = [];
-  document.getElementById('quizResults').style.display = 'none';
-  document.getElementById('quizScreen').style.display = 'block';
-  renderQuizStep();
-  openModal('mentorQuizOverlay');
-}
-
-function renderQuizStep() {
-  const q = QUIZ_QUESTIONS[quizStep];
-  const fill = ((quizStep + 1) / QUIZ_QUESTIONS.length) * 100;
-  document.getElementById('quizProgressFill').style.width = fill + '%';
-  document.getElementById('quizScreen').innerHTML = `
-    <div class="quiz-q-label">Question ${quizStep + 1} of ${QUIZ_QUESTIONS.length}</div>
-    <div class="quiz-q-text">${q.q}</div>
-    <div class="quiz-options">
-      ${q.options.map((o, i) => `
-        <button class="quiz-option" onclick="selectQuizOption(this, ${i})">
-          <span class="quiz-option-icon">${o.icon}</span>
-          <span class="quiz-option-text">${o.text}</span>
-        </button>`).join('')}
-    </div>
-    <div class="quiz-nav">
-      <button class="quiz-nav-btn" onclick="quizBack()" ${quizStep === 0 ? 'disabled' : ''}>← Back</button>
-      <span class="quiz-step">${quizStep + 1} / ${QUIZ_QUESTIONS.length}</span>
-      <button class="quiz-nav-btn primary" id="quizNextBtn" onclick="quizNext()" disabled>Next →</button>
-    </div>`;
-}
-
-function selectQuizOption(el, idx) {
-  el.closest('.quiz-options').querySelectorAll('.quiz-option').forEach(o => o.classList.remove('selected'));
-  el.classList.add('selected');
-  quizAnswers[quizStep] = idx;
-  document.getElementById('quizNextBtn').disabled = false;
-  document.getElementById('quizNextBtn').textContent = quizStep === QUIZ_QUESTIONS.length - 1 ? 'See My Matches →' : 'Next →';
-}
-
-function quizNext() {
-  if (quizAnswers[quizStep] === undefined) return;
-  if (quizStep < QUIZ_QUESTIONS.length - 1) {
-    quizStep++;
-    renderQuizStep();
-    if (quizAnswers[quizStep] !== undefined) {
-      setTimeout(() => {
-        const opts = document.querySelectorAll('.quiz-option');
-        if (opts[quizAnswers[quizStep]]) { opts[quizAnswers[quizStep]].classList.add('selected'); document.getElementById('quizNextBtn').disabled = false; }
-      }, 50);
-    }
-  } else {
-    showQuizResults();
-  }
-}
-
-function quizBack() {
-  if (quizStep > 0) { quizStep--; renderQuizStep(); }
-}
-
-function showQuizResults() {
-  // Score each mentor based on quiz answers
-  const areaIdx = quizAnswers[1]; // 0=Product, 1=Eng, 2=Design, 3=Business
-  const areaMap = ['Product','Engineering','Design','Marketing'];
-  const area = areaMap[areaIdx] || 'Product';
-  const matched = [...MENTORS].map(m => ({
-    ...m,
-    score: (m.category === area ? 40 : 0) +
-           (m.available ? 15 : 0) +
-           Math.floor(m.rating * 8) +
-           Math.floor(Math.random() * 10)
-  })).sort((a,b) => b.score - a.score).slice(0,3);
-
-  const reasons = [
-    'Best match for your goals and availability',
-    'Highly rated for exactly your focus area',
-    'Strong track record with your experience level'
-  ];
-
-  document.getElementById('quizScreen').style.display = 'none';
-  document.getElementById('quizProgressFill').style.width = '100%';
-  document.getElementById('quizResults').style.display = 'block';
-  document.getElementById('quizResults').innerHTML = `
-    <div class="quiz-results-title">🎯 Your Top 3 Mentor Matches</div>
-    <div class="quiz-results-sub">Based on your goals, focus area, and current challenges:</div>
-    <div class="quiz-match-cards">
-      ${matched.map((m, i) => `
-        <div class="quiz-match-card${i===0?' top':''}" onclick="closeModal('mentorQuizOverlay');openBooking({name:'${m.name}',title:'${m.title}',av:'${m.av}',color:'${m.avColor}'})">
-          <div class="quiz-match-av" style="background:${m.avColor}">${m.av}</div>
-          <div class="quiz-match-info">
-            <div class="quiz-match-name">${i===0?'⭐ ':''} ${m.name}</div>
-            <div class="quiz-match-why">${reasons[i]} · ${m.rating}★</div>
-          </div>
-          <span class="quiz-match-score">${i===0?'Best Match':i===1?'2nd Pick':'3rd Pick'}</span>
-        </div>`).join('')}
-    </div>
-    <div style="display:flex;gap:0.6rem;margin-top:1.2rem;">
-      <button class="quiz-nav-btn" style="flex:1;" onclick="quizStep=0;quizAnswers=[];document.getElementById('quizResults').style.display='none';document.getElementById('quizScreen').style.display='block';renderQuizStep()">← Retake Quiz</button>
-      <button class="quiz-nav-btn primary" style="flex:1;" onclick="closeModal('mentorQuizOverlay');document.getElementById('browse').scrollIntoView({behavior:'smooth'})">Browse All Mentors</button>
-    </div>`;
-}
-
-// ══════════════════════════════════════════════════════════
-// FEATURE 3 — COMMUNITY HUB
-// ══════════════════════════════════════════════════════════
-const COMM_CIRCLES = [
-  {icon:'💼', name:'Product Management', members:342, posts:58},
-  {icon:'🎨', name:'UX & Design', members:218, posts:41},
-  {icon:'🚀', name:'Startup Founders', members:189, posts:33},
-  {icon:'👩‍💻', name:'Engineering', members:276, posts:47},
-  {icon:'📊', name:'Data & AI', members:154, posts:29},
-  {icon:'📣', name:'Marketing & Growth', members:201, posts:36},
-];
-const COMM_POSTS = [
-  {av:'AK', color:'linear-gradient(135deg,#2d5a3d,#7ac49a)', author:'Ananya K.', circle:'Product Management', time:'2h ago',
-   text:'Just passed my Google PM interview! The mock sessions on this platform were absolutely key. Happy to share my prep framework — DM me 🎉', likes:47, replies:12},
-  {av:'JL', color:'linear-gradient(135deg,#c4622d,#e07548)', author:'James L.', circle:'UX & Design', time:'4h ago',
-   text:'Hot take: most design portfolios have too many projects and not enough depth. 3 deeply explained case studies beats 10 shallow ones every single time.', likes:83, replies:24},
-  {av:'FO', color:'linear-gradient(135deg,#1e3a5f,#4a7abf)', author:'Fatima O.', circle:'Startup Founders', time:'6h ago',
-   text:'Week 8 of FutureGuide: went from having no network to having coffee chats booked with 3 VCs. Mentorship really does accelerate everything.', likes:61, replies:18},
-  {av:'MK', color:'linear-gradient(135deg,#8b5cf6,#c084fc)', author:'Mike K.', circle:'Data & AI', time:'1d ago',
-   text:'What is everyone\'s go-to resource for learning RAG architectures? I\'ve been building with LangChain but looking for something more hands-on.', likes:29, replies:31},
-];
-const COMM_BUDDIES = [
-  {av:'SK', color:'linear-gradient(135deg,#2d5a3d,#7ac49a)', name:'Sana K.', course:'B2B Sales & Growth Masterclass', joined:'2 days ago'},
-  {av:'RT', color:'linear-gradient(135deg,#1e3a5f,#4a7abf)', name:'Ravi T.', course:'Brand Identity Masterclass', joined:'1 week ago'},
-  {av:'LC', color:'linear-gradient(135deg,#c9a227,#e0c050)', name:'Lucia C.', course:'Financial Literacy for Entrepreneurs', joined:'3 days ago'},
-  {av:'DO', color:'linear-gradient(135deg,#be123c,#e11d48)', name:'David O.', course:'Leadership & Management', joined:'5 days ago'},
-];
-
-let commPostLikes = {};
-
-function openCommunity() {
-  renderCommTab('circles');
-  openModal('communityOverlay');
-}
-
-function switchCommTab(btn, tab) {
-  document.querySelectorAll('.comm-tab').forEach(t => t.classList.remove('active'));
-  btn.classList.add('active');
-  renderCommTab(tab);
-}
-
-function renderCommTab(tab) {
-  const body = document.getElementById('commBody');
-  if (tab === 'circles') {
-    body.innerHTML = `
-      <div class="comm-circles-grid">
-        ${COMM_CIRCLES.map(c => `
-          <div class="comm-circle" onclick="switchCommTab(document.querySelector('.comm-tab:nth-child(2)'), 'feed');showToast('Joined ${c.name} circle!')">
-            <div class="comm-circle-icon">${c.icon}</div>
-            <div class="comm-circle-info">
-              <div class="comm-circle-name">${c.name}</div>
-              <div class="comm-circle-meta">${c.members} members · ${c.posts} posts this week</div>
-            </div>
-          </div>`).join('')}
-      </div>`;
-  } else if (tab === 'feed') {
-    body.innerHTML = `
-      <div class="comm-new-post">
-        <textarea rows="2" placeholder="Share a win, ask a question, or start a discussion…"></textarea>
-        <div class="comm-new-post-footer">
-          <select><option>💼 Product Management</option>${COMM_CIRCLES.map(c=>`<option>${c.icon} ${c.name}</option>`).join('')}</select>
-          <button class="comm-post-btn" onclick="submitCommPost(this)">Post</button>
-        </div>
-      </div>
-      <div class="comm-posts">
-        ${COMM_POSTS.map((p, i) => `
-          <div class="comm-post">
-            <div class="comm-post-top">
-              <div class="comm-post-av" style="background:${p.color}">${p.av}</div>
-              <div>
-                <div class="comm-post-author">${p.author}</div>
-                <div class="comm-post-circle">${p.circle}</div>
-              </div>
-              <div class="comm-post-time">${p.time}</div>
-            </div>
-            <div class="comm-post-text">${p.text}</div>
-            <div class="comm-post-actions">
-              <button class="comm-post-action" onclick="likePost(this,${i})">♡ ${commPostLikes[i]||p.likes} likes</button>
-              <button class="comm-post-action" onclick="showToast('💬 Opening thread…')">💬 ${p.replies} replies</button>
-              <button class="comm-post-action" onclick="showToast('🔗 Link copied!')">🔗 Share</button>
-            </div>
-          </div>`).join('')}
-      </div>`;
-  } else if (tab === 'buddies') {
-    body.innerHTML = `
-      <p style="font-size:0.82rem;color:var(--ink3);margin-bottom:1rem;">Students taking the same courses as you — connect for accountability and peer learning.</p>
-      <div class="comm-buddy-list">
-        ${COMM_BUDDIES.map(b => `
-          <div class="comm-buddy">
-            <div class="comm-buddy-av" style="background:${b.color}">${b.av}</div>
-            <div class="comm-buddy-info">
-              <div class="comm-buddy-name">${b.name}</div>
-              <div class="comm-buddy-course">📚 ${b.course} · joined ${b.joined}</div>
-            </div>
-            <button class="comm-buddy-btn" onclick="showToast('👋 Connect request sent to ${b.name}!')">Connect</button>
-          </div>`).join('')}
-      </div>`;
-  }
-}
-
-function likePost(btn, idx) {
-  commPostLikes[idx] = (commPostLikes[idx] || COMM_POSTS[idx].likes) + 1;
-  btn.textContent = `♥ ${commPostLikes[idx]} likes`;
-  btn.style.color = 'var(--terra)';
-}
-
-function submitCommPost(btn) {
-  const ta = btn.closest('.comm-new-post').querySelector('textarea');
-  if (!ta.value.trim()) { showToast('Write something first!'); return; }
-  if (!currentUser) { closeModal('communityOverlay'); openAuth('register'); return; }
-  showToast('🎉 Post shared with the community!');
-  ta.value = '';
-}
-
-// ══════════════════════════════════════════════════════════
-// FEATURE 4 — FLASH & ASYNC SESSION TYPES
-// selectStype is defined below as the sole implementation
-// ══════════════════════════════════════════════════════════
-function selectStype(el, dur, type) {
-  document.querySelectorAll('.stype').forEach(s => s.classList.remove('active'));
-  el.classList.add('active');
-  currentStypeDur = dur;
-  if (type === 'async') {
-    document.getElementById('bkDur').textContent = '· Async Q&A (48h reply)';
-    showToast('📬 Async Q&A: send your question, get a detailed reply within 48 hours');
-  } else if (type === 'flash') {
-    document.getElementById('bkDur').textContent = '· Flash 15 min';
-    showToast('⚡ Flash session: great for quick resume reviews or elevator pitch practice');
-  } else {
-    document.getElementById('bkDur').textContent = '· ' + dur;
-  }
-}
-
-// ══════════════════════════════════════════════════════════
-// FEATURE 5 — CERTIFICATE
-// ══════════════════════════════════════════════════════════
-function openCertificate(courseTitle) {
-  const name = currentUser ? currentUser.name : 'Your Name';
-  const certId = 'FG-' + Math.random().toString(36).substr(2,6).toUpperCase();
-  const date = new Date().toLocaleDateString('en-GB', {day:'numeric', month:'long', year:'numeric'});
-  document.getElementById('certStudentName').textContent = name;
-  document.getElementById('certCourseName').textContent = courseTitle;
-  document.getElementById('certDate').textContent = date;
-  document.getElementById('certId').textContent = certId;
-  openModal('certOverlay');
-}
-
-// ══════════════════════════════════════════════════════════
-// FEATURE 6 — SENTIMENT VIBE + SKILL GAP (patch generateAISummary)
-// ══════════════════════════════════════════════════════════
-function generateVibeAndSkillGap(mentorTitle, notes) {
-  const lower = (mentorTitle + ' ' + notes).toLowerCase();
-  // Sentiment scoring
-  const confidentWords = ['confident','great','excellent','good','strong','ready','clear'];
-  const overwhelmedWords = ['confused','stuck','overwhelmed','lost','unsure','hard','difficult'];
-  const curiousWords = ['interesting','learn','understand','how','why','question','explore'];
-  let conf = 50 + confidentWords.filter(w => lower.includes(w)).length * 8;
-  let over = 8 + overwhelmedWords.filter(w => lower.includes(w)).length * 10;
-  let cur = 100 - conf - over;
-  if (cur < 0) { conf += cur; cur = 0; }
-  conf = Math.max(20, Math.min(80, conf));
-  over = Math.max(3, Math.min(30, over));
-  cur = Math.max(5, 100 - conf - over);
-  document.getElementById('vibeConfident').textContent = conf + '%';
-  document.getElementById('vibeCurious').textContent = cur + '%';
-  document.getElementById('vibeOverwhelmed').textContent = over + '%';
-
-  // Skill gap bars — based on mentor specialty
-  let skills = [];
-  if (lower.includes('product') || lower.includes('pm')) {
-    skills = [
-      {name:'Product Vision', current:62, target:85, color:'#2d5a3d'},
-      {name:'Data Fluency', current:44, target:75, color:'#1e3a5f'},
-      {name:'Stakeholder Mgmt', current:71, target:88, color:'#c4622d'},
-      {name:'Roadmapping', current:55, target:82, color:'#8b5cf6'},
-    ];
-  } else if (lower.includes('design') || lower.includes('ux')) {
-    skills = [
-      {name:'UX Research', current:58, target:80, color:'#c4622d'},
-      {name:'Visual Design', current:72, target:90, color:'#8b2d62'},
-      {name:'Prototyping', current:65, target:85, color:'#4b1d8e'},
-      {name:'Design Systems', current:40, target:78, color:'#1e3a5f'},
-    ];
-  } else if (lower.includes('sales') || lower.includes('growth') || lower.includes('marketing')) {
-    skills = [
-      {name:'Prospecting', current:48, target:80, color:'#c9a227'},
-      {name:'Discovery Calls', current:60, target:85, color:'#be123c'},
-      {name:'Objection Handling', current:38, target:75, color:'#c4622d'},
-      {name:'Pipeline Building', current:52, target:82, color:'#1e5f4b'},
-    ];
-  } else {
-    skills = [
-      {name:'Communication', current:65, target:85, color:'#2d5a3d'},
-      {name:'Leadership', current:48, target:78, color:'#1e3a5f'},
-      {name:'Strategic Thinking', current:55, target:82, color:'#c4622d'},
-      {name:'Networking', current:42, target:70, color:'#8b5cf6'},
-    ];
-  }
-  const intro = `Gap analysis vs. ${mentorTitle.split(' ').slice(0,3).join(' ')} role requirements:`;
-  document.getElementById('aiSkillGapIntro').textContent = intro;
-  document.getElementById('aiSkillGapBars').innerHTML = skills.map(s => `
-    <div class="sg-bar-row">
-      <div class="sg-bar-name">${s.name}</div>
-      <div class="sg-bar-track">
-        <div class="sg-bar-current" style="width:0%;background:${s.color}" data-target="${s.current}"></div>
-        <div class="sg-bar-target" style="left:${s.target}%"></div>
-      </div>
-      <div class="sg-bar-pct">${s.current}%→${s.target}%</div>
-    </div>`).join('');
-  setTimeout(() => {
-    document.querySelectorAll('.sg-bar-current').forEach(b => b.style.width = b.dataset.target + '%');
-  }, 150);
-}
-
-// generateVibeAndSkillGap is called from the original generateAISummary timeout below —
-// we patch it by overriding the original after page load:
-document.addEventListener('DOMContentLoaded', () => {
-  const _orig = window.generateAISummary;
-  // already defined above, but we need to hook the vibe call after result renders
-  // We achieve this by listening for summary result visibility
-});
-
-// ══════════════════════════════════════════════════════════
-// FEATURE 7 — LANGUAGE TOGGLE
-// ══════════════════════════════════════════════════════════
-const TRANSLATIONS = {
-  en: { hero_headline:'Your journey,\nguided by real experience', find_mentor:'🎯 Find My Mentor', browse:'Browse All →', nav_browse:'Browse Mentors', nav_courses:'Courses', nav_how:'How It Works', nav_stories:'Success Stories', nav_dashboard:'Dashboard', nav_community:'Community', nav_become:'Become a Mentor', nav_signin:'Sign In', nav_getstarted:'Get Started' },
-  es: { hero_headline:'Tu camino,\nguiado por experiencia real', find_mentor:'🎯 Encontrar Mentor', browse:'Ver Todos →', nav_browse:'Mentores', nav_courses:'Cursos', nav_how:'Cómo Funciona', nav_stories:'Historias', nav_dashboard:'Panel', nav_community:'Comunidad', nav_become:'Ser Mentor', nav_signin:'Iniciar Sesión', nav_getstarted:'Comenzar' },
-  fr: { hero_headline:'Votre parcours,\nguidé par une vraie expérience', find_mentor:'🎯 Trouver un Mentor', browse:'Parcourir →', nav_browse:'Mentors', nav_courses:'Cours', nav_how:'Comment Ça Marche', nav_stories:'Histoires', nav_dashboard:'Tableau de Bord', nav_community:'Communauté', nav_become:'Devenir Mentor', nav_signin:'Se Connecter', nav_getstarted:'Commencer' },
-  pt: { hero_headline:'Sua jornada,\nguiada por experiência real', find_mentor:'🎯 Encontrar Mentor', browse:'Ver Todos →', nav_browse:'Mentores', nav_courses:'Cursos', nav_how:'Como Funciona', nav_stories:'Histórias', nav_dashboard:'Painel', nav_community:'Comunidade', nav_become:'Ser Mentor', nav_signin:'Entrar', nav_getstarted:'Começar' },
-  hi: { hero_headline:'आपकी यात्रा,\nअसली अनुभव से मार्गदर्शित', find_mentor:'🎯 मेंटर खोजें', browse:'सभी देखें →', nav_browse:'मेंटर', nav_courses:'कोर्स', nav_how:'कैसे काम करता है', nav_stories:'सफलता', nav_dashboard:'डैशबोर्ड', nav_community:'समुदाय', nav_become:'मेंटर बनें', nav_signin:'साइन इन', nav_getstarted:'शुरू करें' },
-  te: { hero_headline:'మీ ప్రయాణం,\nనిజమైన అనుభవంతో మార్గనిర్దేశం', find_mentor:'🎯 మెంటార్‌ను కనుగొనండి', browse:'అందరినీ చూడండి →', nav_browse:'మెంటార్లు', nav_courses:'కోర్సులు', nav_how:'ఎలా పని చేస్తుంది', nav_stories:'విజయగాథలు', nav_dashboard:'డ్యాష్‌బోర్డ్', nav_community:'సమాజం', nav_become:'మెంటార్ అవ్వండి', nav_signin:'సైన్ ఇన్', nav_getstarted:'ప్రారంభించండి' },
-  ta: { hero_headline:'உங்கள் பயணம்,\nஉண்மையான அனுபவத்தால் வழிகாட்டப்பட்டது', find_mentor:'🎯 வழிகாட்டியை கண்டறியுங்கள்', browse:'அனைவரையும் பார்க்கவும் →', nav_browse:'வழிகாட்டிகள்', nav_courses:'படிப்புகள்', nav_how:'எப்படி செயல்படுகிறது', nav_stories:'வெற்றிக் கதைகள்', nav_dashboard:'டாஷ்போர்டு', nav_community:'சமூகம்', nav_become:'வழிகாட்டியாகுங்கள்', nav_signin:'உள்நுழைக', nav_getstarted:'தொடங்குங்கள்' },
-  kn: { hero_headline:'ನಿಮ್ಮ ಪ್ರಯಾಣ,\nನಿಜವಾದ ಅನುಭವದಿಂದ ಮಾರ್ಗದರ್ಶನ', find_mentor:'🎯 ಮಾರ್ಗದರ್ಶಕರನ್ನು ಹುಡುಕಿ', browse:'ಎಲ್ಲರನ್ನೂ ನೋಡಿ →', nav_browse:'ಮಾರ್ಗದರ್ಶಕರು', nav_courses:'ಕೋರ್ಸ್‌ಗಳು', nav_how:'ಹೇಗೆ ಕಾರ್ಯನಿರ್ವಹಿಸುತ್ತದೆ', nav_stories:'ಯಶಸ್ಸಿನ ಕಥೆಗಳು', nav_dashboard:'ಡ್ಯಾಶ್‌ಬೋರ್ಡ್', nav_community:'ಸಮುದಾಯ', nav_become:'ಮಾರ್ಗದರ್ಶಕರಾಗಿ', nav_signin:'ಸೈನ್ ಇನ್', nav_getstarted:'ಪ್ರಾರಂಭಿಸಿ' },
-  ar: { hero_headline:'رحلتك،\nبإرشاد من تجربة حقيقية', find_mentor:'🎯 ابحث عن مرشد', browse:'تصفح الكل →', nav_browse:'المرشدون', nav_courses:'الدورات', nav_how:'كيف يعمل', nav_stories:'قصص النجاح', nav_dashboard:'لوحة القيادة', nav_community:'المجتمع', nav_become:'كن مرشداً', nav_signin:'تسجيل الدخول', nav_getstarted:'ابدأ الآن' },
-};
-let currentLang = 'en';
-
-function toggleLangDropdown() {
-  const dropdown = document.getElementById('langDropdown');
-  if (dropdown) {
-    dropdown.classList.toggle('open');
-
-    // Close when clicking outside .lang-selector
-    const closeHandler = (e) => {
-      if (!e.target.closest('.lang-selector')) {
-        dropdown.classList.remove('open');
-        document.removeEventListener('click', closeHandler);
-      }
-    };
-    // Delay so this click doesn't immediately trigger closeHandler
-    setTimeout(() => document.addEventListener('click', closeHandler), 1);
-  } else {
-    console.error('Language dropdown element (#langDropdown) not found.');
-  }
-}
-
-function setLang(code, el) {
-  currentLang = code;
-  document.querySelectorAll('.lang-option').forEach(o => o.classList.remove('active'));
-  el.classList.add('active');
-  document.getElementById('langDropdown').classList.remove('open');
-  // Update button label
-  const label = document.getElementById('langLabel');
-  if (label) label.textContent = el.dataset.label || code.toUpperCase();
-  applyTranslation(code);
-  showToast('🌐 Language updated!');
-}
-
-function applyTranslation(code) {
-  const t = TRANSLATIONS[code] || TRANSLATIONS.en;
-  // Hero headline
-  const h1 = document.querySelector('.hero h1');
-  if (h1) h1.innerHTML = t.hero_headline.replace('\n','<br>').replace('real','<span class="italic">real</span>').replace('real','<span class="italic">réelle</span>');
-  // CTAs
-  const heroCtas = document.querySelectorAll('.hero-ctas button');
-  if (heroCtas[0]) heroCtas[0].textContent = t.find_mentor;
-  if (heroCtas[1]) heroCtas[1].textContent = t.browse;
-  // Nav links
-  const navLinks = document.querySelectorAll('.nav-links a');
-  const keys = ['nav_browse','nav_courses','nav_how','nav_stories','nav_dashboard','nav_community','nav_become'];
-  navLinks.forEach((a, i) => { if (t[keys[i]]) a.textContent = t[keys[i]]; });
-  // Auth buttons
-  const signInBtn = document.querySelector('#loginNav .btn-ghost');
-  const startBtn  = document.querySelector('#loginNav .btn-pill');
-  if (signInBtn) signInBtn.textContent = t.nav_signin;
-  if (startBtn)  startBtn.textContent  = t.nav_getstarted;
-  // RTL for Arabic
-  document.body.style.direction = code === 'ar' ? 'rtl' : 'ltr';
-}
-
-// ══════════════════════════════════════════════════════════
-// FEATURE A — findMyMatch() SMART MENTOR MATCHING
-// ══════════════════════════════════════════════════════════
-function findMyMatch(goal, budget, industry) {
-  // goal: 'career'|'promotion'|'startup'|'skill'
-  // budget: 'low'|'mid'|'high' (price tiers)
-  // industry: category string like 'Product','Engineering','Design', etc.
-
-  const goalTagMap = {
-    career:    ['Leadership','Product','Marketing','Startup'],
-    promotion: ['Leadership','Product','Engineering'],
-    startup:   ['Startup','Marketing','Product'],
-    skill:     ['Engineering','Design','Data'],
+    try {
+  currentUser = {
+    uid: fbUser.uid,
+    name: fbUser.displayName || name || "User",
+    email: fbUser.email,
+    role
   };
-  const relevantTags = goalTagMap[goal] || [];
 
-  const budgetPriceMax = { low: 80, mid: 150, high: Infinity };
-  const maxPrice = budgetPriceMax[budget] || Infinity;
+  await saveFgUser(currentUser);
+  await loadCourseProgressCloud();
+  saveCurrentSession(currentUser);
+  updateUserUI();
+  closeModal('authOverlay');
 
-  const scored = MENTORS.map(m => {
-    let score = 0;
-    // Category match (industry)
-    if (industry && m.category.toLowerCase() === industry.toLowerCase()) score += 50;
-    // Goal/tag match
-    const tagOverlap = m.tags.filter(t => relevantTags.includes(t)).length;
-    score += tagOverlap * 20;
-    // Budget (MENTORS don't have price field, so base on availability)
-    score += m.available ? 15 : 0;
-    // Rating boost
-    score += Math.floor(m.rating * 8);
-    return { ...m, matchScore: score };
-  })
-  .filter(m => {
-    // If mentor has price, apply budget filter; otherwise include all
-    if (m.price !== undefined) return m.price <= maxPrice;
-    return true;
-  })
-  .sort((a, b) => b.matchScore - a.matchScore)
-  .slice(0, 3);
+  const firstName = currentUser.name.split(' ')[0];
 
-  return scored;
+  showToast(
+    isRegister
+      ? (role === 'mentor'
+          ? `🏆 Mentor application submitted, ${firstName}!`
+          : `🎉 Account created, ${firstName}!`)
+      : `👋 Welcome back, ${firstName}!`
+  );
+
+} catch (err) {
+  console.error(err);
+  showToast("❌ Something went wrong. Please try again.");
 }
+  } catch (e) {
+  btn.disabled = false;
+  btn.textContent = isRegister ? 'Create Free Account' : 'Sign In →';
 
-// Hook findMyMatch into the quiz results
-const _origShowQuizResults = window.showQuizResults;
-// We override showQuizResults to use findMyMatch
-function showQuizResults() {
-  const goalIdx = quizAnswers[0];
-  const areaIdx = quizAnswers[1];
-  const challengeIdx = quizAnswers[2];
+  let msg;
 
-  const goalMap   = ['career','promotion','startup','skill'];
-  const industryMap = ['Product','Engineering','Design','Marketing'];
-
-  const goal     = goalMap[goalIdx]     || 'skill';
-  const industry = industryMap[areaIdx] || 'Product';
-
-  const matched = findMyMatch(goal, 'mid', industry);
-
-  // Fallback if not enough matches
-  while (matched.length < 3) {
-    const extra = MENTORS.find(m => !matched.some(x => x.id === m.id));
-    if (extra) matched.push(extra); else break;
+  switch (e.code) {
+    case 'auth/email-already-in-use':
+      msg = '❌ Email already registered. Try signing in.';
+      break;
+    case 'auth/user-not-found':
+    case 'auth/wrong-password':
+      msg = '❌ Wrong email or password.';
+      break;
+    case 'auth/invalid-email':
+      msg = '❌ Invalid email address.';
+      break;
+    case 'auth/weak-password':
+      msg = '❌ Password too weak.';
+      break;
+    default:
+      msg = '❌ Auth error: ' + e.message;
   }
 
-  const reasons = [
-    'Best match for your goals and availability',
-    'Highly rated for exactly your focus area',
-    'Strong track record with your experience level',
-  ];
-
-  document.getElementById('quizScreen').style.display = 'none';
-  document.getElementById('quizProgressFill').style.width = '100%';
-  document.getElementById('quizResults').style.display = 'block';
-  document.getElementById('quizResults').innerHTML = `
-    <div class="quiz-results-title">🎯 Your Top 3 Mentor Matches</div>
-    <div class="quiz-results-sub">Based on your goals, focus area, and current challenges:</div>
-    <div class="quiz-match-cards">
-      ${matched.map((m, i) => `
-        <div class="quiz-match-card${i===0?' top':''}" onclick="closeModal('mentorQuizOverlay');openBooking({name:'${m.name}',title:'${m.title}',av:'${m.av}',color:'${m.avColor}'})">
-          <div class="quiz-match-av" style="background:${m.avColor}">${m.av}</div>
-          <div class="quiz-match-info">
-            <div class="quiz-match-name">${i===0?'⭐ ':''} ${m.name}</div>
-            <div class="quiz-match-why">${reasons[i]} · ${m.rating}★</div>
-          </div>
-          <span class="quiz-match-score">${i===0?'Best Match':i===1?'2nd Pick':'3rd Pick'}</span>
-        </div>`).join('')}
-    </div>
-    <div style="display:flex;gap:0.6rem;margin-top:1.2rem;">
-      <button class="quiz-nav-btn" style="flex:1;" onclick="quizStep=0;quizAnswers=[];document.getElementById('quizResults').style.display='none';document.getElementById('quizScreen').style.display='block';renderQuizStep()">← Retake Quiz</button>
-      <button class="quiz-nav-btn primary" style="flex:1;" onclick="closeModal('mentorQuizOverlay');document.getElementById('browse').scrollIntoView({behavior:'smooth'})">Browse All Mentors</button>
-    </div>`;
+  showToast(msg);
 }
 
-// ══════════════════════════════════════════════════════════
-// FEATURE B — FLASHCARD DAILY CHALLENGE
-// ══════════════════════════════════════════════════════════
-const FLASHCARDS = [
-  { q: 'What is the difference between a Product Roadmap and a Product Backlog?', a: 'A roadmap is a strategic, high-level plan showing where the product is headed over time (quarters/years). A backlog is a prioritised list of specific tasks, features, and bugs to be worked on next — it\'s more tactical and detailed.' },
-  { q: 'What is an MVP (Minimum Viable Product)?', a: 'An MVP is the simplest version of a product that delivers enough value to attract early adopters and validate a core assumption. It\'s not "minimum quality" — it\'s the minimum feature set needed to learn from real users.' },
-  { q: 'Explain what a Python Decorator does.', a: 'A decorator is a function that wraps another function to extend its behaviour without modifying it directly. Using the @decorator syntax, you can add logging, authentication, caching, and more in a clean, reusable way.' },
-  { q: 'What is CAC and how is it calculated?', a: 'CAC (Customer Acquisition Cost) is how much you spend on average to acquire one new customer. Formula: Total Sales & Marketing Spend ÷ Number of New Customers Acquired in the same period.' },
-  { q: 'What is the difference between UX and UI Design?', a: 'UX (User Experience) focuses on the overall feel, flow, and usability of a product — how easy and satisfying it is to use. UI (User Interface) focuses on the visual design — the buttons, colours, typography, and layout that users interact with.' },
-  { q: 'What is a "growth loop" in growth hacking?', a: 'A growth loop is a self-reinforcing cycle where user actions drive more user acquisition. Example: a user shares content → new users sign up → they share more content. Unlike funnels, loops compound over time.' },
-  { q: 'What does "time complexity O(n log n)" mean?', a: 'It means the algorithm\'s runtime grows proportionally to n multiplied by log(n), where n is the input size. This is typical for efficient sorting algorithms like Merge Sort and Heap Sort — much better than O(n²) for large inputs.' },
-  { q: 'What is design thinking and its 5 stages?', a: 'Design thinking is a human-centred problem-solving framework. The 5 stages are: (1) Empathise — understand users; (2) Define — frame the problem; (3) Ideate — brainstorm solutions; (4) Prototype — build rough versions; (5) Test — validate with users.' },
-  { q: 'What is the "North Star Metric" for a product?', a: 'The North Star Metric (NSM) is the single metric that best captures the core value your product delivers to customers. It guides the entire team\'s priorities. Example: Airbnb\'s NSM is "Nights Booked", Spotify\'s is "Time Spent Listening".' },
-  { q: 'What does PMF (Product-Market Fit) mean?', a: 'PMF is when a product strongly satisfies a real market need — users love it, use it repeatedly, and recommend it. A common test: the "40% rule" — if 40%+ of users say they would be "very disappointed" without your product, you have PMF.' },
-];
-
-let fcIndex = 0;
-let fcRevealed = false;
-
-// Rotate daily based on date
-const todayOffset = new Date().getDate() % FLASHCARDS.length;
-fcIndex = todayOffset;
-
-function renderFlashcard() {
-  const card = FLASHCARDS[fcIndex];
-  document.getElementById('fcQuestion').textContent = card.q;
-  const ansEl = document.getElementById('fcAnswer');
-  ansEl.textContent = card.a;
-  ansEl.classList.remove('show');
-  document.getElementById('fcRevealBtn').textContent = 'Reveal Answer ↓';
-  document.getElementById('fcCounter').textContent = `${fcIndex + 1} / ${FLASHCARDS.length}`;
-  fcRevealed = false;
-}
-
-function fcReveal() {
-  const ansEl = document.getElementById('fcAnswer');
-  const btn = document.getElementById('fcRevealBtn');
-  if (!fcRevealed) {
-    ansEl.classList.add('show');
-    btn.textContent = 'Hide ↑';
-    fcRevealed = true;
-  } else {
-    ansEl.classList.remove('show');
-    btn.textContent = 'Reveal Answer ↓';
-    fcRevealed = false;
-  }
-}
-
-function fcNext() {
-  fcIndex = (fcIndex + 1) % FLASHCARDS.length;
-  renderFlashcard();
-}
-
-function fcPrev() {
-  fcIndex = (fcIndex - 1 + FLASHCARDS.length) % FLASHCARDS.length;
-  renderFlashcard();
-}
-
-restoreSession();
-
-// Handle Google redirect result on page load
-if (window._fbAuth) {
-  window._fbAuth.getRedirectResult().then(async (result) => {
-    if (result && result.user) {
-      const fbUser = result.user;
-      const role = 'student';
-      currentUser = { uid: fbUser.uid, name: fbUser.displayName || fbUser.email.split('@')[0], email: fbUser.email, role };
-      await saveFgUser(currentUser);
-      await loadCourseProgressCloud();
-      saveCurrentSession(currentUser);
-      updateUserUI();
-      showToast(`✅ Welcome, ${currentUser.name.split(' ')[0]}! Signed in with Google 🎉`);
-    }
-  }).catch(e => console.error('Redirect result error:', e));
-}
-renderFlashcard();
-
-// ══════════════════════════════════════════════════════════
-// FEATURE C — LIVE ACTIVITY SOCIAL PROOF TOASTS
-// ══════════════════════════════════════════════════════════
-const LIVE_ACTIVITIES = [
-  { av: '🎓', color: 'linear-gradient(135deg,#2d5a3d,#5ba87a)', text: '<strong>A student in India</strong> just registered on FutureGuide!' },
-  { av: '📚', color: 'linear-gradient(135deg,#1e3a5f,#4a7abf)', text: '<strong>50 students</strong> enrolled in FutureGuide this week 🚀' },
-  { av: '🏆', color: 'linear-gradient(135deg,#c9a227,#e0c050)', text: '<strong>A new mentor</strong> just joined FutureGuide today!' },
-  { av: '🎯', color: 'linear-gradient(135deg,#6b21a8,#a855f7)', text: '<strong>Someone</strong> just completed their first session on FutureGuide!' },
-];
-
-let liveActivityIdx = 0;
-let liveToastTimer = null;
-
-function showLiveActivity() {
-  const activity = LIVE_ACTIVITIES[liveActivityIdx % LIVE_ACTIVITIES.length];
-  liveActivityIdx++;
-
-  const toastEl = document.getElementById('liveToast');
-  const avEl = document.getElementById('liveToastAv');
-  const textEl = document.getElementById('liveToastText');
-
-  avEl.textContent = activity.av;
-  avEl.style.background = activity.color;
-  textEl.innerHTML = activity.text;
-
-  toastEl.classList.add('show');
-  clearTimeout(liveToastTimer);
-  liveToastTimer = setTimeout(() => {
-    toastEl.classList.remove('show');
-  }, 4500);
-}
-
-// Show first one after 8s, then every 45s
-setTimeout(() => {
-  showLiveActivity();
-  setInterval(showLiveActivity, 45000);
-}, 8000);
-
-// ══════════════════════════════════════════════════════════
-// FEATURE D — DASHBOARD: SAVED MENTORS + COURSE PROGRESS
-// ══════════════════════════════════════════════════════════
-
-// Course progress stored in localStorage
-function getCourseProgress() {
-  try {
-    return JSON.parse(localStorage.getItem('fg_course_progress') || '{}');
-  } catch(e) { return {}; }
-}
-
-function saveCourseProgress(courseId, pct) {
-  try {
-    const progress = getCourseProgress();
-    progress[courseId] = pct;
-    localStorage.setItem('fg_course_progress', JSON.stringify(progress));
-    // Sync to Firestore
-    saveCourseProgressCloud(courseId, pct);
-  } catch(e) {}
-}
-
-function renderDashSavedMentors() {
-  const container = document.getElementById('dashSavedMentors');
-  if (!container) return;
-  if (!savedMentors.size) {
-    container.innerHTML = '<p style="color:var(--ink3);font-size:0.83rem;padding:0.5rem 0;">No saved mentors yet. Click ♡ on any mentor card to save them.</p>';
-    return;
-  }
-  const saved = MENTORS.filter(m => savedMentors.has(m.id));
-  container.innerHTML = saved.map(m => `
-    <div class="dash-saved-mentor" onclick="closeModal('dashboardOverlay');openBooking({name:'${m.name}',title:'${m.title}',av:'${m.av}',color:'${m.avColor}'})">
-      <div class="dash-saved-av" style="background:${m.avColor}">${m.av}</div>
-      <div class="dash-saved-info">
-        <div class="dash-saved-name">${m.name}</div>
-        <div class="dash-saved-title">${m.title}</div>
-      </div>
-      <button class="mcard-btn book" style="padding:0.3rem 0.8rem;font-size:0.75rem;" onclick="event.stopPropagation();closeModal('dashboardOverlay');openBooking({name:'${m.name}',title:'${m.title}',av:'${m.av}',color:'${m.avColor}'})">Book</button>
-    </div>`).join('');
-}
-
-function renderDashCourseProgress() {
-  const container = document.getElementById('dashCourseProgress');
-  if (!container) return;
-  const progress = getCourseProgress();
-  // Show up to 5 courses; prioritise ones with progress
-  const withProgress = COURSES.filter(c => progress[c.id] !== undefined);
-  const sample = withProgress.length ? withProgress : COURSES.slice(0, 4);
-  if (!sample.length) {
-    container.innerHTML = '<p style="color:var(--ink3);font-size:0.83rem;">No courses started yet. Explore the Courses section!</p>';
-    return;
-  }
-  container.innerHTML = sample.slice(0, 5).map(c => {
-    const pct = progress[c.id] || 0;
-    return `
-    <div class="dash-course-progress">
-      <div class="dash-course-icon">${c.icon}</div>
-      <div class="dash-course-info">
-        <div class="dash-course-name">${c.title}</div>
-        <div class="dash-course-bar-bg"><div class="dash-course-bar-fill" style="width:${pct}%"></div></div>
-      </div>
-      <div class="dash-course-pct">${pct}%</div>
-    </div>`;
-  }).join('');
-  // Animate bars
-  setTimeout(() => {
-    container.querySelectorAll('.dash-course-bar-fill').forEach(b => { b.style.width = b.style.width; });
-  }, 100);
-}
-
-// Patch openDashboard to include new sections
-openDashboard = function() {
-  if (!currentUser) { openAuth('register'); showToast('Sign in to view your dashboard 📊'); return; }
-  const name = currentUser.name.split(' ')[0];
-  document.getElementById('dashGreeting').innerHTML = `Welcome back, ${name} 👋<span>Your learning journey</span>`;
-  renderDashRoadmap();
-  renderDashGoals();
-  renderDashSessions();
-  renderDashResources();
-  renderDashSkills();
-  renderDashSavedMentors();
-  renderDashCourseProgress();
-  openModal('dashboardOverlay');
-};
-
-// Seed some demo course progress so the dashboard isn't empty
-(function seedDemoProgress() {
-  try {
-    if (!localStorage.getItem('fg_course_progress')) {
-      const demo = { 1: 68, 4: 35, 6: 82, 5: 15 };
-      localStorage.setItem('fg_course_progress', JSON.stringify(demo));
-    }
-  } catch(e) {}
-})();
 </script>
+
+
 
 <div id="liveToast" class="live-toast">
   <div class="live-toast-av" id="liveToastAv">RS</div>
@@ -6532,4 +5200,4 @@ openDashboard = function() {
 </div>
 <div id="toast" class="toast"></div>
 </body>
-</html>
+</html> 
